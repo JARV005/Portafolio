@@ -16,39 +16,61 @@
       background-color: #1f1f1f;
       padding: 20px;
       text-align: center;
-      border-bottom: 2px solid #f58220; /* color naranja tipo Goku */
+      border-bottom: 2px solid #f58220;
     }
 
     h1 {
-      margin: 0;
+      margin: 10px 0 0 0;
       font-size: 2.5em;
       color: #f58220;
     }
 
-    nav {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    nav a {
-      color: #f58220;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-      font-size: 1.2em;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #ffcc00; /* Amarillo tipo Super Saiyan */
-    }
-
     section {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 20px;
       background-color: #1e1e1e;
       border-radius: 8px;
+    }
+
+    .proyectos-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .proyecto {
+      background-color: #292929;
+      border: 1px solid #444;
+      border-radius: 10px;
+      width: 300px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(245, 130, 32, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .proyecto:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+    }
+
+    .proyecto h3 {
+      color: #f58220;
+      margin-top: 0;
+    }
+
+    .proyecto p {
+      color: #ccc;
+      font-size: 0.95em;
+    }
+
+    .proyecto a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #ffcc00;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     footer {
@@ -58,32 +80,55 @@
       font-size: 0.9em;
       color: #888;
     }
+
+    @media (max-width: 768px) {
+      .proyectos-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Mi Portafolio</h1>
-    
+    <p>Desarrollador en proceso</p>
   </header>
-
-  <nav>
-    <a href="Log_In/index1.html">Proyectos</a>
-    <a href="https://github.com/JARV005" target="_blank">GitHub</a>
-  </nav>
 
   <section>
     <h2>Sobre mí</h2>
     <p>Hola, soy un desarrollador apasionado por la tecnología y los retos. Bienvenido a mi portafolio donde muestro algunos de mis trabajos y proyectos.</p>
   </section>
 
+  <section>
+    <h2>Proyectos</h2>
+    <div class="proyectos-container">
+      <div class="proyecto">
+        <h3>Proyecto 1</h3>
+        <p>Sistema para Log In.</p>
+        <a href="Log_In/index1.html">Ver en GitHub</a>
+      </div>
+      <div class="proyecto">
+        <h3>Proyecto 2</h3>
+        <p>Calculadora web responsiva con funciones avanzadas de álgebra.</p>
+        <a href="https://github.com/tu_usuario/proyecto2" target="_blank">Ver en GitHub</a>
+      </div>
+      <div class="proyecto">
+        <h3>Proyecto 3</h3>
+        <p>Aplicación de registro de estudiantes con base de datos en consola.</p>
+        <a href="https://github.com/tu_usuario/proyecto3" target="_blank">Ver en GitHub</a>
+      </div>
+    </div>
+  </section>
+
   <section id="contacto">
     <h2>Contacto</h2>
-    <p>Si quieres contactarme, escríbeme a: <strong>johanalexanderriveravasquez@gmail.com</strong></p>
+    <p>Si quieres contactarme, escríbeme a: <strong>miemail@ejemplo.com</strong></p>
   </section>
 
   <footer>
-    <p>&copy; 2025 - SSJ Dev</p>
+    <p>&copy; 2025 - Kakarotto Dev</p>
   </footer>
 
 </body>
