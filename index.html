@@ -1,15 +1,90 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Página Principal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Portafolio - Johan Rivera</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #f58220; /* color naranja tipo Goku */
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #f58220;
+    }
+
+    nav {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    nav a {
+      color: #f58220;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      font-size: 1.2em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcc00; /* Amarillo tipo Super Saiyan */
+    }
+
+    section {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #1e1e1e;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bienvenido a mi sitio web</h1>
-  <p>Haz clic abajo para ver mis proyectos:</p>
 
-  <!-- Enlace a la página de proyectos -->
-  <a href="Log_In/index1.html">Ver mis proyectos</a>
+  <header>
+    <h1>Mi Portafolio</h1>
+    
+  </header>
+
+  <nav>
+    <a href="Log_In/index1.html">Proyectos</a>
+    <a href="https://github.com/JARV005" target="_blank">GitHub</a>
+  </nav>
+
+  <section>
+    <h2>Sobre mí</h2>
+    <p>Hola, soy un desarrollador apasionado por la tecnología y los retos. Bienvenido a mi portafolio donde muestro algunos de mis trabajos y proyectos.</p>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>Si quieres contactarme, escríbeme a: <strong>johanalexanderriveravasquez@gmail.com</strong></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 - SSJ Dev</p>
+  </footer>
+
 </body>
 </html>
