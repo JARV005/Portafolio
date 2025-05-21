@@ -4,111 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mi Portafolio - Johan Rivera</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #f1f1f1;
-    }
-
-    header {
-      background-color: #1f1f1f;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #f58220;
-    }
-
-    h1 {
-      margin: 10px 0 0 0;
-      font-size: 2.5em;
-      color: #f58220;
-    }
-
-    section {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #1e1e1e;
-      border-radius: 8px;
-    }
-
-    .proyectos-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    .proyecto {
-      background-color: #292929;
-      border: 1px solid #444;
-      border-radius: 10px;
-      width: 300px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(245, 130, 32, 0.2);
-      transition: transform 0.3s;
-    }
-
-    .proyecto:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-    }
-
-    .proyecto h3 {
-      color: #f58220;
-      margin-top: 0;
-    }
-
-    .proyecto p {
-      color: #ccc;
-      font-size: 0.95em;
-    }
-
-    .proyecto a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #ffcc00;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #888;
-    }
-
-    @media (max-width: 768px) {
-      .proyectos-container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+
+  <nav class="navbar">
+    <ul>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
   <header>
     <h1>Mi Portafolio</h1>
     <p>Desarrollador en proceso</p>
   </header>
 
-  <section>
+  <section id="sobre-mi">
     <h2>Sobre mí</h2>
     <p>Hola, soy Johan Alexander Rivera Vasquez, un desarrollador apasionado por la tecnología y los retos. Bienvenido a mi portafolio donde muestro algunos de mis trabajos y proyectos.</p>
   </section>
-<section>
-  <center>
-    <img src="Images/Yo.jpg" alt="Descripción de la imagen" whidth="300" height="300">
-  </center>
-  
-</section>
 
-  
   <section>
+    <center>
+      <img src="Images/Yo.jpg" alt="Foto de Johan Rivera" width="300" height="300">
+    </center>
+  </section>
+
+  <section id="proyectos">
     <h2>Proyectos</h2>
     <div class="proyectos-container">
       <div class="proyecto">
