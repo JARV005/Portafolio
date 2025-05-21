@@ -37,14 +37,12 @@ body {
 }
 
 header {
-  background-color: #1f1f1f;
-  padding: 20px;
   text-align: center;
-  border-bottom: 2px solid #f58220;
+  padding: 20px;
 }
 
 h1 {
-  margin: 10px 0 0 0;
+  margin: 10px 0;
   font-size: 2.5em;
   color: #f58220;
 }
@@ -103,6 +101,15 @@ footer {
   padding: 20px;
   font-size: 0.9em;
   color: #888;
+}
+
+/* Simula navegación de páginas */
+.pagina {
+  display: none;
+}
+
+.pagina.visible {
+  display: block;
 }
 
 @media (max-width: 768px) {

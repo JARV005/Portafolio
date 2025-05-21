@@ -1,56 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mi Portafolio - Johan Rivera</title>
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-
   <nav class="navbar">
     <ul>
-      <li><a href="#sobre-mi">Sobre mí</a></li>
-      <li><a href="#proyectos">Proyectos</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#inicio" class="nav-link">Inicio</a></li>
+      <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+      <li><a href="#contacto" class="nav-link">Contacto</a></li>
     </ul>
   </nav>
 
-  <header>
-    <h1>Mi Portafolio</h1>
-    <p>Desarrollador en proceso</p>
-  </header>
-
-  <section id="sobre-mi">
-    <h2>Sobre mí</h2>
-    <p>Hola, soy Johan Alexander Rivera Vasquez, un desarrollador apasionado por la tecnología y los retos. Bienvenido a mi portafolio donde muestro algunos de mis trabajos y proyectos.</p>
+  <!-- INICIO -->
+  <section id="inicio" class="pagina visible">
+    <header>
+      <h1>Mi Portafolio</h1>
+      <p>Desarrollador en proceso</p>
+    </header>
+    <section>
+      <h2>Sobre mí</h2>
+      <p>Hola, soy Johan Alexander Rivera Vasquez, un desarrollador apasionado por la tecnología y los retos. Bienvenido a mi portafolio donde muestro algunos de mis trabajos y proyectos.</p>
+    </section>
+    <section>
+      <center>
+        <img src="Images/Yo.jpg" alt="Foto de Johan Rivera" width="300" height="300" />
+      </center>
+    </section>
   </section>
 
-  <section>
-    <center>
-      <img src="Images/Yo.jpg" alt="Foto de Johan Rivera" width="300" height="300">
-    </center>
-  </section>
-
-  <section id="proyectos">
-    <h2>Proyectos</h2>
-    <div class="proyectos-container">
+  <!-- PROYECTOS -->
+  <section id="proyectos" class="pagina">
+    <header>
+      <h1>Mis Proyectos</h1>
+    </header>
+    <section class="proyectos-container">
       <div class="proyecto">
         <h3>Proyecto 1</h3>
         <p>Sistema para Log In.</p>
         <a href="https://jarv005.github.io/Log_In/">Ir a web</a>
       </div>
-    </div>
+    </section>
   </section>
 
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <p>Si quieres contactarme, escríbeme a: <strong>johanalexanderriveravasquez@gmail.com</strong></p>
+  <!-- CONTACTO -->
+  <section id="contacto" class="pagina">
+    <header>
+      <h1>Contacto</h1>
+    </header>
+    <section>
+      <p>Si quieres contactarme, escríbeme a: <strong>johanalexanderriveravasquez@gmail.com</strong></p>
+    </section>
   </section>
 
   <footer>
     <p>&copy; 2025 - SSJ Dev</p>
   </footer>
 
+  <script>
+    const secciones = document.querySelectorAll('.pagina');
+    const links = document.querySelectorAll('.nav-link');
+
+    function mostrarSeccion(hash) {
+      secciones.forEach(sec => {
+        sec.classList.remove('visible');
+        if ('#' + sec.id === hash) {
+          sec.classList.add('visible');
+        }
+      });
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const destino = link.getAttribute('href');
+        history.pushState(null, '', destino);
+        mostrarSeccion(destino);
+      });
+    });
+
+    window.addEventListener('load', () => {
+      mostrarSeccion(location.hash || '#inicio');
+    });
+
+    window.addEventListener('popstate', () => {
+      mostrarSeccion(location.hash || '#inicio');
+    });
+  </script>
 </body>
 </html>
