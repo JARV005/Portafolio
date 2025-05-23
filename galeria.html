@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <style>
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    figure {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Galería de Imágenes</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="proyectos.html">Proyectos</a></li>
+        <li><a href="productos.html">Productos</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        <li><a href="etiquetas.html">Etiquetas</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <grid>
+      <section class="galeria">
+      <figure>
+        <img src="Images/img1.jpg" alt="Montaña al amanecer">
+        <figcaption>Montaña al amanecer</figcaption>
+      </figure>
+      <figure>
+        <img src="Images/img2.jpg" alt="Paisaje costero">
+        <figcaption>Paisaje costero</figcaption>
+      </figure>
+      <figure>
+        <img src="Images/img3.jpg" alt="Ciudad de noche">
+        <figcaption>Ciudad de noche</figcaption>
+      </figure>
+      <figure>
+        <img src="Images/img4.jpg" alt="Campo verde">
+        <figcaption>Campo verde</figcaption>
+      </figure>
+      <figure>
+        <img src="Images/img5.jpg" alt="Bosque con niebla">
+        <figcaption>Bosque con niebla</figcaption>
+      </figure>
+      <figure>
+        <img src="Images/img6.jpg" alt="Desierto dorado">
+        <figcaption>Desierto dorado</figcaption>
+      </figure>
+      </section>
+    </grid>
+    
+  </main>
+
+  <footer>
+    <p>&copy; 2025 - Sitio web ficticio</p>
+  </footer>
+</body>
+</html>
