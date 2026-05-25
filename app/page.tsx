@@ -681,7 +681,7 @@ export default function Portfolio() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <a href="#"
+                    <a href="https://cstation.johan-rv.site/es"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
                       style={{ background: "linear-gradient(135deg,#6d28d9,#7c3aed)", boxShadow: "0 4px 20px rgba(109,40,217,0.4)" }}>
                       Explorar <ExternalLink className="w-3.5 h-3.5" />
