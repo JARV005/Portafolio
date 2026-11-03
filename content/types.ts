@@ -53,6 +53,20 @@ export type Leadership = {
   quote: string | null
 }
 
+export type GrimoirePage = {
+  id: string
+  title: string
+  learn: string
+  approach: string
+  materialUrl: string | null
+  stack: string[]
+}
+
+export type Grimoire = {
+  intro: string | null
+  pages: GrimoirePage[]
+}
+
 export type Experience = {
   id: string
   role: string
@@ -93,6 +107,7 @@ export type Content = {
   education: Education[]
   journey: JourneyStage[]
   leadership: Leadership
+  grimoire: Grimoire
   skills: SkillGroup[]
   stackHighlights: string[]
   projects: Project[]

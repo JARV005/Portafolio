@@ -337,3 +337,208 @@ button:focus-visible {
     border-color: var(--stage-color);
   }
 }
+
+/* ------------------------------------------------------------------
+   Grimorio — libro CSS 3D + icon stroke draw + carrusel mobile
+------------------------------------------------------------------ */
+
+.grimoire-stage:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 10px;
+  border-radius: 8px;
+}
+
+.grimoire-card {
+  background: var(--surface);
+  border: 2px solid var(--stroke);
+  border-radius: var(--radius-ink);
+  min-height: 320px;
+  height: 100%;
+}
+
+.grimoire-cards::-webkit-scrollbar {
+  height: 4px;
+}
+.grimoire-cards::-webkit-scrollbar-thumb {
+  background: var(--stroke);
+  border-radius: 2px;
+}
+
+/* Desktop book */
+.book {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 460px;
+  perspective: 1800px;
+  transform-style: preserve-3d;
+}
+
+.book-spine {
+  position: absolute;
+  left: 50%;
+  top: 2%;
+  bottom: 2%;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--ki) 15%,
+    var(--ki) 85%,
+    transparent
+  );
+  opacity: 0.5;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.book-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background:
+    linear-gradient(
+      135deg,
+      var(--bg) 0%,
+      color-mix(in oklab, var(--surface) 60%, var(--bg)) 100%
+    );
+  border: 2px solid var(--stroke);
+  border-right: 2px solid var(--ki);
+  border-radius: var(--radius-ink) 0 0 var(--radius-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: right center;
+  transform: rotateY(0deg);
+  transition: transform 1100ms cubic-bezier(0.68, 0, 0.32, 1);
+  backface-visibility: hidden;
+  z-index: 25;
+  box-shadow:
+    6px 0 24px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px color-mix(in oklab, var(--ki) 15%, transparent);
+}
+
+[data-theme="light"] .book-cover {
+  box-shadow:
+    6px 0 20px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px color-mix(in oklab, var(--ki) 20%, transparent);
+}
+
+.book[data-opened="true"] .book-cover {
+  transform: rotateY(-170deg);
+}
+
+.book[data-reduced="true"] .book-cover {
+  transition: none;
+}
+
+/* Right edge "cantos" */
+.book::after {
+  content: "";
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  right: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--ki) 20%,
+    var(--ki) 80%,
+    transparent
+  );
+  opacity: 0.45;
+  border-radius: 0 2px 2px 0;
+  pointer-events: none;
+}
+
+.book-pages {
+  position: relative;
+  margin-left: 50%;
+  width: 50%;
+  height: 100%;
+  min-height: inherit;
+  transform-style: preserve-3d;
+}
+
+.book-page {
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  border: 2px solid var(--stroke);
+  border-left: none;
+  border-radius: 0 var(--radius-ink) var(--radius-ink) 0;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  transition: transform 800ms cubic-bezier(0.68, 0, 0.32, 1);
+  overflow: hidden;
+}
+
+.book-page[data-state="turned"] {
+  transform: rotateY(-180deg);
+}
+
+.book-page[data-state="turning-away"] {
+  transform: rotateY(-180deg);
+}
+
+.book-page[data-state="active"],
+.book-page[data-state="upcoming"] {
+  transform: rotateY(0deg);
+}
+
+.book[data-reduced="true"] .book-page {
+  transition: none;
+}
+
+.book[data-reduced="true"] .book-page[data-state="turned"],
+.book[data-reduced="true"] .book-page[data-state="turning-away"],
+.book[data-reduced="true"] .book-page[data-state="upcoming"] {
+  visibility: hidden;
+}
+
+/* Icon stroke draw animation */
+.track-icons .track-icon svg path,
+.track-icons .track-icon svg line,
+.track-icons .track-icon svg polyline,
+.track-icons .track-icon svg circle,
+.track-icons .track-icon svg rect,
+.track-icons .track-icon svg polygon {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  fill-opacity: 0;
+  animation:
+    track-draw 850ms cubic-bezier(0.33, 1, 0.68, 1) forwards,
+    track-fade 240ms linear forwards 650ms;
+  animation-delay: calc(var(--icon-i, 0) * 90ms);
+}
+
+@keyframes track-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes track-fade {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-icons .track-icon svg path,
+  .track-icons .track-icon svg line,
+  .track-icons .track-icon svg polyline,
+  .track-icons .track-icon svg circle,
+  .track-icons .track-icon svg rect,
+  .track-icons .track-icon svg polygon {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    animation: none;
+  }
+}

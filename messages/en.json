@@ -4,6 +4,7 @@
     "about": "About",
     "experience": "Experience",
     "squad": "Squad",
+    "grimoire": "Grimoire",
     "projects": "Projects",
     "contact": "Contact"
   },
@@ -20,8 +21,19 @@
     "experience": "Experience",
     "education": "Education",
     "squad": "Squad",
+    "grimoire": "Grimoire",
     "projects": "Projects",
     "contact": "Contact"
+  },
+  "grimoire": {
+    "pendingIntro": "⚠ TODO: teaching one-liner",
+    "pendingMaterial": "Material pending",
+    "learnLabel": "What they learn",
+    "approachLabel": "My approach",
+    "material": "View material",
+    "prev": "Previous page",
+    "next": "Next page",
+    "pageOf": "Page {current} of {total}"
   },
   "squad": {
     "team": "The outcome emerges from the whole squad, not a single person.",

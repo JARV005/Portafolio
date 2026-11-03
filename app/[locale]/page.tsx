@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero"
 import { About } from "@/components/sections/About"
 import { Journey } from "@/components/sections/Journey"
 import { Squad } from "@/components/sections/Squad"
+import { Grimoire } from "@/components/sections/Grimoire"
 
 const KANJI = {
   projects: { kanji: "作", index: "04" },
@@ -38,6 +39,8 @@ export default async function LocalePage({
         <Journey stages={content.journey} />
 
         <Squad leadership={content.leadership} />
+
+        <Grimoire data={content.grimoire} />
 
         {/* PROJECTS */}
         <section id="projects" className="space-y-6">

@@ -4,6 +4,7 @@
     "about": "Sobre mí",
     "experience": "Trayectoria",
     "squad": "Escuadrón",
+    "grimoire": "Grimorio",
     "projects": "Proyectos",
     "contact": "Contacto"
   },
@@ -20,8 +21,19 @@
     "experience": "Trayectoria",
     "education": "Formación",
     "squad": "Escuadrón",
+    "grimoire": "Grimorio",
     "projects": "Proyectos",
     "contact": "Contacto"
+  },
+  "grimoire": {
+    "pendingIntro": "⚠ TODO: frase sobre enseñar",
+    "pendingMaterial": "Material pendiente",
+    "learnLabel": "Qué aprenden",
+    "approachLabel": "Mi enfoque",
+    "material": "Ver material",
+    "prev": "Página anterior",
+    "next": "Página siguiente",
+    "pageOf": "Página {current} de {total}"
   },
   "squad": {
     "team": "El resultado emerge del equipo, no de una sola persona.",
