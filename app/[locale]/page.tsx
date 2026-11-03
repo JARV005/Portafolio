@@ -2,10 +2,10 @@ import { getTranslations } from "next-intl/server"
 import { getContent, type Locale } from "@/content"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
 import { Hero } from "@/components/sections/Hero"
+import { About } from "@/components/sections/About"
+import { Journey } from "@/components/sections/Journey"
 
 const KANJI = {
-  about: { kanji: "道", index: "01" },
-  experience: { kanji: "変", index: "02" },
   skills: { kanji: "隊", index: "03" },
   projects: { kanji: "作", index: "04" },
   contact: { kanji: "会", index: "05" },
@@ -33,89 +33,9 @@ export default async function LocalePage({
       <main className="relative mx-auto w-full max-w-4xl px-6 pt-12 pb-24 space-y-24">
         <div className="energy-rule" />
 
-        {/* ABOUT */}
-        <section id="about" className="space-y-6">
-          <SectionLabel kanji={KANJI.about.kanji} label={t("about")} index={KANJI.about.index} />
-          <Reveal>
-            <div className="space-y-3 max-w-2xl text-fg-dim leading-relaxed">
-              {content.profile.summary.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <InkPanel className="p-6 text-sm">
-              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-5 font-mono">
-                <div>
-                  <dt className="text-fg-dim text-xs uppercase tracking-widest">
-                    {tLabels("location")}
-                  </dt>
-                  <dd className="mt-1">{content.profile.location}</dd>
-                </div>
-                <div>
-                  <dt className="text-fg-dim text-xs uppercase tracking-widest">
-                    {tLabels("languages")}
-                  </dt>
-                  <dd className="mt-1">{content.profile.languages.join(" · ")}</dd>
-                </div>
-              </dl>
-            </InkPanel>
-          </Reveal>
-        </section>
+        <About profile={content.profile} locale={locale} />
 
-        {/* EXPERIENCE */}
-        <section id="experience" className="space-y-6">
-          <SectionLabel
-            kanji={KANJI.experience.kanji}
-            label={t("experience")}
-            index={KANJI.experience.index}
-          />
-          {content.experience.map((item, i) => (
-            <Reveal key={item.id} delay={i * 0.05}>
-              <InkPanel className="p-6">
-                <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-                  <h3 className="font-display font-black text-lg">
-                    {item.role} · {item.company}
-                  </h3>
-                  <span className="text-xs font-mono text-fg-dim">{item.period}</span>
-                  {item.active && (
-                    <span className="text-[0.65rem] uppercase tracking-widest text-ki font-mono">
-                      {tLabels("active")}
-                    </span>
-                  )}
-                </header>
-                <ul className="space-y-2 text-sm text-fg-dim">
-                  {item.bullets.map((b) => (
-                    <li key={b} className="flex gap-2">
-                      <span className="text-ki mt-[0.4rem] shrink-0 w-1 h-1 rounded-full bg-ki" />
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-4 font-mono text-[0.7rem] text-fg-dim tracking-wider">
-                  {item.tags.join(" · ")}
-                </p>
-              </InkPanel>
-            </Reveal>
-          ))}
-
-          <Reveal delay={0.1}>
-            <InkPanel className="p-6" texture="halftone">
-              <h3 className="font-display font-black text-lg mb-4">{t("education")}</h3>
-              <ul className="space-y-3 text-sm">
-                {content.education.map((e) => (
-                  <li key={e.id}>
-                    <div className="font-medium">{e.degree}</div>
-                    <div className="text-fg-dim">
-                      {e.institution}
-                      {e.period ? ` · ${e.period}` : ""}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </InkPanel>
-          </Reveal>
-        </section>
+        <Journey stages={content.journey} />
 
         {/* SKILLS */}
         <section id="skills" className="space-y-6">

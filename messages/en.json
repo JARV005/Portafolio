@@ -28,6 +28,11 @@
     "active": "Current",
     "languages": "Languages",
     "location": "Location",
-    "pendingContent": "Pending content"
+    "pendingContent": "Pending content",
+    "pendingDate": "Date pending",
+    "noPhoto": "Photo pending",
+    "pillarBuild": "I build",
+    "pillarLead": "I lead",
+    "pillarTeach": "I teach"
   }
 }

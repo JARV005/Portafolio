@@ -231,3 +231,109 @@ button:focus-visible {
     opacity: 1;
   }
 }
+
+/* ------------------------------------------------------------------
+   Sobre mí — foto con tratamiento de semitono
+------------------------------------------------------------------ */
+
+.photo-halftone img {
+  filter: grayscale(1) contrast(1.08) brightness(0.95);
+  transition: filter 500ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.photo-halftone:hover img,
+.photo-halftone:focus-visible img {
+  filter: grayscale(0) contrast(1) brightness(1);
+}
+
+.photo-halftone:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 4px;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--fg) 45%, transparent) 1px,
+    transparent 1.6px
+  );
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  transition: opacity 500ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+[data-theme="dark"] .photo-overlay {
+  mix-blend-mode: screen;
+  opacity: 0.3;
+}
+
+.photo-halftone:hover .photo-overlay,
+.photo-halftone:focus-visible .photo-overlay {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------
+   Trayectoria — timeline con energía y sparks
+------------------------------------------------------------------ */
+
+.stage-dot {
+  --stage-color: var(--ki);
+  position: absolute;
+  z-index: 2;
+}
+
+.stage-dot::before,
+.stage-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--stage-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage.stage-active .stage-dot {
+  background: var(--stage-color);
+  border-color: var(--stage-color);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--stage-color) 18%, transparent),
+    0 0 22px color-mix(in oklab, var(--stage-color) 55%, transparent);
+}
+
+.stage.stage-active .stage-dot::before {
+  animation: stage-spark 1200ms ease-out 150ms both;
+}
+
+.stage.stage-active .stage-dot::after {
+  animation: stage-spark 1200ms ease-out 450ms both;
+}
+
+@keyframes stage-spark {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, -28px) scale(0.15);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-halftone img,
+  .photo-overlay {
+    transition: none;
+  }
+  .stage.stage-active .stage-dot::before,
+  .stage.stage-active .stage-dot::after {
+    animation: none;
+  }
+  .stage-dot {
+    background: var(--stage-color);
+    border-color: var(--stage-color);
+  }
+}

@@ -7,14 +7,31 @@ export type ContactLink = {
   display: string
 }
 
+export type Pillars = {
+  build: string
+  lead: string
+  teach: string
+}
+
 export type Profile = {
   name: string
   headline: string
   trinity: string | null
   summary: string[]
+  pillars: Pillars
+  photoUrl: string | null
   location: string
   languages: string[]
   cvUrl: string
+}
+
+export type JourneyStage = {
+  id: string
+  period: string | null
+  title: string
+  summary: string
+  highlights: string[]
+  tags: string[]
 }
 
 export type Experience = {
@@ -55,6 +72,7 @@ export type Content = {
   profile: Profile
   experience: Experience[]
   education: Education[]
+  journey: JourneyStage[]
   skills: SkillGroup[]
   stackHighlights: string[]
   projects: Project[]
