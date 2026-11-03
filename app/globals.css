@@ -1,26 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A&display=swap");
 @import "tailwindcss";
 
-:root {
+/* ------------------------------------------------------------------
+   Tokens — Noche (default) y Manga (data-theme="light")
+   Se declaran como CSS vars planas en [data-theme=...] para que
+   funcionen a nivel de root y también dentro de contenedores
+   anidados (ver /dev/kit).
+------------------------------------------------------------------ */
+:root,
+[data-theme="dark"] {
+  --bg: #0b0a0d;
+  --surface: #141218;
+  --fg: #f1ece2;
+  --fg-dim: #a39e95;
+  --ki: #ffb224;
+  --ki-blue: #4cc2ff;
+  --ink: #e5484d;
+  --stroke: #2a262e;
   color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #f4efe6;
+  --surface: #ebe4d6;
+  --fg: #111014;
+  --fg-dim: #4a4740;
+  --ki: #a86618;
+  --ki-blue: #0d6eaa;
+  --ink: #a1333a;
+  --stroke: #c7bfaf;
+  color-scheme: light;
+}
+
+/* Mapeo a utilidades Tailwind v4 */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-dim: var(--fg-dim);
+  --color-ki: var(--ki);
+  --color-ki-blue: var(--ki-blue);
+  --color-ink: var(--ink);
+  --color-stroke: var(--stroke);
+
+  --font-display: var(--font-display-ff), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-sans-ff), "Geist", system-ui, sans-serif;
+  --font-mono: var(--font-mono-ff), "Geist Mono", ui-monospace, monospace;
+  --font-kanji: "Noto Serif JP", serif;
+
+  --radius-ink: 5px;
 }
 
 html,
 body {
-  background: #0b0a0d;
-  color: #f1ece2;
+  background: var(--bg);
+  color: var(--fg);
 }
 
 body {
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-a {
-  color: inherit;
-}
-
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #ffb224;
+  outline: 2px solid var(--ki);
   outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Display expandido aproximado para Archivo */
+.font-display {
+  font-stretch: 125%;
+  letter-spacing: 0.01em;
+}
+
+/* ------------------------------------------------------------------
+   Texturas sin imágenes
+------------------------------------------------------------------ */
+
+/* Grano fino vía feTurbulence en SVG inline */
+.grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* Puntos de semitono — color controlado por currentColor */
+.halftone {
+  background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+
+.halftone-mask {
+  mask-image: radial-gradient(circle at center, #000 55%, transparent 85%);
+}
+
+/* Líneas de velocidad diagonales */
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    112deg,
+    currentColor 0 1px,
+    transparent 1px 10px
+  );
+}
+
+/* Línea de energía (divisor) */
+.energy-rule {
+  background: linear-gradient(90deg, transparent, var(--ki) 20%, var(--ki) 80%, transparent);
+  height: 1px;
+  width: 100%;
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

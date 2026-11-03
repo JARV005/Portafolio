@@ -3,6 +3,9 @@ import type { Metadata } from "next"
 import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { notFound } from "next/navigation"
 import { Analytics } from "@vercel/analytics/next"
+import { archivo, geist, geistMono } from "@/lib/fonts"
+import { LenisProvider } from "@/components/motion"
+import { SiteNav } from "@/components/sections/SiteNav"
 import { routing, type Locale } from "@/i18n/routing"
 import "../globals.css"
 
@@ -23,6 +26,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
+const FOUC_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`
+
 export default async function LocaleLayout({
   children,
   params,
@@ -33,11 +38,17 @@ export default async function LocaleLayout({
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
 
+  const fontVars = `${archivo.variable} ${geist.variable} ${geistMono.variable}`
+
   return (
-    <html lang={locale} className="scroll-smooth">
-      <body className="antialiased">
+    <html lang={locale} suppressHydrationWarning className={fontVars}>
+      <body className="antialiased font-sans bg-bg text-fg">
+        <script dangerouslySetInnerHTML={{ __html: FOUC_SCRIPT }} />
         <NextIntlClientProvider locale={locale as Locale}>
-          {children}
+          <LenisProvider>
+            <SiteNav />
+            {children}
+          </LenisProvider>
         </NextIntlClientProvider>
         <Analytics />
       </body>
