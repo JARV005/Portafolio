@@ -62,7 +62,17 @@
     "heading": "Hablemos",
     "copyEmail": "Copiar email",
     "emailCopied": "Copiado",
-    "formPending": "⚠ TODO: formulario pendiente — define proveedor (Resend o Formspree)."
+    "formHeading": "O escríbeme directo"
+  },
+  "contactForm": {
+    "nameLabel": "Nombre",
+    "emailLabel": "Email",
+    "messageLabel": "Mensaje",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "sent": "Enviado",
+    "error": "No se pudo enviar. Prueba de nuevo o copia mi email.",
+    "notConfigured": "El formulario aún no está configurado. Usa el botón de copiar email."
   },
   "footer": {
     "madeIn": "Hecho en Medellín",

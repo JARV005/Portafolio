@@ -58,6 +58,18 @@ hooks/  lib/            # vacíos por ahora
 3. Rama `main` = producción. Pull requests obtienen URL de preview automática.
 4. CI de GitHub Actions (`lint + typecheck + build`) corre en cada PR; Vercel maneja el despliegue por su cuenta.
 
+### Variables de entorno (formulario de contacto)
+
+Setea en Vercel (Production + Preview):
+
+| Variable | Descripción |
+| --- | --- |
+| `RESEND_API_KEY` | API key de [resend.com](https://resend.com) |
+| `CONTACT_TO` | Email de destino (ej. `johanalexanderriveravasquez@gmail.com`) |
+| `CONTACT_FROM` | Opcional. Email `from` verificado en Resend. Default: `onboarding@resend.dev` (solo para test) |
+
+Si falta `RESEND_API_KEY` o `CONTACT_TO`, el endpoint `/api/contact` responde **503** y el formulario muestra "No configurado". El botón "Copiar email" sigue funcionando igualmente.
+
 > No hay workflow de GitHub Pages: el proyecto corre como app Next.js (SSR / RSC) en Vercel, sin `output: "export"`.
 
 ## i18n

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Check, Copy, Github, Linkedin, Mail, Download } from "lucide-react"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
+import { ContactForm } from "@/components/sections/ContactForm"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import type { ContactLink, Profile } from "@/content/types"
 
@@ -148,9 +149,12 @@ export function Contact({ contact, profile }: ContactProps) {
               </li>
             </ul>
 
-            <p className="font-mono text-[0.65rem] text-ki/70">
-              {tC("formPending")}
-            </p>
+            <div className="pt-2 space-y-3">
+              <h3 className="font-display font-black text-sm uppercase tracking-wide">
+                {tC("formHeading")}
+              </h3>
+              <ContactForm />
+            </div>
           </div>
         </InkPanel>
       </Reveal>

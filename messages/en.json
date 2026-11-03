@@ -62,7 +62,17 @@
     "heading": "Let's talk",
     "copyEmail": "Copy email",
     "emailCopied": "Copied",
-    "formPending": "⚠ TODO: contact form pending — pick a provider (Resend or Formspree)."
+    "formHeading": "Or drop me a line"
+  },
+  "contactForm": {
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "send": "Send",
+    "sending": "Sending…",
+    "sent": "Sent",
+    "error": "Couldn't send. Try again or copy my email.",
+    "notConfigured": "The form isn't configured yet. Use the copy-email button."
   },
   "footer": {
     "madeIn": "Made in Medellín",
