@@ -3,6 +3,8 @@ import type { Profile } from "../types"
 export const profile: Profile = {
   name: "Johan Rivera",
   headline: "Desarrollador Backend · Team Leader en RIWI",
+  // TODO: línea breve sobre "Entrenar · Liderar · Enseñar" (Johan la va a escribir)
+  trinity: null,
   summary: [
     "Team Leader y Backend Developer .NET con experiencia en diseño de arquitecturas basadas en microservicios, liderazgo de equipos en formación y estandarización de procesos de desarrollo.",
     "Diseño y dicto tracks técnicos dentro de mi rol en RIWI. Fundador de Nemora, SaaS de análisis documental y cumplimiento con IA sobre Azure.",

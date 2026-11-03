@@ -10,6 +10,7 @@ export type ContactLink = {
 export type Profile = {
   name: string
   headline: string
+  trinity: string | null
   summary: string[]
   location: string
   languages: string[]

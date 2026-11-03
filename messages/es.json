@@ -11,7 +11,9 @@
     "downloadCV": "Descargar CV",
     "sendMessage": "Enviar mensaje",
     "viewProject": "Ver proyecto",
-    "viewRepo": "Ver repositorio"
+    "viewProjects": "Ver proyectos",
+    "viewRepo": "Ver repositorio",
+    "scroll": "Scroll"
   },
   "sections": {
     "about": "Sobre mí",

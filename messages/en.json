@@ -11,7 +11,9 @@
     "downloadCV": "Download CV",
     "sendMessage": "Send message",
     "viewProject": "View project",
-    "viewRepo": "View repository"
+    "viewProjects": "View projects",
+    "viewRepo": "View repository",
+    "scroll": "Scroll"
   },
   "sections": {
     "about": "About",
