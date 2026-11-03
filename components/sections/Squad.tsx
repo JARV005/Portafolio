@@ -5,11 +5,16 @@ import { useTranslations } from "next-intl"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Rocket } from "lucide-react"
+import dynamic from "next/dynamic"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
-import { SquadCanvas } from "@/components/motion/SquadCanvas"
 import { Counter } from "@/components/ui/Counter"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import type { Leadership } from "@/content/types"
+
+const SquadCanvas = dynamic(
+  () => import("@/components/motion/SquadCanvas").then((m) => m.SquadCanvas),
+  { ssr: false },
+)
 
 type SquadProps = {
   leadership: Leadership

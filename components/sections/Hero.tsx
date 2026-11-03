@@ -4,10 +4,16 @@ import { useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTranslations } from "next-intl"
 import { ArrowRight } from "lucide-react"
-import { KiCanvas, SectionLabel } from "@/components/motion"
+import dynamic from "next/dynamic"
+import { SectionLabel } from "@/components/motion"
 import { CvButton } from "@/components/ui/CvButton"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import type { Profile, ContactLink } from "@/content/types"
+
+const KiCanvas = dynamic(
+  () => import("@/components/motion/KiCanvas").then((m) => m.KiCanvas),
+  { ssr: false },
+)
 
 type HeroProps = {
   profile: Profile

@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "title": "Johan Rivera — Backend Developer · Team Leader at RIWI",
+    "description": "Backend Developer (C#/.NET, Node.js, Azure) and Team Leader at RIWI. I build solid backends, lead teams and mentor coders.",
+    "ogAlt": "Johan Rivera — Backend Developer · Team Leader at RIWI"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
