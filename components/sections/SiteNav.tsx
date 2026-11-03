@@ -15,6 +15,7 @@ const SECTIONS = [
   { key: "squad", href: "#squad" },
   { key: "grimoire", href: "#grimoire" },
   { key: "projects", href: "#projects" },
+  { key: "arsenal", href: "#arsenal" },
   { key: "contact", href: "#contact" },
 ] as const
 

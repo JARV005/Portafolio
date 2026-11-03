@@ -6,6 +6,7 @@
     "squad": "Escuadrón",
     "grimoire": "Grimorio",
     "projects": "Proyectos",
+    "arsenal": "Arsenal",
     "contact": "Contacto"
   },
   "cta": {
@@ -26,6 +27,7 @@
     "squad": "Escuadrón",
     "grimoire": "Grimorio",
     "projects": "Proyectos",
+    "arsenal": "Arsenal",
     "contact": "Contacto"
   },
   "grimoire": {
@@ -50,6 +52,29 @@
     "pendingResult": "Resultado pendiente",
     "pendingRole": "Rol pendiente",
     "pendingArchitecture": "Arquitectura pendiente"
+  },
+  "arsenal": {
+    "hint": "Pasa el cursor o enfoca una tecnología para ver en qué proyectos la usé.",
+    "usedIn": "La uso en:",
+    "noMatches": "Aún no la uso en un proyecto público del portafolio."
+  },
+  "contactSection": {
+    "heading": "Hablemos",
+    "copyEmail": "Copiar email",
+    "emailCopied": "Copiado",
+    "formPending": "⚠ TODO: formulario pendiente — define proveedor (Resend o Formspree)."
+  },
+  "footer": {
+    "madeIn": "Hecho en Medellín",
+    "repo": "Código abierto"
+  },
+  "konami": {
+    "badge": "気 modo poder activado"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Esta viñeta se quedó sin dibujar.",
+    "cta": "Volver al inicio"
   },
   "squad": {
     "team": "El resultado emerge del equipo, no de una sola persona.",

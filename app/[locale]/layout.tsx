@@ -4,7 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl"
 import { notFound } from "next/navigation"
 import { Analytics } from "@vercel/analytics/next"
 import { archivo, geist, geistMono } from "@/lib/fonts"
-import { LenisProvider } from "@/components/motion"
+import { LenisProvider, PowerMode } from "@/components/motion"
 import { SiteNav } from "@/components/sections/SiteNav"
 import { routing, type Locale } from "@/i18n/routing"
 import "../globals.css"
@@ -48,6 +48,7 @@ export default async function LocaleLayout({
           <LenisProvider>
             <SiteNav />
             {children}
+            <PowerMode />
           </LenisProvider>
         </NextIntlClientProvider>
         <Analytics />

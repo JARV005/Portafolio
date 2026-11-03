@@ -6,6 +6,7 @@
     "squad": "Squad",
     "grimoire": "Grimoire",
     "projects": "Projects",
+    "arsenal": "Arsenal",
     "contact": "Contact"
   },
   "cta": {
@@ -26,6 +27,7 @@
     "squad": "Squad",
     "grimoire": "Grimoire",
     "projects": "Projects",
+    "arsenal": "Arsenal",
     "contact": "Contact"
   },
   "grimoire": {
@@ -50,6 +52,29 @@
     "pendingResult": "Outcome pending",
     "pendingRole": "Role pending",
     "pendingArchitecture": "Architecture pending"
+  },
+  "arsenal": {
+    "hint": "Hover or focus a technology to see the projects it powers.",
+    "usedIn": "Used in:",
+    "noMatches": "Not used in a public portfolio project yet."
+  },
+  "contactSection": {
+    "heading": "Let's talk",
+    "copyEmail": "Copy email",
+    "emailCopied": "Copied",
+    "formPending": "⚠ TODO: contact form pending — pick a provider (Resend or Formspree)."
+  },
+  "footer": {
+    "madeIn": "Made in Medellín",
+    "repo": "Source"
+  },
+  "konami": {
+    "badge": "気 power mode on"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "This panel never got drawn.",
+    "cta": "Back to home"
   },
   "squad": {
     "team": "The outcome emerges from the whole squad, not a single person.",

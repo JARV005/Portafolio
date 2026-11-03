@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A%E5%99%A8&display=swap");
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
@@ -635,5 +635,99 @@ button:focus-visible {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 350ms;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Contact — trazo de energía en el botón "Copiar email"
+------------------------------------------------------------------ */
+
+.copy-trace {
+  color: var(--ki);
+}
+
+.copy-trace-path {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: none;
+}
+
+.copy-button[data-animating="true"] .copy-trace-path {
+  animation: copy-trace-run 600ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes copy-trace-run {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-button[data-animating="true"] .copy-trace-path {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Power mode (Konami) — intensifica el aura global
+------------------------------------------------------------------ */
+
+[data-power="true"] .ki-aura {
+  opacity: 0.55;
+}
+
+[data-power="true"]::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    color-mix(in oklab, var(--ki) 22%, transparent) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 5;
+  animation: power-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes power-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.power-toast {
+  animation: power-toast-in 220ms ease-out;
+}
+
+@keyframes power-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-power="true"]::before {
+    animation: none;
+  }
+  .power-toast {
+    animation: none;
   }
 }
