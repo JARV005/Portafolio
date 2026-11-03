@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "experience": "Trayectoria",
+    "skills": "Escuadrón",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "cta": {
+    "downloadCV": "Descargar CV",
+    "sendMessage": "Enviar mensaje",
+    "viewProject": "Ver proyecto",
+    "viewRepo": "Ver repositorio"
+  },
+  "sections": {
+    "about": "Sobre mí",
+    "experience": "Trayectoria",
+    "education": "Formación",
+    "skills": "Stack",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "labels": {
+    "featured": "Destacado",
+    "active": "Actual",
+    "languages": "Idiomas",
+    "location": "Ubicación",
+    "pendingContent": "Contenido pendiente"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "skills": "Squad",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "cta": {
+    "downloadCV": "Download CV",
+    "sendMessage": "Send message",
+    "viewProject": "View project",
+    "viewRepo": "View repository"
+  },
+  "sections": {
+    "about": "About",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Stack",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "labels": {
+    "featured": "Featured",
+    "active": "Current",
+    "languages": "Languages",
+    "location": "Location",
+    "pendingContent": "Pending content"
+  }
+}

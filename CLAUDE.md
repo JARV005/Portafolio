@@ -1,0 +1,51 @@
+# Portafolio de Johan Rivera — guía del proyecto
+
+## Qué debe comunicar
+- Johan Rivera, Desarrollador Backend (C#/.NET, Node.js, Azure) y Team Leader en RIWI, Medellín. Además formo coders: diseño y dicto tracks técnicos dentro de mi rol en RIWI. Fundador de Nemora (SaaS de análisis documental y cumplimiento con IA sobre Azure).
+- Tres ideas que el visitante debe llevarse en 10 segundos: construyo backend sólido, lidero equipos, enseño.
+- Público principal: reclutadores técnicos y tech leads. Deben llegar a proyectos, stack, CV y contacto en máximo 2 clics.
+
+## Concepto creativo: "Entrenar · Liderar · Enseñar"
+Narrativa shōnen: el progreso viene del entrenamiento, el equipo multiplica la fuerza y quien enseña hace crecer a otros. Inspirado en Dragon Ball y Black Clover, pero el homenaje es por MECÁNICAS y lenguaje visual, nunca por contenido de las series.
+
+Lenguaje visual:
+- Energía (ki): partículas, auras, convergencias, cargas. Todo dibujado por código.
+- Manga: semitono (screentone), líneas de velocidad, viñetas con borde de tinta.
+- Grimorio: libro de conocimiento que se abre (sección de docencia).
+- Kanji decorativos como etiqueta de sección: 気 inicio, 道 sobre mí, 変 trayectoria, 隊 escuadrón, 書 grimorio, 作 proyectos, 会 contacto. Siempre aria-hidden y con la etiqueta real en texto.
+
+Reglas de homenaje (innegociables):
+- Prohibido: personajes o siluetas reconocibles, peinados icónicos, logos, emblemas, tréboles, esferas naranjas con estrellas, nombres de técnicas o personajes en la UI, e imágenes, audio o fuentes tomadas de las series.
+- Permitido: auras y energía genéricas, estética manga genérica, la palabra "grimorio", easter eggs discretos.
+
+## Sistema visual
+- Tema "Noche" (por defecto): fondo #0B0A0D, superficie #141218, texto #F1ECE2, texto secundario #A39E95.
+- Tema "Manga" (claro): papel #F4EFE6, tinta #111014, tramas en grises.
+- Acento principal "ki" ámbar #FFB224. Energía secundaria azul #4CC2FF solo en estados (hover, foco, momentos de carga). Carmesí #E5484D solo como detalle puntual.
+- Máximo 2 acentos visibles a la vez. Prohibidos los degradados morado/neón genéricos.
+- Tipografía (next/font): display "Archivo" expandido 800–900 para titulares; "Geist" para texto; "Geist Mono" para etiquetas y datos; "Noto Serif JP" solo para los kanji (subset).
+- Viñetas con borde de tinta de 2px y radio de 4–6px; grano o semitono muy sutil de fondo.
+
+## Reglas de animación: único, no saturado
+- Una sola animación firma por sección. El resto son microinteracciones (opacidad + desplazamiento de 8–16px, 300–600ms, ease-out).
+- Nada en bucle infinito salvo el aura del hero en baja intensidad. Los canvas se pausan fuera del viewport (IntersectionObserver) y con la pestaña oculta.
+- prefers-reduced-motion: cada animación firma tiene una versión estática equivalente.
+- Animar solo transform y opacity; canvas con devicePixelRatio máximo 2; 60fps en un portátil medio.
+- Móvil: versiones simplificadas (menos partículas, sin efectos de cursor).
+
+## Stack
+- Next.js App Router + TypeScript estricto (sin ignoreBuildErrors) + Tailwind CSS v4.
+- motion (motion/react) para microinteracciones; GSAP + ScrollTrigger para coreografías de scroll; Lenis para scroll suave; Canvas 2D para partículas (sin three.js salvo justificación).
+- Contenido separado de la UI en content/, tipado y bilingüe (es por defecto, en).
+- Despliegue en Vercel. Lighthouse móvil: Performance ≥ 90; Accessibility, Best Practices y SEO ≥ 95.
+
+## Contenido y tono
+- Todo debe ser verdadero y defendible en una entrevista técnica. Si falta un dato, deja un TODO en content/ y NO inventes cifras, fechas ni logros.
+- Nada de "apasionado", "results-driven", "ninja" ni frases genéricas de IA. Primera persona, frases cortas: qué hice, cómo, qué impacto.
+- Sin barras de porcentaje ni niveles de habilidad.
+- Titular: "Desarrollador Backend · Team Leader en RIWI".
+
+## Forma de trabajo
+- Estructura: components/sections/*, components/motion/* (primitivas), hooks/*, lib/*, content/{es,en}/*.
+- Commits pequeños por fase. Al cerrar cada fase: npm run build y lint sin errores, más un resumen de lo hecho y de qué revisar en el navegador.
+- Antes de agregar un servicio externo o una dependencia pesada, pregunta.
