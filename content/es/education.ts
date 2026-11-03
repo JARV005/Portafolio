@@ -11,6 +11,6 @@ export const education: Education[] = [
     id: "riwi-desarrollo-software",
     degree: "Desarrollo de Software",
     institution: "RIWI",
-    // TODO: confirmar período (año de inicio y de egreso)
+    period: "2025 — Actualidad",
   },
 ]

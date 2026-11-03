@@ -11,6 +11,6 @@ export const education: Education[] = [
     id: "riwi-desarrollo-software",
     degree: "Software Development",
     institution: "RIWI",
-    // TODO: confirmar período
+    period: "2025 — Present",
   },
 ]
