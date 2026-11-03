@@ -89,16 +89,26 @@ export type SkillGroup = {
   items: string[]
 }
 
+export type ProjectCaseStudy = {
+  problem: string
+  role: string | null
+  architecture: string | null
+  decisions: string[]
+  result: string | null
+  imageUrl: string | null
+}
+
 export type Project = {
   id: string
   name: string
   tagline: string
   description: string
-  url?: string
-  repoUrl?: string
+  demoUrl: string | null
+  repoUrl: string | null
   tags: string[]
   featured?: boolean
   todo?: string
+  case: ProjectCaseStudy
 }
 
 export type Content = {

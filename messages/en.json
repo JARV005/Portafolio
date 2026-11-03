@@ -13,7 +13,10 @@
     "sendMessage": "Send message",
     "viewProject": "View project",
     "viewProjects": "View projects",
+    "viewDemo": "View demo",
     "viewRepo": "View repository",
+    "viewCase": "View case study",
+    "backToProjects": "← Back to projects",
     "scroll": "Scroll"
   },
   "sections": {
@@ -34,6 +37,19 @@
     "prev": "Previous page",
     "next": "Next page",
     "pageOf": "Page {current} of {total}"
+  },
+  "projects": {
+    "problemLabel": "Problem",
+    "roleLabel": "My role",
+    "architectureLabel": "Architecture",
+    "stackLabel": "Stack",
+    "decisionsLabel": "Technical decisions",
+    "resultLabel": "Outcome",
+    "linksLabel": "Links",
+    "pendingImage": "Screenshot pending",
+    "pendingResult": "Outcome pending",
+    "pendingRole": "Role pending",
+    "pendingArchitecture": "Architecture pending"
   },
   "squad": {
     "team": "The outcome emerges from the whole squad, not a single person.",

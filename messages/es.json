@@ -13,7 +13,10 @@
     "sendMessage": "Enviar mensaje",
     "viewProject": "Ver proyecto",
     "viewProjects": "Ver proyectos",
+    "viewDemo": "Ver demo",
     "viewRepo": "Ver repositorio",
+    "viewCase": "Ver caso de estudio",
+    "backToProjects": "← Volver a proyectos",
     "scroll": "Scroll"
   },
   "sections": {
@@ -34,6 +37,19 @@
     "prev": "Página anterior",
     "next": "Página siguiente",
     "pageOf": "Página {current} de {total}"
+  },
+  "projects": {
+    "problemLabel": "Problema",
+    "roleLabel": "Mi rol",
+    "architectureLabel": "Arquitectura",
+    "stackLabel": "Stack",
+    "decisionsLabel": "Decisiones técnicas",
+    "resultLabel": "Resultado",
+    "linksLabel": "Enlaces",
+    "pendingImage": "Captura pendiente",
+    "pendingResult": "Resultado pendiente",
+    "pendingRole": "Rol pendiente",
+    "pendingArchitecture": "Arquitectura pendiente"
   },
   "squad": {
     "team": "El resultado emerge del equipo, no de una sola persona.",

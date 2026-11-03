@@ -542,3 +542,98 @@ button:focus-visible {
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   Projects grid — speed-lines burst + bubble on hover/focus
+------------------------------------------------------------------ */
+
+.proj-card {
+  isolation: isolate;
+}
+
+.proj-card .proj-image {
+  transition: transform 650ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.proj-card:hover .proj-image,
+.proj-card:focus-visible .proj-image {
+  transform: scale(1.06);
+}
+
+.proj-speed {
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: center;
+}
+
+.proj-card:hover .proj-speed,
+.proj-card:focus-visible .proj-speed {
+  animation: proj-speed-burst 650ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes proj-speed-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+.proj-bubble {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 320ms ease-out,
+    transform 320ms ease-out;
+}
+
+.proj-card:hover .proj-bubble,
+.proj-card:focus-visible .proj-bubble {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.proj-card:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card .proj-image,
+  .proj-card:hover .proj-image,
+  .proj-card:focus-visible .proj-image {
+    transition: none;
+    transform: none;
+  }
+  .proj-speed,
+  .proj-card:hover .proj-speed,
+  .proj-card:focus-visible .proj-speed {
+    animation: none;
+    display: none;
+  }
+  .proj-bubble {
+    transition: opacity 150ms ease-out;
+    transform: none;
+  }
+  .proj-card:hover .proj-bubble,
+  .proj-card:focus-visible .proj-bubble {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   View Transitions API — grid card ↔ case study hero
+------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 350ms;
+  }
+}
