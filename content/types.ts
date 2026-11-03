@@ -34,6 +34,25 @@ export type JourneyStage = {
   tags: string[]
 }
 
+export type LeadershipMetric = {
+  id: string
+  value: number | null
+  label: string
+  unit?: string
+}
+
+export type LeadershipNode = {
+  id: string
+  label: string
+}
+
+export type Leadership = {
+  practices: string[]
+  metrics: LeadershipMetric[]
+  nodes: LeadershipNode[]
+  quote: string | null
+}
+
 export type Experience = {
   id: string
   role: string
@@ -73,6 +92,7 @@ export type Content = {
   experience: Experience[]
   education: Education[]
   journey: JourneyStage[]
+  leadership: Leadership
   skills: SkillGroup[]
   stackHighlights: string[]
   projects: Project[]

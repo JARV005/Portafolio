@@ -3,7 +3,7 @@
     "home": "Home",
     "about": "About",
     "experience": "Experience",
-    "skills": "Squad",
+    "squad": "Squad",
     "projects": "Projects",
     "contact": "Contact"
   },
@@ -19,9 +19,17 @@
     "about": "About",
     "experience": "Experience",
     "education": "Education",
-    "skills": "Stack",
+    "squad": "Squad",
     "projects": "Projects",
     "contact": "Contact"
+  },
+  "squad": {
+    "team": "The outcome emerges from the whole squad, not a single person.",
+    "practicesHeading": "How I lead",
+    "metricsHeading": "Squad in numbers",
+    "pendingMetrics": "⚠ TODO: squad numbers (coders mentored, projects led, PRs reviewed…)",
+    "pendingQuote": "⚠ TODO: leadership one-liner",
+    "deliveryLabel": "Release"
   },
   "labels": {
     "featured": "Featured",

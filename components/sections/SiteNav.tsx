@@ -12,6 +12,7 @@ import type { Locale } from "@/i18n/routing"
 const SECTIONS = [
   { key: "about", href: "#about" },
   { key: "experience", href: "#experience" },
+  { key: "squad", href: "#squad" },
   { key: "projects", href: "#projects" },
   { key: "contact", href: "#contact" },
 ] as const

@@ -3,7 +3,7 @@
     "home": "Inicio",
     "about": "Sobre mí",
     "experience": "Trayectoria",
-    "skills": "Escuadrón",
+    "squad": "Escuadrón",
     "projects": "Proyectos",
     "contact": "Contacto"
   },
@@ -19,9 +19,17 @@
     "about": "Sobre mí",
     "experience": "Trayectoria",
     "education": "Formación",
-    "skills": "Stack",
+    "squad": "Escuadrón",
     "projects": "Proyectos",
     "contact": "Contacto"
+  },
+  "squad": {
+    "team": "El resultado emerge del equipo, no de una sola persona.",
+    "practicesHeading": "Cómo lidero",
+    "metricsHeading": "Equipo en cifras",
+    "pendingMetrics": "⚠ TODO: cifras del escuadrón (coders acompañados, proyectos liderados, PRs revisados…)",
+    "pendingQuote": "⚠ TODO: frase sobre liderazgo",
+    "deliveryLabel": "Entrega"
   },
   "labels": {
     "featured": "Destacado",

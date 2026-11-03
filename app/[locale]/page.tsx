@@ -4,9 +4,9 @@ import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
 import { Hero } from "@/components/sections/Hero"
 import { About } from "@/components/sections/About"
 import { Journey } from "@/components/sections/Journey"
+import { Squad } from "@/components/sections/Squad"
 
 const KANJI = {
-  skills: { kanji: "隊", index: "03" },
   projects: { kanji: "作", index: "04" },
   contact: { kanji: "会", index: "05" },
 } as const
@@ -37,27 +37,7 @@ export default async function LocalePage({
 
         <Journey stages={content.journey} />
 
-        {/* SKILLS */}
-        <section id="skills" className="space-y-6">
-          <SectionLabel kanji={KANJI.skills.kanji} label={t("skills")} index={KANJI.skills.index} />
-          <Reveal>
-            <p className="font-mono text-xs text-fg-dim tracking-wider mb-4">
-              {content.stackHighlights.join(" · ")}
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {content.skills.map((g, i) => (
-              <Reveal key={g.category} delay={i * 0.04}>
-                <InkPanel className="p-5 h-full">
-                  <div className="font-display font-black text-sm mb-2">{g.category}</div>
-                  <div className="font-mono text-xs text-fg-dim leading-relaxed">
-                    {g.items.join(" · ")}
-                  </div>
-                </InkPanel>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        <Squad leadership={content.leadership} />
 
         {/* PROJECTS */}
         <section id="projects" className="space-y-6">
