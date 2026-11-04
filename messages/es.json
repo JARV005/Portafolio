@@ -46,7 +46,8 @@
     "material": "Ver material",
     "prev": "Página anterior",
     "next": "Página siguiente",
-    "pageOf": "Página {current} de {total}"
+    "pageOf": "Página {current} de {total}",
+    "dragHint": "Arrastra la esquina o usa las flechas"
   },
   "projects": {
     "problemLabel": "Problema",

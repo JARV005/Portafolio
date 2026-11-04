@@ -12,7 +12,7 @@ export const journey: JourneyStage[] = [
   },
   {
     id: "riwi-track",
-    period: "2025 — Actualidad",
+    period: "2025 — 2026",
     title: "Desarrollo de Software · RIWI",
     summary:
       "Formación intensiva en desarrollo de software: fundamentos, patrones y buenas prácticas sobre el ecosistema .NET.",
@@ -36,19 +36,8 @@ export const journey: JourneyStage[] = [
     tags: ["ASP.NET Core", "Docker", "RabbitMQ", "CI/CD", "DDD", "Clean Architecture", "Mentoría"],
   },
   {
-    id: "riwi-trainer",
-    // TODO: período en que empezaste a dictar tracks
-    period: null,
-    title: "Formador de tracks técnicos · RIWI",
-    summary:
-      "Diseño y dicto tracks técnicos para coders en formación como parte de mi rol en RIWI.",
-    highlights: [],
-    tags: [],
-  },
-  {
     id: "nemora",
-    // TODO: fecha de arranque de Nemora
-    period: null,
+    period: "2026",
     title: "Fundador · Nemora",
     summary:
       "SaaS propio de análisis documental y cumplimiento con IA sobre Azure.",

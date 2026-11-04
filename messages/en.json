@@ -46,7 +46,8 @@
     "material": "View material",
     "prev": "Previous page",
     "next": "Next page",
-    "pageOf": "Page {current} of {total}"
+    "pageOf": "Page {current} of {total}",
+    "dragHint": "Drag the corner or use the arrows"
   },
   "projects": {
     "problemLabel": "Problem",

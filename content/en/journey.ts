@@ -12,7 +12,7 @@ export const journey: JourneyStage[] = [
   },
   {
     id: "riwi-track",
-    period: "2025 — Present",
+    period: "2025 — 2026",
     title: "Software Development · RIWI",
     summary:
       "Intensive software development bootcamp focused on the .NET ecosystem, patterns and best practices.",
@@ -36,19 +36,8 @@ export const journey: JourneyStage[] = [
     tags: ["ASP.NET Core", "Docker", "RabbitMQ", "CI/CD", "DDD", "Clean Architecture", "Mentoring"],
   },
   {
-    id: "riwi-trainer",
-    // TODO: start period for the trainer role
-    period: null,
-    title: "Technical Track Instructor · RIWI",
-    summary:
-      "I design and deliver technical tracks for trainee coders as part of my role at RIWI.",
-    highlights: [],
-    tags: [],
-  },
-  {
     id: "nemora",
-    // TODO: Nemora start date
-    period: null,
+    period: "2026",
     title: "Founder · Nemora",
     summary:
       "Self-owned SaaS for document analysis and compliance with AI on Azure.",

@@ -24,6 +24,17 @@
 - Enlace destacado en el Grimorio (encabezado o contraportada), y como enlace social en hero, contacto y footer con icono simple de YouTube.
 - Incluido en `sameAs` del JSON-LD Person.
 
+### Grimorio — libro abierto real
+- **Decisión técnica**: libro renderizado con `page-flip` (StPageFlip), importado dinámicamente (`dynamic({ ssr: false })`) y montado solo cuando la sección está a <20% del viewport. ~27 KB gzip fuera del bundle inicial.
+- **No secuestra el scroll**: nada de pin o scroll horizontal. El libro se abre solo una vez al entrar al viewport y las páginas se pasan con drag de esquina, clic en la mitad, botones o teclado (←/→/Home/End).
+- **Composición**: shell exterior con tapa dura (cuero oscuro + cantos ámbar), lomo redondeado, bloque de hojas apiladas a los lados cuyo grosor cambia con el avance. Perspectiva leve (`rotateX(2deg)`).
+- **Páginas**: papel #F4EFE6 con grano SVG inline, encabezado corrido "The Dev Grimoire" y número de página en cada esquina inferior. Texto en tinta #111014.
+- **Secuencia**: portada → inner front → intro + índice → 11 tracks × 2 páginas (izq: título + kanji + qué aprenden; der: enfoque + runas + material) → closing + YouTube → inner back → contraportada.
+- **Runas**: las tecnologías del track se dibujan con `stroke-dasharray` en trazo escalonado al abrirse la página.
+- **Móvil (<768px)**: `usePortrait: true` → 1 página a la vez con swipe nativo, mismo paso realista. Shell reducido sin perspectiva.
+- **Reduced motion**: no se inicializa page-flip. Se muestra una sola página con cross-fade al cambiar. Las runas aparecen rellenas sin animación.
+- **Accesibilidad**: cada página es DOM real (page-flip carga HTML con `loadFromHTML`), `role="region"` con `aria-roledescription="book"`, `aria-live` en el indicador "Página X de Y", teclado completo. El índice en la segunda hoja permite saltar a cualquier track.
+
 ## Concepto creativo: "Entrenar · Liderar · Enseñar"
 Narrativa shōnen: el progreso viene del entrenamiento, el equipo multiplica la fuerza y quien enseña hace crecer a otros. Inspirado en Dragon Ball y Black Clover, pero el homenaje es por MECÁNICAS y lenguaje visual, nunca por contenido de las series.
 
