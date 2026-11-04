@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Rocket } from "lucide-react"
 import dynamic from "next/dynamic"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
 import { Counter } from "@/components/ui/Counter"
@@ -199,20 +198,38 @@ export function Squad({ leadership }: SquadProps) {
               />
             )}
 
-            {/* Release icon */}
+            {/* Impact seal — lo que la energía del equipo produce */}
             <div
               ref={releaseRef}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 pointer-events-none"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               style={{ opacity: reduced ? 1 : 0 }}
             >
-              <Rocket
-                aria-hidden
-                className="w-8 h-8 md:w-10 md:h-10 text-bg"
-                strokeWidth={2.4}
-              />
-              <span className="font-mono text-[0.6rem] uppercase tracking-widest text-bg">
-                {tSquad("deliveryLabel")}
-              </span>
+              <div
+                className="relative px-5 py-4 rounded-[var(--radius-ink)] border-2 bg-bg text-fg"
+                style={{
+                  borderColor: "var(--ki)",
+                  boxShadow:
+                    "0 0 32px color-mix(in oklab, var(--ki) 45%, transparent)",
+                }}
+              >
+                <div className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-ki mb-2 text-center">
+                  {tSquad("impactLabel")}
+                </div>
+                <div className="flex items-start gap-4 md:gap-6 justify-center">
+                  {leadership.metrics
+                    .filter((m) => m.value !== null)
+                    .map((m) => (
+                      <div key={m.id} className="text-center min-w-[72px]">
+                        <div className="font-display font-black text-2xl md:text-3xl text-ki tabular-nums leading-none">
+                          +{m.value}
+                        </div>
+                        <div className="mt-1 font-mono text-[0.55rem] uppercase tracking-widest text-fg-dim">
+                          {m.label}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
