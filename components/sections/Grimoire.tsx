@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import type { KeyboardEvent } from "react"
 import { useTranslations } from "next-intl"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import {
   Binary,
   ChevronLeft,
@@ -17,6 +19,7 @@ import {
   Server,
   Terminal,
   Workflow,
+  Youtube,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Reveal, SectionLabel } from "@/components/motion"
@@ -26,6 +29,9 @@ import type { Grimoire as GrimoireData, GrimoirePage } from "@/content/types"
 type GrimoireProps = { data: GrimoireData }
 
 const TECH_ICON: Record<string, LucideIcon> = {
+  "C#": Code2,
+  ".NET": Server,
+  "EF Core": Database,
   JavaScript: Code2,
   "Node.js": Server,
   Express: Server,
@@ -52,183 +58,255 @@ const TECH_ICON: Record<string, LucideIcon> = {
   "CI/CD": GitBranch,
 }
 
-const TURN_MS = 800
-
 export function Grimoire({ data }: GrimoireProps) {
   const t = useTranslations("sections")
   const tG = useTranslations("grimoire")
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [current, setCurrent] = useState(0)
-  const [turningFrom, setTurningFrom] = useState<number | null>(null)
-  const [opened, setOpened] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const [index, setIndex] = useState(-1)
+  const [coverClosed, setCoverClosed] = useState(true)
   const reduced = useReducedMotion()
   const total = data.pages.length
+  // Fases: portada (-1), pages[0..total-1], contraportada (total), cerrado (total+1)
+  const segments = total + 3
 
   useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
     if (reduced) {
-      setOpened(true)
+      setIndex(0)
+      setCoverClosed(false)
       return
     }
-    const io = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0]
-        if (entry?.isIntersecting) {
-          setOpened(true)
-          io.disconnect()
-        }
-      },
-      { threshold: 0.25 },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [reduced])
+    const container = containerRef.current
+    if (!container) return
 
-  function goTo(next: number) {
-    if (next === current || next < 0 || next >= total) return
-    if (!reduced) {
-      setTurningFrom(current)
-      window.setTimeout(() => setTurningFrom(null), TURN_MS)
+    gsap.registerPlugin(ScrollTrigger)
+    const st = ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.3,
+      onUpdate: (self) => {
+        const p = self.progress
+        const raw = p * segments
+        const idx = Math.min(total, Math.max(-1, Math.floor(raw) - 1))
+        setIndex(idx)
+        setCoverClosed(p < 0.08 || p > 0.94)
+      },
+    })
+
+    return () => st.kill()
+  }, [reduced, segments, total])
+
+  function goTo(nextIndex: number) {
+    const clamped = Math.min(total, Math.max(-1, nextIndex))
+    if (reduced) {
+      setIndex(clamped)
+      return
     }
-    setCurrent(next)
+    const container = containerRef.current
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const scrollY = window.scrollY
+    const containerTop = rect.top + scrollY
+    const containerHeight = container.offsetHeight
+    const viewport = window.innerHeight
+    const scrollable = containerHeight - viewport
+    // Progress deseado para que la pagina elegida sea active
+    const targetProgress = (clamped + 1.5) / segments
+    const targetY = containerTop + targetProgress * scrollable
+    window.scrollTo({ top: targetY, behavior: "smooth" })
   }
 
   function onKey(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === "ArrowRight") {
       e.preventDefault()
-      goTo(current + 1)
+      goTo(index + 1)
     } else if (e.key === "ArrowLeft") {
       e.preventDefault()
-      goTo(current - 1)
+      goTo(index - 1)
     } else if (e.key === "Home") {
       e.preventDefault()
-      goTo(0)
+      goTo(-1)
     } else if (e.key === "End") {
       e.preventDefault()
-      goTo(total - 1)
+      goTo(total)
     }
   }
 
+  const headerLink = (
+    <a
+      href={data.channelUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 font-mono text-xs text-fg-dim hover:text-ki transition-colors"
+    >
+      <Youtube className="w-4 h-4 text-ki" aria-hidden />
+      Ver {data.channelName} en YouTube
+      <span aria-hidden>↗</span>
+    </a>
+  )
+
   return (
-    <section id="grimoire" ref={sectionRef} className="space-y-10">
+    <section id="grimoire" className="space-y-10">
       <SectionLabel kanji="書" label={t("grimoire")} index="04" />
 
       <Reveal>
-        {data.intro ? (
-          <p className="text-fg-dim max-w-2xl mx-auto text-center leading-relaxed">
-            {data.intro}
-          </p>
-        ) : (
-          <p className="font-mono text-xs text-ki/80 text-center">
-            {tG("pendingIntro")}
-          </p>
-        )}
+        <div className="flex flex-col items-center gap-3 text-center">
+          {data.intro ? (
+            <p className="text-fg-dim max-w-2xl leading-relaxed">
+              {data.intro}
+            </p>
+          ) : (
+            <p className="font-mono text-xs text-ki/80">
+              {tG("pendingIntro")}
+            </p>
+          )}
+          {headerLink}
+        </div>
       </Reveal>
 
-      <div
-        role="region"
-        aria-roledescription="carousel"
+      {/* Mobile: scroll-snap con portada, páginas y contraportada */}
+      <ol
+        className="grimoire-cards flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 -mx-6 px-6 md:hidden"
         aria-label={t("grimoire")}
-        tabIndex={0}
-        onKeyDown={onKey}
-        className="grimoire-stage focus-visible:outline-none"
       >
-        {/* Mobile: scroll-snap carousel */}
-        <ol className="grimoire-cards flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 -mx-6 px-6 md:hidden">
-          {data.pages.map((page, i) => (
-            <li
-              key={page.id}
-              className="snap-center shrink-0 w-[82%] sm:w-[55%]"
-              aria-roledescription="slide"
-              aria-label={`${page.title} — ${i + 1} / ${total}`}
-            >
-              <PageContent page={page} active animate={!reduced} tG={tG} />
-            </li>
-          ))}
-        </ol>
-
-        {/* Desktop: libro 3D */}
-        <div className="hidden md:block">
-          <div
-            className="book"
-            data-opened={opened || reduced ? "true" : "false"}
-            data-reduced={reduced ? "true" : "false"}
+        <li
+          className="snap-center shrink-0 w-[82%] sm:w-[55%]"
+          aria-roledescription="slide"
+          aria-label="Portada"
+        >
+          <CoverCard channelUrl={data.channelUrl} channelName={data.channelName} variant="front" />
+        </li>
+        {data.pages.map((page, i) => (
+          <li
+            key={page.id}
+            className="snap-center shrink-0 w-[82%] sm:w-[55%]"
+            aria-roledescription="slide"
+            aria-label={`${page.title} — ${i + 1} / ${total}`}
           >
-            <div className="book-spine" aria-hidden />
+            <PageContent page={page} active animate={!reduced} tG={tG} />
+          </li>
+        ))}
+        <li
+          className="snap-center shrink-0 w-[82%] sm:w-[55%]"
+          aria-roledescription="slide"
+          aria-label="Contraportada"
+        >
+          <CoverCard channelUrl={data.channelUrl} channelName={data.channelName} variant="back" />
+        </li>
+      </ol>
 
-            <div className="book-cover" aria-hidden>
-              <GrimoireSeal />
-            </div>
+      {/* Desktop: libro 3D con pin + scrub */}
+      <div ref={containerRef} className="hidden md:block relative" style={{ height: reduced ? "auto" : `${segments * 45}vh` }}>
+        <div
+          ref={stageRef}
+          className={reduced ? "" : "sticky top-0 h-screen flex items-center justify-center"}
+        >
+          <div className="w-full flex flex-col items-center gap-6">
+            <div
+              role="region"
+              aria-roledescription="carousel"
+              aria-label={t("grimoire")}
+              tabIndex={0}
+              onKeyDown={onKey}
+              className="grimoire-stage focus-visible:outline-none"
+            >
+              <div
+                className="book"
+                data-cover-closed={coverClosed ? "true" : "false"}
+                data-reduced={reduced ? "true" : "false"}
+              >
+                <div className="book-spine" aria-hidden />
+                <div className="book-closed-backdrop" aria-hidden />
 
-            <ol className="book-pages">
-              {data.pages.map((page, i) => {
-                const state =
-                  i === turningFrom
-                    ? "turning-away"
-                    : i < current
-                      ? "turned"
-                      : i === current
-                        ? "active"
-                        : "upcoming"
-                return (
+                <div className="book-cover" aria-hidden>
+                  <GrimoireSeal />
+                </div>
+
+                <ol className="book-pages">
+                  {data.pages.map((page, i) => {
+                    const state =
+                      i < index
+                        ? "turned"
+                        : i === index
+                          ? "active"
+                          : "upcoming"
+                    return (
+                      <li
+                        key={page.id}
+                        className="book-page"
+                        data-state={state}
+                        aria-roledescription="slide"
+                        aria-label={`${page.title} — ${i + 1} / ${total}`}
+                        aria-current={i === index ? "page" : undefined}
+                        aria-hidden={i !== index}
+                        style={{
+                          zIndex:
+                            state === "active"
+                              ? 20
+                              : state === "turned"
+                                ? 5 + i
+                                : total - i,
+                        }}
+                      >
+                        <PageContent
+                          page={page}
+                          active={i === index}
+                          animate={!reduced}
+                          tG={tG}
+                        />
+                      </li>
+                    )
+                  })}
+                  {/* Contraportada */}
                   <li
-                    key={page.id}
-                    className="book-page"
-                    data-state={state}
-                    aria-roledescription="slide"
-                    aria-label={`${page.title} — ${i + 1} / ${total}`}
-                    aria-current={i === current ? "page" : undefined}
-                    aria-hidden={i !== current}
-                    style={{
-                      zIndex:
-                        state === "turning-away"
-                          ? 30
-                          : state === "active"
-                            ? 20
-                            : state === "turned"
-                              ? 5 + i
-                              : total - i,
-                    }}
+                    className="book-page book-back-cover-page"
+                    data-state={index >= total ? "active" : "upcoming"}
+                    aria-label="Contraportada"
+                    aria-hidden={index < total}
+                    style={{ zIndex: index >= total ? 20 : 1 }}
                   >
-                    <PageContent
-                      page={page}
-                      active={i === current}
-                      animate={!reduced}
-                      tG={tG}
+                    <BackCoverContent
+                      channelUrl={data.channelUrl}
+                      channelName={data.channelName}
                     />
                   </li>
-                )
-              })}
-            </ol>
-          </div>
+                </ol>
+              </div>
+            </div>
 
-          <div className="flex items-center justify-center gap-6 mt-6 font-mono text-sm">
-            <button
-              type="button"
-              onClick={() => goTo(current - 1)}
-              disabled={current === 0}
-              aria-label={tG("prev")}
-              className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" aria-hidden />
-            </button>
-            <span
-              aria-live="polite"
-              aria-atomic="true"
-              className="tabular-nums text-fg-dim"
-            >
-              {tG("pageOf", { current: current + 1, total })}
-            </span>
-            <button
-              type="button"
-              onClick={() => goTo(current + 1)}
-              disabled={current === total - 1}
-              aria-label={tG("next")}
-              className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" aria-hidden />
-            </button>
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-6 font-mono text-sm">
+              <button
+                type="button"
+                onClick={() => goTo(index - 1)}
+                disabled={index <= -1}
+                aria-label={tG("prev")}
+                className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" aria-hidden />
+              </button>
+              <span
+                aria-live="polite"
+                aria-atomic="true"
+                className="tabular-nums text-fg-dim"
+              >
+                {index < 0
+                  ? "—"
+                  : index >= total
+                    ? `${total} / ${total}`
+                    : tG("pageOf", { current: index + 1, total })}
+              </span>
+              <button
+                type="button"
+                onClick={() => goTo(index + 1)}
+                disabled={index >= total}
+                aria-label={tG("next")}
+                className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" aria-hidden />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -247,7 +325,6 @@ function PageContent({
   animate: boolean
   tG: ReturnType<typeof useTranslations>
 }) {
-  // Remount icons when the page becomes active so the stroke animation replays
   const iconsKey = active ? `${page.id}:on` : `${page.id}:off`
   return (
     <article className="grimoire-card relative h-full p-6 md:p-8 overflow-hidden">
@@ -258,21 +335,18 @@ function PageContent({
             {page.title}
           </h3>
         </header>
-
         <div>
           <div className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim mb-1">
             {tG("learnLabel")}
           </div>
           <p className="text-sm text-fg-dim leading-relaxed">{page.learn}</p>
         </div>
-
         <div>
           <div className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim mb-1">
             {tG("approachLabel")}
           </div>
           <p className="text-sm text-fg-dim leading-relaxed">{page.approach}</p>
         </div>
-
         <div
           key={iconsKey}
           className={`${animate && active ? "track-icons" : ""} flex flex-wrap gap-x-4 gap-y-2 pt-2`}
@@ -297,7 +371,6 @@ function PageContent({
             )
           })}
         </div>
-
         <div className="mt-auto pt-4">
           {page.materialUrl ? (
             <a
@@ -314,6 +387,73 @@ function PageContent({
             </p>
           )}
         </div>
+      </div>
+    </article>
+  )
+}
+
+function CoverCard({
+  channelUrl,
+  channelName,
+  variant,
+}: {
+  channelUrl: string
+  channelName: string
+  variant: "front" | "back"
+}) {
+  return (
+    <article className="grimoire-cover-card relative h-full min-h-[360px] p-6 flex flex-col items-center justify-center text-center gap-4">
+      {variant === "front" ? (
+        <>
+          <GrimoireSeal />
+          <div className="font-display font-black text-xl uppercase tracking-widest text-ki">
+            Grimorio
+          </div>
+        </>
+      ) : (
+        <>
+          <GrimoireSealBack />
+          <a
+            href={channelUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-mono text-xs text-fg hover:text-ki transition-colors underline underline-offset-4"
+          >
+            <Youtube className="w-4 h-4 text-ki" aria-hidden />
+            {channelName}
+          </a>
+        </>
+      )}
+    </article>
+  )
+}
+
+function BackCoverContent({
+  channelUrl,
+  channelName,
+}: {
+  channelUrl: string
+  channelName: string
+}) {
+  return (
+    <article className="relative h-full p-6 md:p-8 flex flex-col items-center justify-center gap-5 text-center overflow-hidden">
+      <span aria-hidden className="absolute inset-0 halftone opacity-20 text-ki" />
+      <GrimoireSealBack />
+      <div className="relative">
+        <div className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim mb-2">
+          終
+        </div>
+        <a
+          href={channelUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-ink)] border-2 font-mono text-sm text-fg hover:border-ki hover:text-ki transition-colors"
+          style={{ borderColor: "var(--stroke)" }}
+        >
+          <Youtube className="w-4 h-4 text-ki" aria-hidden />
+          {channelName}
+          <span aria-hidden>↗</span>
+        </a>
       </div>
     </article>
   )
@@ -341,64 +481,44 @@ function GrimoireSeal() {
           <stop offset="100%" stopColor="var(--ki)" stopOpacity="0.35" />
         </linearGradient>
       </defs>
-      <circle
-        cx="60"
-        cy="60"
-        r="50"
-        fill="none"
-        stroke="var(--ki)"
-        strokeWidth="0.6"
-        opacity="0.9"
-      />
-      <circle
-        cx="60"
-        cy="60"
-        r="34"
-        fill="none"
-        stroke="var(--ki)"
-        strokeWidth="0.4"
-        opacity="0.55"
-      />
-      <circle
-        cx="60"
-        cy="60"
-        r="18"
-        fill="none"
-        stroke="var(--ki)"
-        strokeWidth="0.5"
-      />
+      <circle cx="60" cy="60" r="50" fill="none" stroke="var(--ki)" strokeWidth="0.6" opacity="0.9" />
+      <circle cx="60" cy="60" r="34" fill="none" stroke="var(--ki)" strokeWidth="0.4" opacity="0.55" />
+      <circle cx="60" cy="60" r="18" fill="none" stroke="var(--ki)" strokeWidth="0.5" />
       {rays.map((r, i) => (
-        <line
-          key={i}
-          x1={r.x1}
-          y1={r.y1}
-          x2={r.x2}
-          y2={r.y2}
-          stroke="var(--ki)"
-          strokeWidth="0.6"
-          opacity="0.75"
-        />
+        <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="var(--ki)" strokeWidth="0.6" opacity="0.75" />
       ))}
-      <polygon
-        points="60,45 66,60 60,56 54,60"
-        fill="url(#grimoire-seal)"
-      />
-      <polygon
-        points="60,75 54,60 60,64 66,60"
-        fill="url(#grimoire-seal)"
-        opacity="0.55"
-      />
+      <polygon points="60,45 66,60 60,56 54,60" fill="url(#grimoire-seal)" />
+      <polygon points="60,75 54,60 60,64 66,60" fill="url(#grimoire-seal)" opacity="0.55" />
+      <text x="60" y="104" textAnchor="middle" fontSize="4.5" letterSpacing="3" fill="var(--ki)" opacity="0.7" style={{ fontFamily: "var(--font-mono)" }}>GRIMORIO</text>
+    </svg>
+  )
+}
+
+function GrimoireSealBack() {
+  return (
+    <svg viewBox="0 0 120 120" aria-hidden className="w-28 h-28 md:w-32 md:h-32">
+      <circle cx="60" cy="60" r="48" fill="none" stroke="var(--ki)" strokeWidth="0.5" opacity="0.6" />
+      {Array.from({ length: 12 }).map((_, i) => {
+        const a = (i / 12) * Math.PI * 2
+        const x1 = 60 + Math.cos(a) * 20
+        const y1 = 60 + Math.sin(a) * 20
+        const x2 = 60 + Math.cos(a) * 44
+        const y2 = 60 + Math.sin(a) * 44
+        return (
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ki)" strokeWidth="0.4" opacity="0.5" />
+        )
+      })}
       <text
         x="60"
-        y="104"
+        y="68"
         textAnchor="middle"
-        fontSize="4.5"
-        letterSpacing="3"
+        fontSize="22"
         fill="var(--ki)"
-        opacity="0.7"
-        style={{ fontFamily: "var(--font-mono)" }}
+        opacity="0.9"
+        lang="ja"
+        style={{ fontFamily: "var(--font-kanji)" }}
       >
-        GRIMORIO
+        終
       </text>
     </svg>
   )

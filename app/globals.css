@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A%E5%99%A8&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A%E5%99%A8%E6%96%87%E5%A1%94%E5%AE%88%E9%A7%90%E8%94%B5%E7%B5%82&display=swap");
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
@@ -397,14 +397,14 @@ select:focus-visible {
   border-radius: 2px;
 }
 
-/* Desktop book */
+/* Desktop book — portada + páginas + contraportada con scrub */
 .book {
   position: relative;
   width: 100%;
   max-width: 720px;
+  height: 480px;
   margin: 0 auto;
-  min-height: 460px;
-  perspective: 1800px;
+  perspective: 2000px;
   transform-style: preserve-3d;
 }
 
@@ -423,8 +423,55 @@ select:focus-visible {
   );
   opacity: 0.5;
   transform: translateX(-50%);
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
+}
+
+/* Cantos ámbar del lado derecho */
+.book::after {
+  content: "";
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  right: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--ki) 20%,
+    var(--ki) 80%,
+    transparent
+  );
+  opacity: 0.45;
+  border-radius: 0 2px 2px 0;
+  pointer-events: none;
+  z-index: 30;
+}
+
+/* Backdrop que simula la mitad derecha del libro cerrado */
+.book-closed-backdrop {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background:
+    linear-gradient(
+      -135deg,
+      var(--bg) 0%,
+      color-mix(in oklab, var(--surface) 70%, var(--bg)) 100%
+    );
+  border: 2px solid var(--stroke);
+  border-left: none;
+  border-radius: 0 var(--radius-ink) var(--radius-ink) 0;
+  z-index: 24;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+  pointer-events: none;
+}
+
+.book[data-cover-closed="true"] .book-closed-backdrop {
+  opacity: 1;
 }
 
 .book-cover {
@@ -447,9 +494,9 @@ select:focus-visible {
   justify-content: center;
   transform-origin: right center;
   transform: rotateY(0deg);
-  transition: transform 1100ms cubic-bezier(0.68, 0, 0.32, 1);
+  transition: transform 1000ms cubic-bezier(0.68, 0, 0.32, 1);
   backface-visibility: hidden;
-  z-index: 25;
+  z-index: 26;
   box-shadow:
     6px 0 24px rgba(0, 0, 0, 0.35),
     inset 0 0 0 1px color-mix(in oklab, var(--ki) 15%, transparent);
@@ -461,40 +508,21 @@ select:focus-visible {
     inset 0 0 0 1px color-mix(in oklab, var(--ki) 20%, transparent);
 }
 
-.book[data-opened="true"] .book-cover {
+.book[data-cover-closed="false"] .book-cover {
   transform: rotateY(-170deg);
 }
 
 .book[data-reduced="true"] .book-cover {
   transition: none;
-}
-
-/* Right edge "cantos" */
-.book::after {
-  content: "";
-  position: absolute;
-  top: 2%;
-  bottom: 2%;
-  right: 0;
-  width: 4px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--ki) 20%,
-    var(--ki) 80%,
-    transparent
-  );
-  opacity: 0.45;
-  border-radius: 0 2px 2px 0;
-  pointer-events: none;
+  transform: rotateY(-170deg);
 }
 
 .book-pages {
-  position: relative;
-  margin-left: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 50%;
   height: 100%;
-  min-height: inherit;
   transform-style: preserve-3d;
 }
 
@@ -515,13 +543,18 @@ select:focus-visible {
   transform: rotateY(-180deg);
 }
 
-.book-page[data-state="turning-away"] {
-  transform: rotateY(-180deg);
-}
-
 .book-page[data-state="active"],
 .book-page[data-state="upcoming"] {
   transform: rotateY(0deg);
+}
+
+.book-back-cover-page {
+  background:
+    linear-gradient(
+      -45deg,
+      color-mix(in oklab, var(--surface) 60%, var(--bg)) 0%,
+      var(--surface) 100%
+    );
 }
 
 .book[data-reduced="true"] .book-page {
@@ -529,9 +562,34 @@ select:focus-visible {
 }
 
 .book[data-reduced="true"] .book-page[data-state="turned"],
-.book[data-reduced="true"] .book-page[data-state="turning-away"],
 .book[data-reduced="true"] .book-page[data-state="upcoming"] {
   visibility: hidden;
+}
+
+/* Mobile cover cards (primera y última del carrusel) */
+.grimoire-cover-card {
+  background:
+    linear-gradient(
+      135deg,
+      var(--bg) 0%,
+      color-mix(in oklab, var(--surface) 70%, var(--bg)) 100%
+    );
+  border: 2px solid var(--stroke);
+  border-radius: var(--radius-ink);
+}
+
+.grimoire-cover-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--ki) 20%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 6px 6px;
+  opacity: 0.25;
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 /* Icon stroke draw animation */
@@ -635,6 +693,74 @@ select:focus-visible {
 .proj-card:focus-visible {
   outline: 2px solid var(--ki);
   outline-offset: 4px;
+}
+
+/* Vignette sutil para la viñeta con captura (sin usar acentos externos) */
+.proj-image-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 48%,
+    color-mix(in oklab, var(--bg) 70%, transparent) 100%
+  );
+}
+
+.proj-image-mask::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--fg) 25%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  mask-image: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    black 95%
+  );
+}
+
+[data-theme="dark"] .proj-image-mask::after {
+  mix-blend-mode: screen;
+  opacity: 0.2;
+}
+
+/* Diagrama en las viñetas sin captura: trazo de tinta que se dibuja al hover */
+.proj-card .proj-diagram rect,
+.proj-card .proj-diagram line {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0ms;
+}
+
+.proj-card:hover .proj-diagram rect,
+.proj-card:focus-visible .proj-diagram rect,
+.proj-card:hover .proj-diagram line,
+.proj-card:focus-visible .proj-diagram line {
+  animation: proj-diagram-draw 700ms ease-out forwards;
+}
+
+@keyframes proj-diagram-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card .proj-diagram rect,
+  .proj-card .proj-diagram line {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

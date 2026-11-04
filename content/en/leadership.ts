@@ -9,9 +9,9 @@ export const leadership: Leadership = {
     "Solution architecture and documentation.",
   ],
   metrics: [
-    { id: "coders", value: null, label: "Coders mentored" },
-    { id: "projects", value: null, label: "Projects led" },
-    { id: "prs", value: null, label: "PRs reviewed" },
+    { id: "coders", value: 200, label: "Coders trained", unit: "+" },
+    { id: "employed", value: 50, label: "Coders who landed a job", unit: "+" },
+    { id: "projects", value: 15, label: "Projects led", unit: "+" },
   ],
   nodes: [
     { id: "backend", label: "Backend" },

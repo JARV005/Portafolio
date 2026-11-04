@@ -2,21 +2,21 @@ import type { Profile } from "../types"
 
 export const profile: Profile = {
   name: "Johan Rivera",
-  headline: "Backend Developer · Team Leader at RIWI",
+  headline: "Backend Developer · C#/.NET · Node.js · Azure",
   // TODO: one-liner about "Train · Lead · Teach" (Johan to write)
   trinity: null,
   summary: [
-    "Team Leader and .NET Backend Developer with experience designing microservice-based architectures, leading training squads and standardizing development processes.",
-    "I design and deliver technical tracks as part of my role at RIWI. Founder of Nemora, a SaaS for document analysis and compliance with AI on Azure.",
-    "Hands-on with Docker, CI/CD and Azure, focused on continuous software improvement.",
+    ".NET Backend Developer with experience in microservices, messaging with RabbitMQ and Docker/Azure deployment.",
+    "Founder of Nemora, a SaaS for document analysis and compliance with AI on Azure.",
+    "I work with technical teams: code reviews, standards, QA/DevOps and mentoring coders.",
   ],
   pillars: {
     build:
       ".NET backend with microservices, ASP.NET Core, messaging with RabbitMQ and Docker/Azure deployment.",
     lead:
-      "Team Lead of RIWI's training squad: I standardize processes, run code reviews and define the team's quality bar.",
+      "I work with teams: I standardize processes, run code reviews and define the team's quality bar.",
     teach:
-      "I design and deliver technical tracks for trainee coders as part of my role at RIWI.",
+      "I design and deliver technical tracks for trainee coders. Channel: The Dev Grimoire.",
   },
   photoUrl: "/johan-rivera.jpg",
   location: "Medellín, Colombia",

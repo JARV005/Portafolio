@@ -19,4 +19,10 @@ export const contact: ContactLink[] = [
     href: "https://www.linkedin.com/in/jarv005",
     display: "linkedin.com/in/jarv005",
   },
+  {
+    kind: "youtube",
+    label: "YouTube",
+    href: "https://www.youtube.com/@TheDevGrimoire",
+    display: "youtube.com/@TheDevGrimoire",
+  },
 ]

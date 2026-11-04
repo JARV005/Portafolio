@@ -8,11 +8,10 @@ export const leadership: Leadership = {
     "Mentoría 1:1 y acompañamiento técnico.",
     "Arquitectura de las soluciones y documentación.",
   ],
-  // Dejar value en null oculta la cifra. Johan completa cuando tenga números defendibles.
   metrics: [
-    { id: "coders", value: null, label: "Coders acompañados" },
-    { id: "projects", value: null, label: "Proyectos liderados" },
-    { id: "prs", value: null, label: "PRs revisados" },
+    { id: "coders", value: 200, label: "Coders entrenados", unit: "+" },
+    { id: "employed", value: 50, label: "Coders que ya consiguieron empleo", unit: "+" },
+    { id: "projects", value: 15, label: "Proyectos liderados", unit: "+" },
   ],
   nodes: [
     { id: "backend", label: "Backend" },

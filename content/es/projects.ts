@@ -3,6 +3,7 @@ import type { Project } from "../types"
 export const projects: Project[] = [
   {
     id: "nemora",
+    kanji: "文",
     name: "Nemora",
     tagline: "SaaS de análisis documental y cumplimiento con IA (proyecto propio)",
     description:
@@ -39,6 +40,7 @@ export const projects: Project[] = [
   },
   {
     id: "cstation",
+    kanji: "塔",
     name: "CStation",
     tagline: "Developer Platform · ecosistema .NET",
     description:
@@ -64,13 +66,14 @@ export const projects: Project[] = [
   },
   {
     id: "sentinel",
+    kanji: "守",
     name: "Sentinel",
     tagline: "Enterprise Security Platform",
     description:
       "Plataforma de seguridad con arquitectura de microservicios en ASP.NET Core. Análisis SAST/DAST, autenticación JWT, comunicación entre servicios y pipelines CI/CD.",
     tags: ["ASP.NET Core", "Docker", "JWT", "RabbitMQ", "CI/CD"],
     demoUrl: null,
-    repoUrl: null,
+    repoUrl: "https://github.com/RiwiLaziness",
     case: {
       problem:
         "Centralizar análisis de seguridad SAST/DAST y autenticación entre microservicios.",
@@ -83,11 +86,12 @@ export const projects: Project[] = [
         "Pipeline CI/CD con Docker.",
       ],
       result: null,
-      imageUrl: null,
+      imageUrl: "/projects/sentinel.jpg",
     },
   },
   {
     id: "autospace",
+    kanji: "駐",
     name: "AutoSpace",
     tagline: "Parking Management System",
     description:
@@ -112,6 +116,7 @@ export const projects: Project[] = [
   },
   {
     id: "celenemanager",
+    kanji: "蔵",
     name: "CeleneManager",
     tagline: "Database Instance Management",
     description:

@@ -9,9 +9,10 @@ type CounterProps = {
   value: number
   label: string
   unit?: string
+  prefix?: string
 }
 
-export function Counter({ value, label, unit }: CounterProps) {
+export function Counter({ value, label, unit, prefix }: CounterProps) {
   const [display, setDisplay] = useState(0)
   const reduced = useReducedMotion()
   const { ref, inView } = useInViewport<HTMLDivElement>({ threshold: 0.3 })
@@ -37,14 +38,22 @@ export function Counter({ value, label, unit }: CounterProps) {
     return () => cancelAnimationFrame(raf)
   }, [inView, value, reduced])
 
+  const done = display >= value
+  // When unit is "+" we use it as a prefix that appears once the counter is done.
+  const showPlusPrefix = (unit === "+" || prefix === "+") && done
+  const trailingUnit = unit && unit !== "+" ? unit : undefined
+  const explicitPrefix = prefix && prefix !== "+" ? prefix : undefined
+
   return (
     <InkPanel className="p-5">
-      <div ref={ref} className="flex items-baseline gap-2">
+      <div ref={ref} className="flex items-baseline gap-1">
         <span className="font-display font-black text-3xl md:text-4xl text-ki tabular-nums">
+          {explicitPrefix}
+          {showPlusPrefix ? "+" : null}
           {display.toLocaleString()}
         </span>
-        {unit && (
-          <span className="font-mono text-xs text-fg-dim">{unit}</span>
+        {trailingUnit && (
+          <span className="font-mono text-xs text-fg-dim">{trailingUnit}</span>
         )}
       </div>
       <p className="mt-2 font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim">

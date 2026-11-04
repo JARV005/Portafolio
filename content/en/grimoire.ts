@@ -3,7 +3,19 @@ import type { Grimoire } from "../types"
 export const grimoire: Grimoire = {
   // TODO: teaching one-liner (first person)
   intro: null,
+  channelUrl: "https://www.youtube.com/@TheDevGrimoire",
+  channelName: "The Dev Grimoire",
   pages: [
+    {
+      id: "csharp-dotnet",
+      title: "C# with .NET",
+      learn:
+        "Modern C# and .NET fundamentals: types, LINQ, async/await, Entity Framework Core and best practices.",
+      approach:
+        "Team projects with ASP.NET Core; individual challenges and live code reviews.",
+      materialUrl: null,
+      stack: ["C#", ".NET", "EF Core"],
+    },
     {
       id: "nodejs",
       title: "Node.js",
@@ -27,18 +39,15 @@ export const grimoire: Grimoire = {
     {
       id: "qa-automation",
       title: "QA Automation",
-      learn:
-        "Unit, integration and E2E automated tests; QA strategy.",
-      approach:
-        "Team cases on a real .NET backend; CI integration.",
+      learn: "Unit, integration and E2E automated tests; QA strategy.",
+      approach: "Team cases on a real .NET backend; CI integration.",
       materialUrl: null,
       stack: ["xUnit", "Playwright", "CI"],
     },
     {
       id: "algoritmia",
       title: "Algorithms",
-      learn:
-        "Data structures, complexity and problem solving.",
+      learn: "Data structures, complexity and problem solving.",
       approach: "Team challenges and live solution reviews.",
       materialUrl: null,
       stack: ["Algoritmia"],

@@ -22,15 +22,18 @@ export const journey: JourneyStage[] = [
   {
     id: "riwi-lead",
     period: "2025 — Actualidad",
-    title: "Team Leader · RIWI",
+    title: "Technical Team Lead · RIWI",
     summary:
-      "Lidero técnicamente un escuadrón en formación y estandarizo las prácticas de desarrollo del equipo.",
+      "Experiencia laboral principal: lidero técnicamente equipos en formación, defino estándares y acompaño todo el ciclo de desarrollo.",
     highlights: [
-      "Code reviews y QA sistemáticos del output del equipo.",
-      "Arquitectura de microservicios con RabbitMQ y Docker.",
-      "Implementación de Clean Architecture y DDD en los proyectos.",
+      "Liderazgo técnico de equipos en formación: planeación por sprints, pair programming y mentoría 1:1.",
+      "Code reviews y QA sistemáticos; estándares de código y de documentación para el equipo.",
+      "Procesos de QA automatizado y DevOps (CI/CD con Docker) adoptados por el escuadrón.",
+      "Gestión de requisitos con stakeholders simulados y reales; traducción a historias técnicas.",
+      "Arquitectura de microservicios con ASP.NET Core, RabbitMQ y Clean Architecture/DDD.",
+      "Diseño y dictado de tracks técnicos para coders en formación (ver Grimorio).",
     ],
-    tags: ["ASP.NET Core", "Docker", "RabbitMQ", "CI/CD", "DDD"],
+    tags: ["ASP.NET Core", "Docker", "RabbitMQ", "CI/CD", "DDD", "Clean Architecture", "Mentoría"],
   },
   {
     id: "riwi-trainer",

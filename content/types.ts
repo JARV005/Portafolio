@@ -1,7 +1,7 @@
 export type Locale = "es" | "en"
 
 export type ContactLink = {
-  kind: "email" | "github" | "linkedin"
+  kind: "email" | "github" | "linkedin" | "youtube"
   label: string
   href: string
   display: string
@@ -64,6 +64,8 @@ export type GrimoirePage = {
 
 export type Grimoire = {
   intro: string | null
+  channelUrl: string
+  channelName: string
   pages: GrimoirePage[]
 }
 
@@ -108,6 +110,7 @@ export type Project = {
   tags: string[]
   featured?: boolean
   todo?: string
+  kanji: string
   case: ProjectCaseStudy
 }
 

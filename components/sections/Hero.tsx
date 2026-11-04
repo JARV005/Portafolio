@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTranslations } from "next-intl"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Youtube } from "lucide-react"
 import dynamic from "next/dynamic"
 import { SectionLabel } from "@/components/motion"
 import { CvButton } from "@/components/ui/CvButton"
@@ -99,6 +99,7 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
   const github = contact.find((c) => c.kind === "github")
   const linkedin = contact.find((c) => c.kind === "linkedin")
   const email = contact.find((c) => c.kind === "email")
+  const youtube = contact.find((c) => c.kind === "youtube")
 
   const auraStyle = {
     "--aura-boost": auraBoost.toFixed(3),
@@ -179,6 +180,19 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
                 className="text-fg-dim hover:text-ki transition-colors"
               >
                 LinkedIn
+              </a>
+            </li>
+          )}
+          {youtube && (
+            <li>
+              <a
+                href={youtube.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-fg-dim hover:text-ki transition-colors"
+              >
+                <Youtube className="w-3.5 h-3.5" aria-hidden />
+                YouTube
               </a>
             </li>
           )}

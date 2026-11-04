@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Johan Rivera — Backend Developer · Team Leader at RIWI",
-    "description": "Backend Developer (C#/.NET, Node.js, Azure) and Team Leader at RIWI. I build solid backends, lead teams and mentor coders.",
-    "ogAlt": "Johan Rivera — Backend Developer · Team Leader at RIWI"
+    "title": "Johan Rivera — Backend Developer · C#/.NET · Node.js · Azure",
+    "description": "Backend Developer (C#/.NET, Node.js, Azure). I build solid backends, work with teams and mentor coders.",
+    "ogAlt": "Johan Rivera — Backend Developer · C#/.NET · Node.js · Azure"
   },
   "a11y": {
     "skipToContent": "Skip to content"
@@ -11,7 +11,7 @@
     "home": "Home",
     "about": "About",
     "experience": "Experience",
-    "squad": "Squad",
+    "squad": "Team",
     "grimoire": "Grimoire",
     "projects": "Projects",
     "arsenal": "Arsenal",
@@ -32,7 +32,7 @@
     "about": "About",
     "experience": "Experience",
     "education": "Education",
-    "squad": "Squad",
+    "squad": "How I work with teams",
     "grimoire": "Grimoire",
     "projects": "Projects",
     "arsenal": "Arsenal",
@@ -95,10 +95,9 @@
     "cta": "Back to home"
   },
   "squad": {
-    "team": "The outcome emerges from the whole squad, not a single person.",
-    "practicesHeading": "How I lead",
-    "metricsHeading": "Squad in numbers",
-    "pendingMetrics": "⚠ TODO: squad numbers (coders mentored, projects led, PRs reviewed…)",
+    "team": "The outcome emerges from the whole team, not a single person.",
+    "practicesHeading": "How I work with the team",
+    "metricsHeading": "The team in numbers",
     "pendingQuote": "⚠ TODO: leadership one-liner",
     "deliveryLabel": "Release"
   },

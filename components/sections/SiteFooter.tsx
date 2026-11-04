@@ -1,15 +1,16 @@
 import { getTranslations } from "next-intl/server"
-import { Github } from "lucide-react"
+import { Github, Youtube } from "lucide-react"
 
 type SiteFooterProps = {
   name: string
 }
 
 const REPO_URL = "https://github.com/JARV005/Portafolio"
+const YOUTUBE_URL = "https://www.youtube.com/@TheDevGrimoire"
 
 export async function SiteFooter({ name }: SiteFooterProps) {
   const t = await getTranslations("footer")
-  const year = 2026 // placeholder — year is stamped at build time
+  const year = 2026
 
   return (
     <footer className="relative mt-8 border-t border-stroke/60">
@@ -22,15 +23,27 @@ export async function SiteFooter({ name }: SiteFooterProps) {
           <span className="mx-2">·</span>
           <span>{name}</span>
         </span>
-        <a
-          href={REPO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 hover:text-ki transition-colors"
-        >
-          <Github className="w-3.5 h-3.5" aria-hidden />
-          {t("repo")}
-        </a>
+        <div className="flex items-center gap-5">
+          <a
+            href={YOUTUBE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube — The Dev Grimoire"
+            className="inline-flex items-center gap-2 hover:text-ki transition-colors"
+          >
+            <Youtube className="w-3.5 h-3.5" aria-hidden />
+            <span className="sr-only">YouTube</span>
+          </a>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 hover:text-ki transition-colors"
+          >
+            <Github className="w-3.5 h-3.5" aria-hidden />
+            {t("repo")}
+          </a>
+        </div>
       </div>
     </footer>
   )

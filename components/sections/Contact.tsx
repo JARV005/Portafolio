@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
-import { Check, Copy, Github, Linkedin, Mail, Download } from "lucide-react"
+import { Check, Copy, Github, Linkedin, Mail, Download, Youtube } from "lucide-react"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
 import { ContactForm } from "@/components/sections/ContactForm"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
@@ -17,6 +17,7 @@ const ICON_FOR: Record<ContactLink["kind"], typeof Mail> = {
   email: Mail,
   github: Github,
   linkedin: Linkedin,
+  youtube: Youtube,
 }
 
 export function Contact({ contact, profile }: ContactProps) {
@@ -30,6 +31,7 @@ export function Contact({ contact, profile }: ContactProps) {
   const email = contact.find((c) => c.kind === "email")
   const github = contact.find((c) => c.kind === "github")
   const linkedin = contact.find((c) => c.kind === "linkedin")
+  const youtube = contact.find((c) => c.kind === "youtube")
 
   async function copyEmail() {
     if (!email) return
@@ -117,8 +119,8 @@ export function Contact({ contact, profile }: ContactProps) {
 
             <div className="h-px bg-stroke/60" />
 
-            <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-sm">
-              {[linkedin, github]
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-sm">
+              {[linkedin, github, youtube]
                 .filter((c): c is ContactLink => Boolean(c))
                 .map((link) => {
                   const Icon = ICON_FOR[link.kind]

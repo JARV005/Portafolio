@@ -1,9 +1,28 @@
 # Portafolio de Johan Rivera — guía del proyecto
 
 ## Qué debe comunicar
-- Johan Rivera, Desarrollador Backend (C#/.NET, Node.js, Azure) y Team Leader en RIWI, Medellín. Además formo coders: diseño y dicto tracks técnicos dentro de mi rol en RIWI. Fundador de Nemora (SaaS de análisis documental y cumplimiento con IA sobre Azure).
-- Tres ideas que el visitante debe llevarse en 10 segundos: construyo backend sólido, lidero equipos, enseño.
+- Johan Rivera, **Desarrollador Backend (C#/.NET, Node.js, Azure)**, Medellín. Fundador de Nemora (SaaS de análisis documental y cumplimiento con IA sobre Azure).
+- RIWI es **experiencia laboral**, no identidad: aparece como la entrada más completa de la Trayectoria (liderazgo de equipos, code reviews, estándares, QA/DevOps, gestión de requisitos y formación de coders). No se usa como titular, etiqueta principal, meta, Open Graph ni JSON-LD jobTitle.
+- Tres ideas que el visitante debe llevarse en 10 segundos: construyo backend sólido, trabajo bien con equipos, enseño.
 - Público principal: reclutadores técnicos y tech leads. Deben llegar a proyectos, stack, CV y contacto en máximo 2 clics.
+
+### Titular canónico
+"Desarrollador Backend · C#/.NET · Node.js · Azure"
+
+### Sección "Cómo trabajo con equipos" (antes "Escuadrón")
+- Mantiene el kanji 隊 y la mecánica de "energía del equipo", pero el encabezado de sección es **"Cómo trabajo con equipos"** (/ "How I work with teams"). En la nav va como "Equipo" / "Team".
+- Es evidencia de cómo lidero, no un cargo.
+- Las **únicas cifras del sitio** viven aquí:
+  - **+200 · coders entrenados**
+  - **+50 · coders que ya consiguieron empleo**
+  - **+15 · proyectos liderados**
+- El contador anima de 0 a la cifra al entrar en viewport y muestra el `+` al terminar. Reduced motion: cifra final directa.
+- Prohibido inventar otras métricas o dejar contadores en TODO.
+
+### YouTube — "The Dev Grimoire"
+- Canal: https://www.youtube.com/@TheDevGrimoire.
+- Enlace destacado en el Grimorio (encabezado o contraportada), y como enlace social en hero, contacto y footer con icono simple de YouTube.
+- Incluido en `sameAs` del JSON-LD Person.
 
 ## Concepto creativo: "Entrenar · Liderar · Enseñar"
 Narrativa shōnen: el progreso viene del entrenamiento, el equipo multiplica la fuerza y quien enseña hace crecer a otros. Inspirado en Dragon Ball y Black Clover, pero el homenaje es por MECÁNICAS y lenguaje visual, nunca por contenido de las series.
@@ -43,7 +62,7 @@ Reglas de homenaje (innegociables):
 - Todo debe ser verdadero y defendible en una entrevista técnica. Si falta un dato, deja un TODO en content/ y NO inventes cifras, fechas ni logros.
 - Nada de "apasionado", "results-driven", "ninja" ni frases genéricas de IA. Primera persona, frases cortas: qué hice, cómo, qué impacto.
 - Sin barras de porcentaje ni niveles de habilidad.
-- Titular: "Desarrollador Backend · Team Leader en RIWI".
+- Titular: "Desarrollador Backend · C#/.NET · Node.js · Azure".
 
 ## Forma de trabajo
 - Estructura: components/sections/*, components/motion/* (primitivas), hooks/*, lib/*, content/{es,en}/*.
