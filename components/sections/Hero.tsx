@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { ArrowRight, Youtube } from "lucide-react"
 import dynamic from "next/dynamic"
@@ -23,9 +24,12 @@ type HeroProps = {
 
 export function Hero({ profile, contact, locationLabel }: HeroProps) {
   const tCta = useTranslations("cta")
+  const tA11y = useTranslations("a11y")
   const containerRef = useRef<HTMLElement>(null)
   const nameRef = useRef<HTMLHeadingElement>(null)
+  const avatarRef = useRef<HTMLDivElement>(null)
   const [startCanvas, setStartCanvas] = useState(false)
+  const [avatarEntered, setAvatarEntered] = useState(false)
   const [auraBoost, setAuraBoost] = useState(0)
   const [auraInView, setAuraInView] = useState(true)
   const reduced = useReducedMotion()
@@ -42,6 +46,16 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
     }
   }, [])
 
+  // Avatar entrance: tras la carga de ki (~2s desde mount)
+  useEffect(() => {
+    if (reduced) {
+      setAvatarEntered(true)
+      return
+    }
+    const t = window.setTimeout(() => setAvatarEntered(true), 2000)
+    return () => window.clearTimeout(t)
+  }, [reduced])
+
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -56,15 +70,22 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
     return () => io.disconnect()
   }, [])
 
+  // Parallax del cursor (solo desktop + hover disponible)
   useEffect(() => {
     if (reduced) return
-    if (!window.matchMedia("(hover: hover)").matches) return
+    if (!window.matchMedia("(hover: hover) and (min-width: 768px)").matches) return
     const el = containerRef.current
     const name = nameRef.current
-    if (!el || !name) return
+    const avatar = avatarRef.current
+    if (!el || !name || !avatar) return
 
     let raf = 0
-    let target = 0
+    let targetBoost = 0
+    let targetParallaxX = 0
+    let targetParallaxY = 0
+    let currentBoost = 0
+    let currentParallaxX = 0
+    let currentParallaxY = 0
 
     const onMove = (e: MouseEvent) => {
       const r = name.getBoundingClientRect()
@@ -74,19 +95,35 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
       const dy = e.clientY - cy
       const d = Math.sqrt(dx * dx + dy * dy)
       const maxD = 320
-      target = Math.max(0, 1 - d / maxD) * 0.6
+      targetBoost = Math.max(0, 1 - d / maxD) * 0.6
+
+      const w = window.innerWidth
+      const h = window.innerHeight
+      targetParallaxX = ((e.clientX - w / 2) / (w / 2)) * 8
+      targetParallaxY = ((e.clientY - h / 2) / (h / 2)) * 8
+
       if (!raf) raf = requestAnimationFrame(step)
     }
+
     const step = () => {
-      setAuraBoost((prev) => {
-        const next = prev + (target - prev) * 0.15
-        if (Math.abs(next - target) > 0.005) {
-          raf = requestAnimationFrame(step)
-        } else {
-          raf = 0
-        }
-        return next
-      })
+      currentBoost += (targetBoost - currentBoost) * 0.15
+      currentParallaxX += (targetParallaxX - currentParallaxX) * 0.12
+      currentParallaxY += (targetParallaxY - currentParallaxY) * 0.12
+
+      setAuraBoost(currentBoost)
+      if (avatar) {
+        avatar.style.transform = `translate3d(${currentParallaxX.toFixed(2)}px, ${currentParallaxY.toFixed(2)}px, 0)`
+      }
+
+      if (
+        Math.abs(currentBoost - targetBoost) > 0.005 ||
+        Math.abs(currentParallaxX - targetParallaxX) > 0.1 ||
+        Math.abs(currentParallaxY - targetParallaxY) > 0.1
+      ) {
+        raf = requestAnimationFrame(step)
+      } else {
+        raf = 0
+      }
     }
 
     el.addEventListener("mousemove", onMove)
@@ -108,7 +145,7 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[92vh] flex flex-col justify-center px-6 overflow-hidden"
+      className="relative min-h-[92vh] flex items-center justify-center px-6 py-16 overflow-hidden"
     >
       <div
         aria-hidden
@@ -123,90 +160,142 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
         <KiCanvas nameRef={nameRef} containerRef={containerRef} />
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-3xl space-y-6">
-        <SectionLabel kanji="気" label={locationLabel} index="00" />
+      <div className="hero-vignette relative z-10 mx-auto w-full max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-6 md:gap-10 items-center">
+          <div className="space-y-5 md:py-10 md:pl-10">
+            <SectionLabel kanji="気" label={locationLabel} index="00" />
 
-        <h1
-          ref={nameRef}
-          className="hero-name font-display font-black text-5xl md:text-7xl leading-[1.02] tracking-tight"
-          data-reduced={reduced ? "true" : "false"}
-        >
-          {profile.name}
-        </h1>
+            <h1
+              ref={nameRef}
+              className="hero-name font-display font-black text-5xl md:text-7xl leading-[1.02] tracking-tight"
+              data-reduced={reduced ? "true" : "false"}
+            >
+              {profile.name}
+            </h1>
 
-        <p className="font-mono text-sm md:text-base tracking-wider text-fg-dim uppercase">
-          {profile.headline}
-        </p>
+            <p className="font-mono text-sm md:text-base tracking-wider text-fg-dim uppercase">
+              {profile.headline}
+            </p>
 
-        {profile.trinity ? (
-          <p className="text-fg-dim leading-relaxed max-w-2xl">{profile.trinity}</p>
-        ) : (
-          <p className="font-mono text-xs text-ki/80 max-w-2xl">
-            ⚠ TODO: línea breve sobre Entrenar · Liderar · Enseñar
-          </p>
-        )}
+            {profile.trinity ? (
+              <p className="text-fg-dim leading-relaxed max-w-xl">
+                {profile.trinity}
+              </p>
+            ) : (
+              <p className="font-mono text-xs text-ki/80 max-w-xl">
+                ⚠ TODO: línea breve sobre Entrenar · Liderar · Enseñar
+              </p>
+            )}
 
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <a
-            href="#projects"
-            className="group relative inline-flex items-center gap-2 rounded-[var(--radius-ink)] bg-ki text-bg px-5 py-3 font-mono text-sm font-medium transition-transform hover:-translate-y-[1px]"
-          >
-            {tCta("viewProjects")}
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </a>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="#projects"
+                className="group relative inline-flex items-center gap-2 rounded-[var(--radius-ink)] bg-ki text-bg px-5 py-3 font-mono text-sm font-medium transition-transform hover:-translate-y-[1px]"
+              >
+                {tCta("viewProjects")}
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <CvButton href={profile.cvUrl} label={tCta("downloadCV")} />
+            </div>
 
-          <CvButton href={profile.cvUrl} label={tCta("downloadCV")} />
+            <ul className="flex flex-wrap gap-4 pt-2 text-xs font-mono">
+              {github && (
+                <li>
+                  <a
+                    href={github.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-fg-dim hover:text-ki transition-colors"
+                  >
+                    GitHub
+                  </a>
+                </li>
+              )}
+              {linkedin && (
+                <li>
+                  <a
+                    href={linkedin.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-fg-dim hover:text-ki transition-colors"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+              )}
+              {youtube && (
+                <li>
+                  <a
+                    href={youtube.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-fg-dim hover:text-ki transition-colors"
+                  >
+                    <Youtube className="w-3.5 h-3.5" aria-hidden />
+                    YouTube
+                  </a>
+                </li>
+              )}
+              {email && (
+                <li>
+                  <a
+                    href={email.href}
+                    className="text-fg-dim hover:text-ki transition-colors"
+                  >
+                    Email
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Avatar container: rompe la viñeta con overflow */}
+          <div className="hero-avatar-slot relative">
+            <div
+              ref={avatarRef}
+              className={`hero-avatar ${avatarEntered ? "hero-avatar-in" : ""} ${reduced ? "hero-avatar-reduced" : ""}`}
+            >
+              <span aria-hidden className="hero-avatar-aura" />
+              {!reduced && (
+                <svg
+                  aria-hidden
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  className="hero-avatar-speed"
+                >
+                  {Array.from({ length: 18 }).map((_, i) => {
+                    const a = (i / 18) * Math.PI * 2
+                    const x1 = 50 + Math.cos(a) * 15
+                    const y1 = 50 + Math.sin(a) * 15
+                    const x2 = 50 + Math.cos(a) * 65
+                    const y2 = 50 + Math.sin(a) * 65
+                    return (
+                      <line
+                        key={i}
+                        x1={x1}
+                        y1={y1}
+                        x2={x2}
+                        y2={y2}
+                        stroke="currentColor"
+                        strokeWidth="0.35"
+                      />
+                    )
+                  })}
+                </svg>
+              )}
+              <span aria-hidden className="hero-avatar-flash" />
+              <Image
+                src="/avatar/johan-saludo.png"
+                alt={tA11y("avatarWave")}
+                width={1312}
+                height={1199}
+                sizes="(max-width: 768px) 90vw, 480px"
+                priority
+                className="hero-avatar-img"
+              />
+            </div>
+          </div>
         </div>
-
-        <ul className="flex flex-wrap gap-4 pt-2 text-xs font-mono">
-          {github && (
-            <li>
-              <a
-                href={github.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-fg-dim hover:text-ki transition-colors"
-              >
-                GitHub
-              </a>
-            </li>
-          )}
-          {linkedin && (
-            <li>
-              <a
-                href={linkedin.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-fg-dim hover:text-ki transition-colors"
-              >
-                LinkedIn
-              </a>
-            </li>
-          )}
-          {youtube && (
-            <li>
-              <a
-                href={youtube.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-fg-dim hover:text-ki transition-colors"
-              >
-                <Youtube className="w-3.5 h-3.5" aria-hidden />
-                YouTube
-              </a>
-            </li>
-          )}
-          {email && (
-            <li>
-              <a
-                href={email.href}
-                className="text-fg-dim hover:text-ki transition-colors"
-              >
-                Email
-              </a>
-            </li>
-          )}
-        </ul>
       </div>
 
       <ScrollIndicator label={tCta("scroll")} reduced={reduced} />
@@ -214,16 +303,29 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
   )
 }
 
-function ScrollIndicator({ label, reduced }: { label: string; reduced: boolean }) {
+function ScrollIndicator({
+  label,
+  reduced,
+}: {
+  label: string
+  reduced: boolean
+}) {
   return (
     <a
       href="#about"
       aria-label={label}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-fg-dim hover:text-ki transition-colors"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-fg-dim hover:text-ki transition-colors z-20"
     >
-      <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em]">{label}</span>
-      <span aria-hidden className="relative block w-px h-10 overflow-hidden bg-stroke">
-        {!reduced && <span className="scroll-trail absolute inset-x-0 top-0 h-3 bg-ki" />}
+      <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em]">
+        {label}
+      </span>
+      <span
+        aria-hidden
+        className="relative block w-px h-10 overflow-hidden bg-stroke"
+      >
+        {!reduced && (
+          <span className="scroll-trail absolute inset-x-0 top-0 h-3 bg-ki" />
+        )}
       </span>
     </a>
   )

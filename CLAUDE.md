@@ -47,6 +47,7 @@ Lenguaje visual:
 Reglas de homenaje (innegociables):
 - Prohibido: personajes o siluetas reconocibles, peinados icónicos, logos, emblemas, tréboles, esferas naranjas con estrellas, nombres de técnicas o personajes en la UI, e imágenes, audio o fuentes tomadas de las series.
 - Permitido: auras y energía genéricas, estética manga genérica, la palabra "grimorio", easter eggs discretos.
+- **Excepción de avatar propio**: Mis avatares ilustrados en `public/avatar/` (`johan-saludo.png` y `johan-mano.png`) son arte propio y se usan tal cual, sin recortar ni alterar sus símbolos. La regla de no usar tréboles, emblemas ni personajes aplica a todo lo que se dibuje por código, no a mis propias ilustraciones. Como las ilustraciones ya cargan el guiño visual más fuerte, el resto del sitio mantiene los homenajes sutiles — no agregar más elementos temáticos solo porque las ilustraciones existan.
 
 ## Sistema visual
 - Tema "Noche" (por defecto): fondo #0B0A0D, superficie #141218, texto #F1ECE2, texto secundario #A39E95.
@@ -62,6 +63,7 @@ Reglas de homenaje (innegociables):
 - prefers-reduced-motion: cada animación firma tiene una versión estática equivalente.
 - Animar solo transform y opacity; canvas con devicePixelRatio máximo 2; 60fps en un portátil medio.
 - Móvil: versiones simplificadas (menos partículas, sin efectos de cursor).
+- **Avatar del hero (`johan-saludo.png`) puede ser el LCP**: cargar con `priority`, `next/image` con sizes óptimos y objetivo < 150 KB entregados al cliente en desktop (AVIF/WebP vía Next).
 
 ## Stack
 - Next.js App Router + TypeScript estricto (sin ignoreBuildErrors) + Tailwind CSS v4.

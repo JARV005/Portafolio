@@ -266,6 +266,313 @@ select:focus-visible {
 }
 
 /* ------------------------------------------------------------------
+   Hero vignette + avatar que rompe el marco
+------------------------------------------------------------------ */
+
+.hero-vignette {
+  position: relative;
+  border-radius: calc(var(--radius-ink) + 2px);
+}
+
+@media (min-width: 768px) {
+  .hero-vignette::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--stroke);
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--surface) 25%, transparent) 0%,
+        transparent 100%
+      );
+    z-index: 0;
+  }
+  .hero-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid color-mix(in oklab, var(--ki) 30%, transparent);
+    border-radius: calc(var(--radius-ink) - 2px);
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+  }
+}
+
+.hero-avatar-slot {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero-avatar-slot {
+    min-height: 560px;
+    align-items: stretch;
+  }
+}
+
+.hero-avatar {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+  transition:
+    opacity 650ms cubic-bezier(0.33, 1, 0.68, 1),
+    transform 650ms cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform, opacity;
+}
+
+.hero-avatar-in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+@media (min-width: 768px) {
+  .hero-avatar {
+    /* Rompe la viñeta: sobresale por arriba y derecha */
+    margin-top: -56px;
+    margin-right: -40px;
+    max-width: 520px;
+  }
+}
+
+/* Aura ámbar del avatar: herrencia visual con .ki-aura del hero */
+.hero-avatar-aura {
+  position: absolute;
+  inset: 8% 10% 0 10%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 55% 50% at 50% 50%,
+    color-mix(in oklab, var(--ki) 28%, transparent) 0%,
+    transparent 65%
+  );
+  filter: blur(36px);
+  opacity: 0;
+  transition: opacity 700ms ease-out;
+}
+
+.hero-avatar-in .hero-avatar-aura {
+  opacity: 0.55;
+  animation: ki-breath 5.5s ease-in-out infinite;
+}
+
+.hero-avatar-reduced .hero-avatar-aura {
+  opacity: 0.4;
+  animation: none;
+}
+
+/* Speed-lines detrás del avatar durante la entrada */
+.hero-avatar-speed {
+  position: absolute;
+  inset: 5% 5% 0 5%;
+  width: 90%;
+  height: 90%;
+  color: var(--ki);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.4);
+  z-index: 1;
+}
+
+.hero-avatar-in .hero-avatar-speed {
+  animation: avatar-speed-burst 700ms cubic-bezier(0.33, 1, 0.68, 1) 100ms forwards;
+}
+
+@keyframes avatar-speed-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* Flash ámbar coordinado con el dorado del guiño */
+.hero-avatar-flash {
+  position: absolute;
+  inset: 15% 5% 20% 5%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 42%,
+    color-mix(in oklab, var(--ki) 70%, white) 0%,
+    color-mix(in oklab, var(--ki) 30%, transparent) 25%,
+    transparent 60%
+  );
+  filter: blur(14px);
+}
+
+.hero-avatar-in .hero-avatar-flash {
+  animation: avatar-flash 650ms ease-out 180ms forwards;
+}
+
+@keyframes avatar-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.hero-avatar-img {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Tema Manga: sombra suave de tinta detrás del avatar para legibilidad sobre papel */
+[data-theme="light"] .hero-avatar-img {
+  filter: drop-shadow(0 6px 24px rgba(17, 16, 20, 0.22))
+    drop-shadow(0 2px 6px rgba(17, 16, 20, 0.14));
+}
+
+/* Móvil: cortado a cintura dentro de la viñeta */
+@media (max-width: 767px) {
+  .hero-avatar {
+    max-height: 45vh;
+    overflow: hidden;
+  }
+  .hero-avatar-img {
+    max-height: 45vh;
+    object-position: center top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-avatar {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-avatar-speed,
+  .hero-avatar-flash {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Contact avatar — entra desde el costado con brillo pulsante
+------------------------------------------------------------------ */
+
+.contact-avatar {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateX(40px);
+  transition:
+    opacity 700ms cubic-bezier(0.33, 1, 0.68, 1),
+    transform 700ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (min-width: 768px) {
+  .contact-avatar {
+    max-width: 280px;
+    margin: 0;
+  }
+}
+
+.contact-avatar-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.contact-avatar-reduced {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.contact-avatar-glow {
+  position: absolute;
+  inset: 30% 10% 25% 10%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 40% 50%,
+    color-mix(in oklab, var(--ki) 45%, transparent) 0%,
+    transparent 65%
+  );
+  filter: blur(28px);
+  opacity: 0;
+}
+
+.contact-avatar-in .contact-avatar-glow {
+  animation: contact-glow-pulse 1600ms cubic-bezier(0.33, 1, 0.68, 1) 400ms forwards;
+}
+
+@keyframes contact-glow-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  40% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+.contact-avatar-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+[data-theme="light"] .contact-avatar-img {
+  filter: drop-shadow(0 4px 16px rgba(17, 16, 20, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-avatar-glow,
+  .contact-avatar-in .contact-avatar-glow {
+    animation: none;
+    opacity: 0.3;
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-avatar {
+    max-width: 180px;
+  }
+}
+
+/* ------------------------------------------------------------------
    Sobre mí — foto con tratamiento de semitono
 ------------------------------------------------------------------ */
 

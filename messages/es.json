@@ -5,7 +5,9 @@
     "ogAlt": "Johan Rivera — Desarrollador Backend · C#/.NET · Node.js · Azure"
   },
   "a11y": {
-    "skipToContent": "Saltar al contenido"
+    "skipToContent": "Saltar al contenido",
+    "avatarWave": "Ilustración estilo anime de Johan Rivera saludando",
+    "avatarReach": "Ilustración estilo anime de Johan Rivera extendiendo la mano"
   },
   "nav": {
     "home": "Inicio",

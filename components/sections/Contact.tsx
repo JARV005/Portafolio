@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { Check, Copy, Github, Linkedin, Mail, Download, Youtube } from "lucide-react"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
@@ -24,9 +25,33 @@ export function Contact({ contact, profile }: ContactProps) {
   const t = useTranslations("sections")
   const tC = useTranslations("contactSection")
   const tCta = useTranslations("cta")
+  const tA11y = useTranslations("a11y")
   const reduced = useReducedMotion()
   const [copied, setCopied] = useState(false)
   const [animating, setAnimating] = useState(false)
+  const [avatarEntered, setAvatarEntered] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (reduced) {
+      setAvatarEntered(true)
+      return
+    }
+    const el = sectionRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        if (entry?.isIntersecting) {
+          setAvatarEntered(true)
+          io.disconnect()
+        }
+      },
+      { threshold: 0.2 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [reduced])
 
   const email = contact.find((c) => c.kind === "email")
   const github = contact.find((c) => c.kind === "github")
@@ -48,7 +73,7 @@ export function Contact({ contact, profile }: ContactProps) {
   }
 
   return (
-    <section id="contact" className="space-y-6">
+    <section id="contact" ref={sectionRef} className="space-y-6">
       <SectionLabel kanji="会" label={t("contact")} index="07" />
 
       <Reveal>
@@ -57,7 +82,8 @@ export function Contact({ contact, profile }: ContactProps) {
         </h2>
       </Reveal>
 
-      <Reveal delay={0.05}>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center">
+        <Reveal delay={0.05} className="order-2 md:order-1">
         <InkPanel className="p-6">
           <div className="flex flex-col gap-5">
             {email && (
@@ -159,7 +185,24 @@ export function Contact({ contact, profile }: ContactProps) {
             </div>
           </div>
         </InkPanel>
-      </Reveal>
+        </Reveal>
+
+        <div
+          className={`contact-avatar order-1 md:order-2 ${
+            avatarEntered ? "contact-avatar-in" : ""
+          } ${reduced ? "contact-avatar-reduced" : ""}`}
+        >
+          <span aria-hidden className="contact-avatar-glow" />
+          <Image
+            src="/avatar/johan-mano.png"
+            alt={tA11y("avatarReach")}
+            width={1312}
+            height={1199}
+            sizes="(max-width: 768px) 60vw, 280px"
+            className="contact-avatar-img"
+          />
+        </div>
+      </div>
     </section>
   )
 }
