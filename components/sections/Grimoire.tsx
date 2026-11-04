@@ -58,24 +58,28 @@ const TECH_ICON: Record<string, LucideIcon> = {
   "CI/CD": GitBranch,
 }
 
+type SlideKind = "front" | "page" | "back"
+type Slide =
+  | { kind: "front" }
+  | { kind: "page"; page: GrimoirePage }
+  | { kind: "back" }
+
 export function Grimoire({ data }: GrimoireProps) {
   const t = useTranslations("sections")
   const tG = useTranslations("grimoire")
   const containerRef = useRef<HTMLDivElement>(null)
-  const stageRef = useRef<HTMLDivElement>(null)
-  const [index, setIndex] = useState(-1)
-  const [coverClosed, setCoverClosed] = useState(true)
+  const [index, setIndex] = useState(0)
   const reduced = useReducedMotion()
-  const total = data.pages.length
-  // Fases: portada (-1), pages[0..total-1], contraportada (total), cerrado (total+1)
-  const segments = total + 3
+
+  const slides: Slide[] = [
+    { kind: "front" },
+    ...data.pages.map((page) => ({ kind: "page" as const, page })),
+    { kind: "back" },
+  ]
+  const total = slides.length
 
   useEffect(() => {
-    if (reduced) {
-      setIndex(0)
-      setCoverClosed(false)
-      return
-    }
+    if (reduced) return
     const container = containerRef.current
     if (!container) return
 
@@ -86,19 +90,17 @@ export function Grimoire({ data }: GrimoireProps) {
       end: "bottom bottom",
       scrub: 0.3,
       onUpdate: (self) => {
-        const p = self.progress
-        const raw = p * segments
-        const idx = Math.min(total, Math.max(-1, Math.floor(raw) - 1))
+        const raw = self.progress * (total - 0.001)
+        const idx = Math.min(total - 1, Math.max(0, Math.floor(raw)))
         setIndex(idx)
-        setCoverClosed(p < 0.08 || p > 0.94)
       },
     })
 
     return () => st.kill()
-  }, [reduced, segments, total])
+  }, [reduced, total])
 
   function goTo(nextIndex: number) {
-    const clamped = Math.min(total, Math.max(-1, nextIndex))
+    const clamped = Math.min(total - 1, Math.max(0, nextIndex))
     if (reduced) {
       setIndex(clamped)
       return
@@ -111,8 +113,7 @@ export function Grimoire({ data }: GrimoireProps) {
     const containerHeight = container.offsetHeight
     const viewport = window.innerHeight
     const scrollable = containerHeight - viewport
-    // Progress deseado para que la pagina elegida sea active
-    const targetProgress = (clamped + 1.5) / segments
+    const targetProgress = (clamped + 0.5) / total
     const targetY = containerTop + targetProgress * scrollable
     window.scrollTo({ top: targetY, behavior: "smooth" })
   }
@@ -126,12 +127,21 @@ export function Grimoire({ data }: GrimoireProps) {
       goTo(index - 1)
     } else if (e.key === "Home") {
       e.preventDefault()
-      goTo(-1)
+      goTo(0)
     } else if (e.key === "End") {
       e.preventDefault()
-      goTo(total)
+      goTo(total - 1)
     }
   }
+
+  const slide = slides[index] ?? slides[0]!
+  const slideKind: SlideKind = slide.kind
+  const pageNumberText =
+    slideKind === "page"
+      ? tG("pageOf", { current: index, total: data.pages.length })
+      : slideKind === "front"
+        ? "—"
+        : `${data.pages.length} / ${data.pages.length}`
 
   const headerLink = (
     <a
@@ -153,13 +163,9 @@ export function Grimoire({ data }: GrimoireProps) {
       <Reveal>
         <div className="flex flex-col items-center gap-3 text-center">
           {data.intro ? (
-            <p className="text-fg-dim max-w-2xl leading-relaxed">
-              {data.intro}
-            </p>
+            <p className="text-fg-dim max-w-2xl leading-relaxed">{data.intro}</p>
           ) : (
-            <p className="font-mono text-xs text-ki/80">
-              {tG("pendingIntro")}
-            </p>
+            <p className="font-mono text-xs text-ki/80">{tG("pendingIntro")}</p>
           )}
           {headerLink}
         </div>
@@ -182,7 +188,7 @@ export function Grimoire({ data }: GrimoireProps) {
             key={page.id}
             className="snap-center shrink-0 w-[82%] sm:w-[55%]"
             aria-roledescription="slide"
-            aria-label={`${page.title} — ${i + 1} / ${total}`}
+            aria-label={`${page.title} — ${i + 1} / ${data.pages.length}`}
           >
             <PageContent page={page} active animate={!reduced} tG={tG} />
           </li>
@@ -196,10 +202,13 @@ export function Grimoire({ data }: GrimoireProps) {
         </li>
       </ol>
 
-      {/* Desktop: libro 3D con pin + scrub */}
-      <div ref={containerRef} className="hidden md:block relative" style={{ height: reduced ? "auto" : `${segments * 45}vh` }}>
+      {/* Desktop: flipbook con scrub + sticky */}
+      <div
+        ref={containerRef}
+        className="hidden md:block relative"
+        style={{ height: reduced ? "auto" : `${total * 45}vh` }}
+      >
         <div
-          ref={stageRef}
           className={reduced ? "" : "sticky top-0 h-screen flex items-center justify-center"}
         >
           <div className="w-full flex flex-col items-center gap-6">
@@ -212,75 +221,63 @@ export function Grimoire({ data }: GrimoireProps) {
               className="grimoire-stage focus-visible:outline-none"
             >
               <div
-                className="book"
-                data-cover-closed={coverClosed ? "true" : "false"}
+                className="flipbook"
                 data-reduced={reduced ? "true" : "false"}
               >
-                <div className="book-spine" aria-hidden />
-                <div className="book-closed-backdrop" aria-hidden />
-
-                <div className="book-cover" aria-hidden>
-                  <GrimoireSeal />
-                </div>
-
-                <ol className="book-pages">
-                  {data.pages.map((page, i) => {
+                <ol className="flipbook-pages">
+                  {slides.map((s, i) => {
                     const state =
                       i < index
                         ? "turned"
                         : i === index
                           ? "active"
                           : "upcoming"
+                    const zIndex =
+                      state === "active" ? 30 : state === "turned" ? i : total - i
                     return (
                       <li
-                        key={page.id}
-                        className="book-page"
+                        key={i}
+                        className={`flipbook-page ${s.kind === "front" ? "flipbook-front" : s.kind === "back" ? "flipbook-back" : ""}`}
                         data-state={state}
                         aria-roledescription="slide"
-                        aria-label={`${page.title} — ${i + 1} / ${total}`}
+                        aria-label={
+                          s.kind === "front"
+                            ? "Portada"
+                            : s.kind === "back"
+                              ? "Contraportada"
+                              : `${s.page.title} — ${i} / ${data.pages.length}`
+                        }
                         aria-current={i === index ? "page" : undefined}
                         aria-hidden={i !== index}
-                        style={{
-                          zIndex:
-                            state === "active"
-                              ? 20
-                              : state === "turned"
-                                ? 5 + i
-                                : total - i,
-                        }}
+                        style={{ zIndex }}
                       >
-                        <PageContent
-                          page={page}
-                          active={i === index}
-                          animate={!reduced}
-                          tG={tG}
-                        />
+                        {s.kind === "front" ? (
+                          <FrontCoverContent />
+                        ) : s.kind === "back" ? (
+                          <BackCoverContent
+                            channelUrl={data.channelUrl}
+                            channelName={data.channelName}
+                          />
+                        ) : (
+                          <PageContent
+                            page={s.page}
+                            active={i === index}
+                            animate={!reduced}
+                            tG={tG}
+                          />
+                        )}
                       </li>
                     )
                   })}
-                  {/* Contraportada */}
-                  <li
-                    className="book-page book-back-cover-page"
-                    data-state={index >= total ? "active" : "upcoming"}
-                    aria-label="Contraportada"
-                    aria-hidden={index < total}
-                    style={{ zIndex: index >= total ? 20 : 1 }}
-                  >
-                    <BackCoverContent
-                      channelUrl={data.channelUrl}
-                      channelName={data.channelName}
-                    />
-                  </li>
                 </ol>
               </div>
             </div>
 
-            {/* Controls */}
             <div className="flex items-center justify-center gap-6 font-mono text-sm">
               <button
                 type="button"
                 onClick={() => goTo(index - 1)}
-                disabled={index <= -1}
+                disabled={index === 0}
                 aria-label={tG("prev")}
                 className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
@@ -291,16 +288,12 @@ export function Grimoire({ data }: GrimoireProps) {
                 aria-atomic="true"
                 className="tabular-nums text-fg-dim"
               >
-                {index < 0
-                  ? "—"
-                  : index >= total
-                    ? `${total} / ${total}`
-                    : tG("pageOf", { current: index + 1, total })}
+                {pageNumberText}
               </span>
               <button
                 type="button"
                 onClick={() => goTo(index + 1)}
-                disabled={index >= total}
+                disabled={index === total - 1}
                 aria-label={tG("next")}
                 className="p-2 text-fg-dim hover:text-ki disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
@@ -359,11 +352,7 @@ function PageContent({
                 className="track-icon flex items-center gap-1.5"
                 style={{ ["--icon-i" as string]: i }}
               >
-                <Icon
-                  aria-hidden
-                  className="w-4 h-4 text-ki"
-                  strokeWidth={1.5}
-                />
+                <Icon aria-hidden className="w-4 h-4 text-ki" strokeWidth={1.5} />
                 <span className="font-mono text-[0.65rem] text-fg-dim">
                   {tech}
                 </span>
@@ -428,6 +417,21 @@ function CoverCard({
   )
 }
 
+function FrontCoverContent() {
+  return (
+    <article className="relative h-full p-6 md:p-8 flex flex-col items-center justify-center gap-4 text-center overflow-hidden">
+      <span aria-hidden className="absolute inset-0 grain opacity-[0.07]" />
+      <GrimoireSeal />
+      <div className="font-display font-black text-xl md:text-2xl uppercase tracking-widest text-ki">
+        Grimorio
+      </div>
+      <p className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim">
+        The Dev Grimoire
+      </p>
+    </article>
+  )
+}
+
 function BackCoverContent({
   channelUrl,
   channelName,
@@ -440,8 +444,10 @@ function BackCoverContent({
       <span aria-hidden className="absolute inset-0 halftone opacity-20 text-ki" />
       <GrimoireSealBack />
       <div className="relative">
-        <div className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim mb-2">
-          終
+        <div className="font-mono text-[0.65rem] uppercase tracking-widest text-fg-dim mb-3">
+          <span lang="ja" style={{ fontFamily: "var(--font-kanji)" }}>終</span>
+          <span className="mx-2">·</span>
+          <span>Fin</span>
         </div>
         <a
           href={channelUrl}
@@ -489,7 +495,6 @@ function GrimoireSeal() {
       ))}
       <polygon points="60,45 66,60 60,56 54,60" fill="url(#grimoire-seal)" />
       <polygon points="60,75 54,60 60,64 66,60" fill="url(#grimoire-seal)" opacity="0.55" />
-      <text x="60" y="104" textAnchor="middle" fontSize="4.5" letterSpacing="3" fill="var(--ki)" opacity="0.7" style={{ fontFamily: "var(--font-mono)" }}>GRIMORIO</text>
     </svg>
   )
 }
@@ -508,18 +513,6 @@ function GrimoireSealBack() {
           <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ki)" strokeWidth="0.4" opacity="0.5" />
         )
       })}
-      <text
-        x="60"
-        y="68"
-        textAnchor="middle"
-        fontSize="22"
-        fill="var(--ki)"
-        opacity="0.9"
-        lang="ja"
-        style={{ fontFamily: "var(--font-kanji)" }}
-      >
-        終
-      </text>
     </svg>
   )
 }
