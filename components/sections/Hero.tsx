@@ -9,7 +9,14 @@ import dynamic from "next/dynamic"
 import { SectionLabel } from "@/components/motion"
 import { CvButton } from "@/components/ui/CvButton"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { generateSpeedLines } from "@/lib/speed-lines"
 import type { Profile, ContactLink } from "@/content/types"
+
+const HERO_AVATAR_LINES = generateSpeedLines({
+  count: 18,
+  innerRadius: 15,
+  outerRadius: 65,
+})
 
 const KiCanvas = dynamic(
   () => import("@/components/motion/KiCanvas").then((m) => m.KiCanvas),
@@ -263,24 +270,17 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
                   preserveAspectRatio="none"
                   className="hero-avatar-speed"
                 >
-                  {Array.from({ length: 18 }).map((_, i) => {
-                    const a = (i / 18) * Math.PI * 2
-                    const x1 = 50 + Math.cos(a) * 15
-                    const y1 = 50 + Math.sin(a) * 15
-                    const x2 = 50 + Math.cos(a) * 65
-                    const y2 = 50 + Math.sin(a) * 65
-                    return (
-                      <line
-                        key={i}
-                        x1={x1}
-                        y1={y1}
-                        x2={x2}
-                        y2={y2}
-                        stroke="currentColor"
-                        strokeWidth="0.35"
-                      />
-                    )
-                  })}
+                  {HERO_AVATAR_LINES.map((l, i) => (
+                    <line
+                      key={i}
+                      x1={l.x1}
+                      y1={l.y1}
+                      x2={l.x2}
+                      y2={l.y2}
+                      stroke="currentColor"
+                      strokeWidth="0.35"
+                    />
+                  ))}
                 </svg>
               )}
               <span aria-hidden className="hero-avatar-flash" />

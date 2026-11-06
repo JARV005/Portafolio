@@ -21,7 +21,24 @@ import {
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { generateSpeedLines } from "@/lib/speed-lines"
 import type { Grimoire as GrimoireData, GrimoirePage } from "@/content/types"
+
+const SEAL_RAYS = generateSpeedLines({
+  count: 8,
+  innerRadius: 34,
+  outerRadius: 48,
+  cx: 60,
+  cy: 60,
+})
+
+const SEAL_BACK_RAYS = generateSpeedLines({
+  count: 12,
+  innerRadius: 20,
+  outerRadius: 44,
+  cx: 60,
+  cy: 60,
+})
 
 type Slot =
   | { side: "cover-front" }
@@ -190,11 +207,11 @@ export default function GrimoireBook({ data }: GrimoireBookProps) {
     return 4 + idx * 2
   }
 
-  return (
-    <div className="grimoire-shell">
-      <div className="grimoire-stack-left" aria-hidden style={{ width: `${Math.max(4, (currentPage / totalSlots) * 22)}px` }} />
-      <div className="grimoire-stack-right" aria-hidden style={{ width: `${Math.max(4, ((totalSlots - currentPage) / totalSlots) * 22)}px` }} />
+  const isClosed = currentPage === 0 || currentPage === totalSlots - 1
+  const closedEnd = currentPage === totalSlots - 1
 
+  return (
+    <div className="grimoire-book-wrap">
       <div
         role="region"
         aria-roledescription="book"
@@ -203,7 +220,12 @@ export default function GrimoireBook({ data }: GrimoireBookProps) {
         onKeyDown={onKey}
         className="relative outline-none"
       >
-        <div ref={bookRef} className="grimoire-flipbook mx-auto">
+        <div
+          ref={bookRef}
+          className="grimoire-flipbook mx-auto"
+          data-closed={isClosed ? "true" : "false"}
+          data-closed-end={closedEnd ? "true" : "false"}
+        >
           {/* 0: Portada */}
           <div className="page page-cover" data-density="hard">
             <PageFront />
@@ -663,15 +685,6 @@ function PageNumber({
 }
 
 function GrimoireSeal() {
-  const rays = Array.from({ length: 8 }, (_, i) => {
-    const a = (i / 8) * Math.PI * 2
-    return {
-      x1: 60 + Math.cos(a) * 34,
-      y1: 60 + Math.sin(a) * 34,
-      x2: 60 + Math.cos(a) * 48,
-      y2: 60 + Math.sin(a) * 48,
-    }
-  })
   return (
     <svg viewBox="0 0 120 120" aria-hidden className="w-32 h-32">
       <defs>
@@ -683,7 +696,7 @@ function GrimoireSeal() {
       <circle cx="60" cy="60" r="50" fill="none" stroke="#ffb224" strokeWidth="0.6" opacity="0.9" />
       <circle cx="60" cy="60" r="34" fill="none" stroke="#ffb224" strokeWidth="0.4" opacity="0.55" />
       <circle cx="60" cy="60" r="18" fill="none" stroke="#ffb224" strokeWidth="0.5" />
-      {rays.map((r, i) => (
+      {SEAL_RAYS.map((r, i) => (
         <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="#ffb224" strokeWidth="0.6" opacity="0.75" />
       ))}
       <polygon points="60,45 66,60 60,56 54,60" fill="url(#g-seal)" />
@@ -696,16 +709,9 @@ function GrimoireSealBack() {
   return (
     <svg viewBox="0 0 120 120" aria-hidden className="w-24 h-24">
       <circle cx="60" cy="60" r="48" fill="none" stroke="#a86618" strokeWidth="0.5" opacity="0.6" />
-      {Array.from({ length: 12 }).map((_, i) => {
-        const a = (i / 12) * Math.PI * 2
-        const x1 = 60 + Math.cos(a) * 20
-        const y1 = 60 + Math.sin(a) * 20
-        const x2 = 60 + Math.cos(a) * 44
-        const y2 = 60 + Math.sin(a) * 44
-        return (
-          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#a86618" strokeWidth="0.4" opacity="0.5" />
-        )
-      })}
+      {SEAL_BACK_RAYS.map((r, i) => (
+        <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="#a86618" strokeWidth="0.4" opacity="0.5" />
+      ))}
     </svg>
   )
 }

@@ -8,6 +8,7 @@ import dynamic from "next/dynamic"
 import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
 import { Counter } from "@/components/ui/Counter"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { generateRadialPoints } from "@/lib/speed-lines"
 import type { Leadership } from "@/content/types"
 
 const SquadCanvas = dynamic(
@@ -90,6 +91,14 @@ export function Squad({ leadership }: SquadProps) {
 
   const nodes = leadership.nodes
   const visibleMetrics = leadership.metrics.filter((m) => m.value !== null)
+  const spokePoints = generateRadialPoints({
+    count: nodes.length,
+    radius: 42,
+  })
+  const labelPoints = generateRadialPoints({
+    count: nodes.length,
+    radius: 44,
+  })
 
   return (
     <section id="squad" className="relative space-y-16">
@@ -122,14 +131,12 @@ export function Squad({ leadership }: SquadProps) {
                 className="absolute inset-0 w-full h-full pointer-events-none text-ki/40"
               >
                 {nodes.map((_, i) => {
-                  const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2
-                  const x = 50 + Math.cos(angle) * 42
-                  const y = 50 + Math.sin(angle) * 42
+                  const p = spokePoints[i] ?? { x: 50, y: 50 }
                   return (
                     <line
                       key={i}
-                      x1={x}
-                      y1={y}
+                      x1={p.x}
+                      y1={p.y}
                       x2={50}
                       y2={50}
                       stroke="currentColor"
@@ -142,9 +149,9 @@ export function Squad({ leadership }: SquadProps) {
 
             {/* Node labels (HTML, accessible) */}
             {nodes.map((node, i) => {
-              const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2
-              const x = 50 + Math.cos(angle) * 44
-              const y = 50 + Math.sin(angle) * 44
+              const p = labelPoints[i] ?? { x: 50, y: 50 }
+              const x = p.x
+              const y = p.y
               return (
                 <div
                   key={node.id}

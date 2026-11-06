@@ -704,110 +704,41 @@ select:focus-visible {
   border-radius: 2px;
 }
 
-/* Grimorio — libro abierto con tapa dura */
-.grimoire-shell {
+/* Grimorio — libro abierto: flota con sombra, sin marco café */
+.grimoire-book-wrap {
   position: relative;
   width: 100%;
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 18px 24px 26px;
-  border-radius: 10px;
-  background:
-    linear-gradient(135deg, #1a1215 0%, #0f0a0c 60%, #080506 100%);
-  box-shadow:
-    0 30px 70px -20px rgba(0, 0, 0, 0.55),
-    inset 0 0 0 1px color-mix(in oklab, #ffb224 18%, transparent);
-  transform: perspective(1800px) rotateX(2deg);
-  transform-origin: center 70%;
 }
 
-[data-theme="light"] .grimoire-shell {
-  background:
-    linear-gradient(135deg, #3a2a1f 0%, #28170d 60%, #180c05 100%);
-  box-shadow:
-    0 24px 48px -16px rgba(0, 0, 0, 0.35),
-    inset 0 0 0 1px color-mix(in oklab, #ffb224 30%, transparent);
-}
-
-/* Cantos ámbar top + bottom */
-.grimoire-shell::before,
-.grimoire-shell::after {
-  content: "";
-  position: absolute;
-  left: 40px;
-  right: 40px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #ffb224 15%,
-    #ffb224 85%,
-    transparent
-  );
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-.grimoire-shell::before {
-  top: 6px;
-}
-
-.grimoire-shell::after {
-  bottom: 10px;
-}
-
-/* Bloque de hojas a cada lado — grosor variable */
-.grimoire-stack-left,
-.grimoire-stack-right {
-  position: absolute;
-  top: 24px;
-  bottom: 30px;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    #f4efe6 0 2px,
-    #cfc5b3 2px 3px
-  );
-  border-radius: 1px;
-  transition: width 500ms cubic-bezier(0.33, 1, 0.68, 1);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.grimoire-stack-left {
-  left: 10px;
-}
-
-.grimoire-stack-right {
-  right: 10px;
-}
-
-/* Lomo del libro: abultamiento central */
-.grimoire-shell .grimoire-flipbook {
+.grimoire-flipbook {
   position: relative;
   width: 100%;
   max-width: 820px;
   margin: 0 auto;
+  padding: 3px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #1a1215 0%, #0f0a0c 100%);
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.45);
+  transition: transform 500ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-.grimoire-shell .grimoire-flipbook::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -4px;
-  bottom: -4px;
-  width: 24px;
-  transform: translateX(-50%);
-  background: radial-gradient(
-    ellipse at center,
-    color-mix(in oklab, #ffb224 20%, transparent) 0%,
-    transparent 60%
-  );
-  pointer-events: none;
-  z-index: 50;
+[data-theme="light"] .grimoire-flipbook {
+  background: linear-gradient(135deg, #3a2a1f 0%, #28170d 100%);
+  box-shadow: 0 20px 36px -12px rgba(0, 0, 0, 0.2);
+}
+
+/* Libro cerrado: se centra visualmente trasladando la mitad invisible */
+@media (min-width: 768px) {
+  .grimoire-flipbook[data-closed="true"][data-closed-end="false"] {
+    transform: translateX(25%);
+  }
+  .grimoire-flipbook[data-closed="true"][data-closed-end="true"] {
+    transform: translateX(-25%);
+  }
 }
 
 /* Pages (hojas de papel) */
-.grimoire-shell .page {
+.grimoire-flipbook .page {
   background: #f4efe6;
   overflow: hidden;
 }
@@ -891,25 +822,13 @@ select:focus-visible {
 }
 
 /* Portada/contraportada: hard cover */
-.grimoire-shell .page-cover > div {
+.grimoire-flipbook .page-cover > div {
   background: linear-gradient(
     135deg,
     #0b0a0d 0%,
     #141218 60%,
     #0b0a0d 100%
   );
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .grimoire-shell {
-    padding: 14px 16px 20px;
-    transform: none;
-  }
-  .grimoire-stack-left,
-  .grimoire-stack-right {
-    display: none;
-  }
 }
 
 /* Mobile cover cards (primera y última del carrusel) */

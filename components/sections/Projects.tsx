@@ -8,7 +8,14 @@ import { Link, useRouter } from "@/i18n/navigation"
 import { SectionLabel } from "@/components/motion"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import { ArchitectureDiagram } from "@/components/sections/ArchitectureDiagram"
+import { generateSpeedLines } from "@/lib/speed-lines"
 import type { Project } from "@/content/types"
+
+const PROJECT_SPEED_LINES = generateSpeedLines({
+  count: 24,
+  innerRadius: 10,
+  outerRadius: 70,
+})
 
 type ProjectsProps = {
   projects: Project[]
@@ -98,24 +105,17 @@ export function Projects({ projects }: ProjectsProps) {
                     preserveAspectRatio="none"
                     className="proj-speed pointer-events-none absolute inset-0 w-full h-full text-ki"
                   >
-                    {Array.from({ length: 24 }).map((_, i) => {
-                      const a = (i / 24) * Math.PI * 2
-                      const x1 = 50 + Math.cos(a) * 10
-                      const y1 = 50 + Math.sin(a) * 10
-                      const x2 = 50 + Math.cos(a) * 70
-                      const y2 = 50 + Math.sin(a) * 70
-                      return (
-                        <line
-                          key={i}
-                          x1={x1}
-                          y1={y1}
-                          x2={x2}
-                          y2={y2}
-                          stroke="currentColor"
-                          strokeWidth="0.3"
-                        />
-                      )
-                    })}
+                    {PROJECT_SPEED_LINES.map((l, i) => (
+                      <line
+                        key={i}
+                        x1={l.x1}
+                        y1={l.y1}
+                        x2={l.x2}
+                        y2={l.y2}
+                        stroke="currentColor"
+                        strokeWidth="0.3"
+                      />
+                    ))}
                   </svg>
                 )}
 
