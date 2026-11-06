@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=https://johan-rv.site/" />
+    <link rel="canonical" href="https://johan-rv.site/" />
+    <meta name="robots" content="noindex" />
+    <title>Johan Rivera — Portafolio</title>
+    <style>
+      :root { color-scheme: dark; }
+      html, body {
+        background: #0b0a0d;
+        color: #f1ece2;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        margin: 0;
+        min-height: 100vh;
+      }
+      main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 2rem;
+        text-align: center;
+      }
+      h1 { font-weight: 800; letter-spacing: -0.01em; margin: 0; font-size: 2.5rem; }
+      a { color: #ffb224; text-decoration: none; border-bottom: 1px solid currentColor; }
+      a:hover, a:focus-visible { color: #4cc2ff; }
+      p { max-width: 32rem; line-height: 1.6; color: #a39e95; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>El portafolio se mudó</h1>
+      <p>
+        Esta URL de GitHub Pages ya no tiene contenido.
+        El portafolio ahora vive en
+        <a href="https://johan-rv.site/">johan-rv.site</a>.
+      </p>
+    </main>
+    <script>
+      // GitHub Pages sirve este 404.html para cualquier ruta inexistente bajo
+      // el repo (por ejemplo /Portafolio/loquesea). Redirigimos siempre al
+      // root del nuevo dominio.
+      try {
+        location.replace("https://johan-rv.site/");
+      } catch (e) {
+        // fallback silencioso al <meta refresh>
+      }
+    </script>
+  </body>
+</html>

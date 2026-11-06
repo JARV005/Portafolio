@@ -181,7 +181,13 @@ export function Contact({ contact, profile }: ContactProps) {
               <h3 className="font-display font-black text-sm uppercase tracking-wide">
                 {tC("formHeading")}
               </h3>
-              <ContactForm />
+              <ContactForm
+                fallbackEmail={
+                  email
+                    ? { href: email.href, display: email.display }
+                    : undefined
+                }
+              />
             </div>
           </div>
         </InkPanel>

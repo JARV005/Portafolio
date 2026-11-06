@@ -82,7 +82,7 @@
     "sending": "Sending…",
     "sent": "Sent",
     "error": "Couldn't send. Try again or copy my email.",
-    "notConfigured": "The form isn't configured yet. Use the copy-email button."
+    "notConfigured": "The form isn't live yet. Email me directly at"
   },
   "footer": {
     "madeIn": "Made in Medellín",

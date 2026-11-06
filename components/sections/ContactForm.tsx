@@ -8,7 +8,11 @@ import { useReducedMotion } from "@/hooks/useReducedMotion"
 
 type Status = "idle" | "sending" | "ok" | "not_configured" | "error"
 
-export function ContactForm() {
+type ContactFormProps = {
+  fallbackEmail?: { href: string; display: string }
+}
+
+export function ContactForm({ fallbackEmail }: ContactFormProps = {}) {
   const t = useTranslations("contactForm")
   const nameId = useId()
   const emailId = useId()
@@ -170,9 +174,20 @@ export function ContactForm() {
           <p
             role="status"
             aria-live="polite"
-            className="font-mono text-xs text-ki/80"
+            className="font-mono text-xs text-fg-dim leading-relaxed max-w-md"
           >
             {t("notConfigured")}
+            {fallbackEmail && (
+              <>
+                {" "}
+                <a
+                  href={fallbackEmail.href}
+                  className="text-ki underline underline-offset-4 hover:opacity-80"
+                >
+                  {fallbackEmail.display}
+                </a>
+              </>
+            )}
           </p>
         )}
       </div>
