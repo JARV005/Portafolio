@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Johan Rivera — Desarrollador Backend · C#/.NET · Node.js · Azure",
+    "description": "Desarrollador Backend (C#/.NET, Node.js, Azure). Construyo backend sólido, trabajo con equipos y formo coders.",
+    "ogAlt": "Johan Rivera — Desarrollador Backend · C#/.NET · Node.js · Azure"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido",
+    "avatarWave": "Ilustración estilo anime de Johan Rivera saludando",
+    "avatarReach": "Ilustración estilo anime de Johan Rivera extendiendo la mano"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "experience": "Trayectoria",
+    "squad": "Equipo",
+    "grimoire": "Grimorio",
+    "projects": "Proyectos",
+    "arsenal": "Arsenal",
+    "contact": "Contacto"
+  },
+  "cta": {
+    "downloadCV": "Descargar CV",
+    "sendMessage": "Enviar mensaje",
+    "viewProject": "Ver proyecto",
+    "viewProjects": "Ver proyectos",
+    "viewDemo": "Ver demo",
+    "viewRepo": "Ver repositorio",
+    "viewCase": "Ver caso de estudio",
+    "backToProjects": "← Volver a proyectos",
+    "scroll": "Scroll"
+  },
+  "sections": {
+    "about": "Sobre mí",
+    "experience": "Trayectoria",
+    "education": "Formación",
+    "squad": "Cómo trabajo con equipos",
+    "grimoire": "Grimorio",
+    "projects": "Proyectos",
+    "arsenal": "Arsenal",
+    "contact": "Contacto"
+  },
+  "grimoire": {
+    "pendingMaterial": "Material pendiente",
+    "learnLabel": "Qué aprenden",
+    "approachLabel": "Mi enfoque",
+    "material": "Ver material",
+    "prev": "Página anterior",
+    "next": "Página siguiente",
+    "pageOf": "Página {current} de {total}",
+    "dragHint": "Arrastra la esquina o usa las flechas"
+  },
+  "projects": {
+    "problemLabel": "Problema",
+    "roleLabel": "Mi rol",
+    "architectureLabel": "Arquitectura",
+    "stackLabel": "Stack",
+    "decisionsLabel": "Decisiones técnicas",
+    "resultLabel": "Resultado",
+    "linksLabel": "Enlaces",
+    "pendingImage": "Captura pendiente",
+    "pendingResult": "Resultado pendiente",
+    "pendingRole": "Rol pendiente",
+    "pendingArchitecture": "Arquitectura pendiente"
+  },
+  "arsenal": {
+    "hint": "Pasa el cursor o enfoca una tecnología para ver en qué proyectos la usé.",
+    "usedIn": "La uso en:",
+    "noMatches": "Aún no la uso en un proyecto público del portafolio."
+  },
+  "contactSection": {
+    "heading": "Hablemos",
+    "copyEmail": "Copiar email",
+    "emailCopied": "Copiado",
+    "formHeading": "O escríbeme directo"
+  },
+  "contactForm": {
+    "nameLabel": "Nombre",
+    "emailLabel": "Email",
+    "messageLabel": "Mensaje",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "sent": "Enviado",
+    "error": "No se pudo enviar. Prueba de nuevo o copia mi email.",
+    "notConfigured": "El formulario todavía no está activo. Escríbeme directo a"
+  },
+  "footer": {
+    "madeIn": "Hecho en Medellín",
+    "repo": "Código abierto"
+  },
+  "konami": {
+    "badge": "気 modo poder activado"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Esta viñeta se quedó sin dibujar.",
+    "cta": "Volver al inicio"
+  },
+  "squad": {
+    "team": "El resultado emerge del equipo, no de una sola persona.",
+    "practicesHeading": "Cómo trabajo con el equipo",
+    "metricsHeading": "El equipo en cifras",
+    "impactLabel": "Impacto del equipo"
+  },
+  "labels": {
+    "featured": "Destacado",
+    "active": "Actual",
+    "languages": "Idiomas",
+    "location": "Ubicación",
+    "pendingContent": "Contenido pendiente",
+    "noPhoto": "Foto pendiente",
+    "pillarBuild": "Construyo",
+    "pillarLead": "Lidero",
+    "pillarTeach": "Enseño"
+  }
+}

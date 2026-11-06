@@ -1,303 +1,1191 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&text=%E6%B0%97%E9%81%93%E5%A4%89%E9%9A%8A%E6%9B%B8%E4%BD%9C%E4%BC%9A%E5%99%A8%E6%96%87%E5%A1%94%E5%AE%88%E9%A7%90%E8%94%B5%E7%B5%82%E8%AD%98%E7%B9%8B%E9%9B%B2%E8%A9%A6%E7%AE%97%E5%BD%A2%E6%AE%BB%E6%B1%82%E5%9E%8B%E7%92%B0&display=swap");
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-:root {
-  --background: #06050e;
-  --foreground: oklch(0.97 0 0);
-  --card: oklch(0.09 0.03 270);
-  --card-foreground: oklch(0.97 0 0);
-  --popover: oklch(0.09 0.03 270);
-  --popover-foreground: oklch(0.97 0 0);
-  --primary: oklch(0.72 0.22 300);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.55 0.18 260);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.18 0.03 270);
-  --muted-foreground: oklch(0.55 0.02 270);
-  --accent: oklch(0.65 0.25 295);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.22 0.05 280);
-  --input: oklch(0.18 0.04 275);
-  --ring: oklch(0.65 0.22 295);
-  --radius: 0.75rem;
+/* ------------------------------------------------------------------
+   Tokens — Noche (default) y Manga (data-theme="light")
+   Se declaran como CSS vars planas en [data-theme=...] para que
+   funcionen a nivel de root y también dentro de contenedores
+   anidados (ver /dev/kit).
+------------------------------------------------------------------ */
+:root,
+[data-theme="dark"] {
+  --bg: #0b0a0d;
+  --surface: #141218;
+  --fg: #f1ece2;
+  --fg-dim: #a39e95;
+  --ki: #ffb224;
+  --ki-blue: #4cc2ff;
+  --ink: #e5484d;
+  --stroke: #2a262e;
+  color-scheme: dark;
 }
 
+[data-theme="light"] {
+  --bg: #f4efe6;
+  --surface: #ebe4d6;
+  --fg: #111014;
+  --fg-dim: #4a4740;
+  --ki: #a86618;
+  --ki-blue: #0d6eaa;
+  --ink: #a1333a;
+  --stroke: #c7bfaf;
+  color-scheme: light;
+}
+
+/* Mapeo a utilidades Tailwind v4 */
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-dim: var(--fg-dim);
+  --color-ki: var(--ki);
+  --color-ki-blue: var(--ki-blue);
+  --color-ink: var(--ink);
+  --color-stroke: var(--stroke);
+
+  --font-display: var(--font-display-ff), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-sans-ff), "Geist", system-ui, sans-serif;
+  --font-mono: var(--font-mono-ff), "Geist Mono", ui-monospace, monospace;
+  --font-kanji: "Noto Serif JP", serif;
+
+  --radius-ink: 5px;
 }
 
-* { border-color: var(--border); box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
 
 body {
-  background-color: #06050e;
-  color: #e8e0ff;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #06050e; }
-::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #4c1d95, #7c3aed); border-radius: 4px; }
-
-/* ── Background grid — subtle Capsule Corp lab ── */
-.bg-grid {
-  background-image:
-    linear-gradient(rgba(124,58,237,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124,58,237,0.035) 1px, transparent 1px);
-  background-size: 72px 72px;
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-/* ── Ambient glow orbs ── */
-.orb {
+/* Skip link accesible */
+.skip-link {
   position: fixed;
-  border-radius: 50%;
-  filter: blur(110px);
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--bg);
+  color: var(--fg);
+  border: 2px solid var(--ki);
+  border-radius: var(--radius-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transform: translateY(-200%);
+  transition: transform 160ms ease-out;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: none;
+}
+
+/* Target del skip link no debe mostrar foco visible al saltar */
+#content:focus {
+  outline: none;
+}
+
+/* Display expandido aproximado para Archivo */
+.font-display {
+  font-stretch: 125%;
+  letter-spacing: 0.01em;
+}
+
+/* ------------------------------------------------------------------
+   Texturas sin imágenes
+------------------------------------------------------------------ */
+
+/* Grano fino vía feTurbulence en SVG inline */
+.grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+}
+
+/* Puntos de semitono — color controlado por currentColor */
+.halftone {
+  background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+
+.halftone-mask {
+  mask-image: radial-gradient(circle at center, #000 55%, transparent 85%);
+}
+
+/* Líneas de velocidad diagonales */
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    112deg,
+    currentColor 0 1px,
+    transparent 1px 10px
+  );
+}
+
+/* Línea de energía (divisor) */
+.energy-rule {
+  background: linear-gradient(90deg, transparent, var(--ki) 20%, var(--ki) 80%, transparent);
+  height: 1px;
+  width: 100%;
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero — aura de ki, nombre encendido e indicador de scroll
+------------------------------------------------------------------ */
+
+.ki-aura,
+.ki-aura-static {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Glass ── */
-.glass {
-  background: rgba(12, 8, 28, 0.55);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(139,92,246,0.13);
-}
-.glass-card {
-  background: rgba(14, 9, 32, 0.72);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(109,40,217,0.18);
-  transition: border-color 0.35s ease, box-shadow 0.35s ease;
-}
-.glass-card:hover {
-  border-color: rgba(139,92,246,0.35);
-  box-shadow: 0 0 40px rgba(109,40,217,0.15), inset 0 0 30px rgba(109,40,217,0.04);
+.ki-aura {
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 42%,
+    color-mix(in oklab, var(--ki) 32%, transparent) 0%,
+    transparent 65%
+  );
+  filter: blur(42px);
+  opacity: calc(0.22 + var(--aura-boost, 0));
+  animation: ki-breath 5.5s ease-in-out infinite;
+  will-change: opacity, transform;
 }
 
-/* ── Gradient text ── */
-.gradient-text {
-  background: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 45%, #a78bfa 75%, #7c3aed 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.gradient-text-cool {
-  background: linear-gradient(135deg, #67e8f9 0%, #818cf8 40%, #c4b5fd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.ki-aura-paused {
+  animation-play-state: paused;
 }
 
-/* ── Tech badge ── */
-.tech-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 11px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  background: rgba(109,40,217,0.1);
-  border: 1px solid rgba(139,92,246,0.2);
-  color: #c4b5fd;
-  transition: all 0.25s ease;
-  white-space: nowrap;
-}
-.tech-badge:hover {
-  background: rgba(109,40,217,0.22);
-  border-color: rgba(167,139,250,0.45);
-  color: #ede9fe;
-  box-shadow: 0 0 12px rgba(139,92,246,0.2);
+.ki-aura-static {
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 42%,
+    color-mix(in oklab, var(--ki) 22%, transparent) 0%,
+    transparent 68%
+  );
+  filter: blur(32px);
+  opacity: 0.25;
 }
 
-/* ── Nav link ── */
-.nav-link {
+@keyframes ki-breath {
+  0%,
+  100% {
+    opacity: calc(0.18 + var(--aura-boost, 0));
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: calc(0.34 + var(--aura-boost, 0));
+    transform: scale(1.02);
+  }
+}
+
+.hero-name {
+  animation: name-ignite 2200ms cubic-bezier(0.1, 0.9, 0.3, 1) backwards;
+  text-shadow: 0 0 24px color-mix(in oklab, var(--ki) 22%, transparent);
+}
+
+@keyframes name-ignite {
+  0% {
+    opacity: 0.15;
+    filter: blur(6px);
+    text-shadow: none;
+  }
+  55% {
+    opacity: 0.9;
+    filter: blur(0);
+    text-shadow: 0 0 0 transparent;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    text-shadow: 0 0 24px color-mix(in oklab, var(--ki) 22%, transparent);
+  }
+}
+
+.scroll-trail {
+  animation: scroll-trail 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-trail {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(320%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ki-aura {
+    animation: none;
+  }
+  .hero-name {
+    animation: name-fade 500ms ease-out backwards;
+    text-shadow: none;
+  }
+  .scroll-trail {
+    animation: none;
+  }
+}
+
+@keyframes name-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero vignette + avatar que rompe el marco
+------------------------------------------------------------------ */
+
+.hero-vignette {
   position: relative;
-  font-size: 0.8rem;
-  color: rgba(167,139,250,0.6);
-  transition: color 0.2s ease;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  border-radius: calc(var(--radius-ink) + 2px);
 }
-.nav-link::after {
-  content: '';
+
+@media (min-width: 768px) {
+  .hero-vignette::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--stroke);
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--surface) 25%, transparent) 0%,
+        transparent 100%
+      );
+    z-index: 0;
+  }
+  .hero-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid color-mix(in oklab, var(--ki) 30%, transparent);
+    border-radius: calc(var(--radius-ink) - 2px);
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+  }
+}
+
+.hero-avatar-slot {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero-avatar-slot {
+    min-height: 560px;
+    align-items: stretch;
+  }
+}
+
+.hero-avatar {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.96) translateY(10px);
+  transition:
+    opacity 650ms cubic-bezier(0.33, 1, 0.68, 1),
+    transform 650ms cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform, opacity;
+}
+
+.hero-avatar-in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+@media (min-width: 768px) {
+  .hero-avatar {
+    /* Rompe la viñeta: sobresale por arriba y derecha */
+    margin-top: -56px;
+    margin-right: -40px;
+    max-width: 520px;
+  }
+}
+
+/* Aura ámbar del avatar: herrencia visual con .ki-aura del hero */
+.hero-avatar-aura {
   position: absolute;
-  bottom: -3px; left: 0;
-  width: 0; height: 1px;
-  background: linear-gradient(90deg, #7c3aed, #a78bfa, #67e8f9);
-  transition: width 0.3s ease;
-}
-.nav-link:hover, .nav-link.active { color: #e9d5ff; }
-.nav-link:hover::after, .nav-link.active::after { width: 100%; }
-
-/* ── Section marker ── */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(109,40,217,0.35), rgba(99,102,241,0.2), transparent);
-  margin-bottom: 5rem;
-}
-
-/* ── Animations ── */
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-@keyframes pulse-orb {
-  0%,100% { opacity: 0.35; transform: scale(1); }
-  50%      { opacity: 0.65; transform: scale(1.06); }
-}
-@keyframes energy-ring {
-  0%   { transform: scale(0.85); opacity: 0.8; }
-  100% { transform: scale(1.6);  opacity: 0; }
-}
-@keyframes aura-breathe {
-  0%,100% { opacity: 0.5; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.03); }
-}
-@keyframes scan-line {
-  0%   { transform: translateY(-100%); opacity: 0.6; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-@keyframes gradient-pan {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes particle-rise {
-  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
-  100% { transform: translateY(-120px) translateX(var(--drift,10px)) scale(0.2); opacity: 0; }
-}
-@keyframes scouter-flicker {
-  0%,96%,100% { opacity: 1; }
-  97%          { opacity: 0.4; }
-  98%          { opacity: 0.9; }
-}
-@keyframes border-energy {
-  0%,100% { border-color: rgba(109,40,217,0.25); box-shadow: 0 0 0 rgba(109,40,217,0); }
-  50%      { border-color: rgba(139,92,246,0.5);  box-shadow: 0 0 20px rgba(109,40,217,0.2); }
-}
-@keyframes progress-fill {
-  from { width: 0; }
-}
-
-.animate-float       { animation: float 5s ease-in-out infinite; }
-.animate-pulse-orb   { animation: pulse-orb 4s ease-in-out infinite; }
-.animate-aura        { animation: aura-breathe 3s ease-in-out infinite; }
-.animate-fade-in-up  { animation: fadeInUp 0.75s ease forwards; }
-.animate-fade-in     { animation: fadeIn 0.6s ease forwards; }
-.animate-scouter     { animation: scouter-flicker 8s ease-in-out infinite; }
-.animate-border-energy { animation: border-energy 3.5s ease-in-out infinite; }
-.animate-gradient-pan { animation: gradient-pan 5s ease infinite; background-size: 200% 200%; }
-.animate-progress    { animation: progress-fill 1.4s ease forwards; }
-
-/* ── Scroll reveal ── */
-.reveal {
+  inset: 8% 10% 0 10%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 55% 50% at 50% 50%,
+    color-mix(in oklab, var(--ki) 28%, transparent) 0%,
+    transparent 65%
+  );
+  filter: blur(36px);
   opacity: 0;
-  transform: translateY(36px);
-  transition: opacity 0.85s cubic-bezier(.16,1,.3,1), transform 0.85s cubic-bezier(.16,1,.3,1);
+  transition: opacity 700ms ease-out;
 }
-.reveal-left {
+
+.hero-avatar-in .hero-avatar-aura {
+  opacity: 0.55;
+  animation: ki-breath 5.5s ease-in-out infinite;
+}
+
+.hero-avatar-reduced .hero-avatar-aura {
+  opacity: 0.4;
+  animation: none;
+}
+
+/* Speed-lines detrás del avatar durante la entrada */
+.hero-avatar-speed {
+  position: absolute;
+  inset: 5% 5% 0 5%;
+  width: 90%;
+  height: 90%;
+  color: var(--ki);
+  pointer-events: none;
   opacity: 0;
-  transform: translateX(-36px);
-  transition: opacity 0.85s cubic-bezier(.16,1,.3,1), transform 0.85s cubic-bezier(.16,1,.3,1);
-}
-.reveal.visible, .reveal-left.visible { opacity: 1; transform: none; }
-
-.delay-1 { transition-delay: 80ms; }
-.delay-2 { transition-delay: 160ms; }
-.delay-3 { transition-delay: 240ms; }
-.delay-4 { transition-delay: 320ms; }
-.delay-5 { transition-delay: 400ms; }
-.delay-6 { transition-delay: 480ms; }
-
-/* ── Project card ── */
-.project-card {
-  transition: transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease;
-}
-.project-card:hover {
-  transform: translateY(-7px);
+  transform: scale(0.4);
+  z-index: 1;
 }
 
-/* ── CStation spotlight ── */
-.cstation-card {
-  background: linear-gradient(135deg, rgba(15,8,38,0.95) 0%, rgba(22,10,52,0.9) 50%, rgba(18,8,42,0.95) 100%);
-  border: 1px solid rgba(139,92,246,0.3);
+.hero-avatar-in .hero-avatar-speed {
+  animation: avatar-speed-burst 700ms cubic-bezier(0.33, 1, 0.68, 1) 100ms forwards;
+}
+
+@keyframes avatar-speed-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+/* Flash ámbar coordinado con el dorado del guiño */
+.hero-avatar-flash {
+  position: absolute;
+  inset: 15% 5% 20% 5%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 42%,
+    color-mix(in oklab, var(--ki) 70%, white) 0%,
+    color-mix(in oklab, var(--ki) 30%, transparent) 25%,
+    transparent 60%
+  );
+  filter: blur(14px);
+}
+
+.hero-avatar-in .hero-avatar-flash {
+  animation: avatar-flash 650ms ease-out 180ms forwards;
+}
+
+@keyframes avatar-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.hero-avatar-img {
   position: relative;
+  z-index: 3;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Tema Manga: sombra suave de tinta detrás del avatar para legibilidad sobre papel */
+[data-theme="light"] .hero-avatar-img {
+  filter: drop-shadow(0 6px 24px rgba(17, 16, 20, 0.22))
+    drop-shadow(0 2px 6px rgba(17, 16, 20, 0.14));
+}
+
+/* Móvil: cortado a cintura dentro de la viñeta */
+@media (max-width: 767px) {
+  .hero-avatar {
+    max-height: 45vh;
+    overflow: hidden;
+  }
+  .hero-avatar-img {
+    max-height: 45vh;
+    object-position: center top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-avatar {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-avatar-speed,
+  .hero-avatar-flash {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Contact avatar — entra desde el costado con brillo pulsante
+------------------------------------------------------------------ */
+
+.contact-avatar {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateX(40px);
+  transition:
+    opacity 700ms cubic-bezier(0.33, 1, 0.68, 1),
+    transform 700ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (min-width: 768px) {
+  .contact-avatar {
+    max-width: 280px;
+    margin: 0;
+  }
+}
+
+.contact-avatar-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.contact-avatar-reduced {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.contact-avatar-glow {
+  position: absolute;
+  inset: 30% 10% 25% 10%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 40% 50%,
+    color-mix(in oklab, var(--ki) 45%, transparent) 0%,
+    transparent 65%
+  );
+  filter: blur(28px);
+  opacity: 0;
+}
+
+.contact-avatar-in .contact-avatar-glow {
+  animation: contact-glow-pulse 1600ms cubic-bezier(0.33, 1, 0.68, 1) 400ms forwards;
+}
+
+@keyframes contact-glow-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  40% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+.contact-avatar-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+[data-theme="light"] .contact-avatar-img {
+  filter: drop-shadow(0 4px 16px rgba(17, 16, 20, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-avatar-glow,
+  .contact-avatar-in .contact-avatar-glow {
+    animation: none;
+    opacity: 0.3;
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-avatar {
+    max-width: 180px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Sobre mí — foto con tratamiento de semitono
+------------------------------------------------------------------ */
+
+.photo-halftone img {
+  filter: grayscale(1) contrast(1.08) brightness(0.95);
+  transition: filter 500ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.photo-halftone:hover img,
+.photo-halftone:focus-visible img {
+  filter: grayscale(0) contrast(1) brightness(1);
+}
+
+.photo-halftone:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 4px;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--fg) 45%, transparent) 1px,
+    transparent 1.6px
+  );
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  transition: opacity 500ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+[data-theme="dark"] .photo-overlay {
+  mix-blend-mode: screen;
+  opacity: 0.3;
+}
+
+.photo-halftone:hover .photo-overlay,
+.photo-halftone:focus-visible .photo-overlay {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------------
+   Trayectoria — timeline con energía y sparks
+------------------------------------------------------------------ */
+
+.stage-dot {
+  --stage-color: var(--ki);
+  position: absolute;
+  z-index: 2;
+}
+
+.stage-dot::before,
+.stage-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--stage-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage.stage-active .stage-dot {
+  background: var(--stage-color);
+  border-color: var(--stage-color);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--stage-color) 18%, transparent),
+    0 0 22px color-mix(in oklab, var(--stage-color) 55%, transparent);
+}
+
+.stage.stage-active .stage-dot::before {
+  animation: stage-spark 1200ms ease-out 150ms both;
+}
+
+.stage.stage-active .stage-dot::after {
+  animation: stage-spark 1200ms ease-out 450ms both;
+}
+
+@keyframes stage-spark {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, -28px) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* Ascent: destello más marcado al llegar a Team Leader */
+.stage.stage-active.stage-ascent .stage-dot {
+  box-shadow:
+    0 0 0 6px color-mix(in oklab, var(--stage-color) 24%, transparent),
+    0 0 40px color-mix(in oklab, var(--stage-color) 75%, transparent),
+    0 0 72px color-mix(in oklab, var(--ki) 30%, transparent);
+}
+
+.stage.stage-active.stage-ascent .stage-dot::before {
+  animation: stage-spark-ascent 1600ms cubic-bezier(0.33, 1, 0.68, 1) 100ms both;
+}
+
+.stage.stage-active.stage-ascent .stage-dot::after {
+  animation: stage-spark-ascent 1600ms cubic-bezier(0.33, 1, 0.68, 1) 420ms both;
+}
+
+@keyframes stage-spark-ascent {
+  0% {
+    transform: translate(0, 0) scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -44px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.stage-active.stage-ascent .stage-dot::before,
+  .stage.stage-active.stage-ascent .stage-dot::after {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-halftone img,
+  .photo-overlay {
+    transition: none;
+  }
+  .stage.stage-active .stage-dot::before,
+  .stage.stage-active .stage-dot::after {
+    animation: none;
+  }
+  .stage-dot {
+    background: var(--stage-color);
+    border-color: var(--stage-color);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Grimorio — libro CSS 3D + icon stroke draw + carrusel mobile
+------------------------------------------------------------------ */
+
+.grimoire-stage:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 10px;
+  border-radius: 8px;
+}
+
+.grimoire-card {
+  background: var(--surface);
+  border: 2px solid var(--stroke);
+  border-radius: var(--radius-ink);
+  min-height: 320px;
+  height: 100%;
+}
+
+.grimoire-cards::-webkit-scrollbar {
+  height: 4px;
+}
+.grimoire-cards::-webkit-scrollbar-thumb {
+  background: var(--stroke);
+  border-radius: 2px;
+}
+
+/* Grimorio — libro abierto: flota con sombra, sin marco café */
+.grimoire-book-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.grimoire-flipbook {
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 3px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #1a1215 0%, #0f0a0c 100%);
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.45);
+  transition: transform 500ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+[data-theme="light"] .grimoire-flipbook {
+  background: linear-gradient(135deg, #3a2a1f 0%, #28170d 100%);
+  box-shadow: 0 20px 36px -12px rgba(0, 0, 0, 0.2);
+}
+
+/* Libro cerrado: se centra visualmente trasladando la mitad invisible */
+@media (min-width: 768px) {
+  .grimoire-flipbook[data-closed="true"][data-closed-end="false"] {
+    transform: translateX(25%);
+  }
+  .grimoire-flipbook[data-closed="true"][data-closed-end="true"] {
+    transform: translateX(-25%);
+  }
+}
+
+/* Pages (hojas de papel) */
+.grimoire-flipbook .page {
+  background: #f4efe6;
   overflow: hidden;
 }
-.cstation-card::before {
-  content:'';
-  position:absolute; inset:0;
-  background: radial-gradient(ellipse at 20% 20%, rgba(139,92,246,0.12) 0%, transparent 55%),
-              radial-gradient(ellipse at 80% 80%, rgba(99,102,241,0.08) 0%, transparent 50%);
-  pointer-events:none;
+
+.grimoire-paper {
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      #faf5ea 0%,
+      #f4efe6 55%,
+      #ebe4d3 100%
+    );
 }
 
-/* ── Energy ring (hero) ── */
-.energy-ring {
+/* Textura de grano sobre el papel */
+.grimoire-paper::after {
+  content: "";
   position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(139,92,246,0.4);
-  animation: energy-ring 3s ease-out infinite;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+  opacity: 0.12;
+  pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
-/* ── Scouter line (decorative) ── */
-.scouter-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(103,232,249,0.5), rgba(139,92,246,0.4), transparent);
-  animation: scouter-flicker 6s ease-in-out infinite;
+/* Runas (técnologías dibujadas con trazo) */
+.rune svg path,
+.rune svg line,
+.rune svg polyline,
+.rune svg circle,
+.rune svg rect,
+.rune svg polygon {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  fill-opacity: 0;
+  animation:
+    rune-draw 1000ms cubic-bezier(0.33, 1, 0.68, 1) forwards,
+    rune-fade 240ms linear forwards 750ms;
+  animation-delay: calc(var(--rune-i, 0) * 100ms);
 }
 
-/* ── Skill card ── */
-.skill-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.skill-card:hover {
-  transform: translateY(-5px);
+@keyframes rune-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-/* ── Timeline ── */
-.timeline-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #6366f1);
-  box-shadow: 0 0 0 3px rgba(109,40,217,0.15), 0 0 16px rgba(109,40,217,0.4);
+@keyframes rune-fade {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+/* Reduced-motion fallback */
+.reduced-pages {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.reduced-page {
+  min-height: 420px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grimoire-shell {
+    transform: none;
+  }
+  .rune svg path,
+  .rune svg line,
+  .rune svg polyline,
+  .rune svg circle,
+  .rune svg rect,
+  .rune svg polygon {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    animation: none;
+  }
+}
+
+/* Portada/contraportada: hard cover */
+.grimoire-flipbook .page-cover > div {
+  background: linear-gradient(
+    135deg,
+    #0b0a0d 0%,
+    #141218 60%,
+    #0b0a0d 100%
+  );
+}
+
+/* Mobile cover cards (primera y última del carrusel) */
+.grimoire-cover-card {
+  background:
+    linear-gradient(
+      135deg,
+      var(--bg) 0%,
+      color-mix(in oklab, var(--surface) 70%, var(--bg)) 100%
+    );
+  border: 2px solid var(--stroke);
+  border-radius: var(--radius-ink);
+}
+
+.grimoire-cover-card::before {
+  content: "";
   position: absolute;
-  left: -7px; top: 24px;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--ki) 20%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 6px 6px;
+  opacity: 0.25;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Icon stroke draw animation */
+.track-icons .track-icon svg path,
+.track-icons .track-icon svg line,
+.track-icons .track-icon svg polyline,
+.track-icons .track-icon svg circle,
+.track-icons .track-icon svg rect,
+.track-icons .track-icon svg polygon {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  fill-opacity: 0;
+  animation:
+    track-draw 850ms cubic-bezier(0.33, 1, 0.68, 1) forwards,
+    track-fade 240ms linear forwards 650ms;
+  animation-delay: calc(var(--icon-i, 0) * 90ms);
+}
+
+@keyframes track-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes track-fade {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-icons .track-icon svg path,
+  .track-icons .track-icon svg line,
+  .track-icons .track-icon svg polyline,
+  .track-icons .track-icon svg circle,
+  .track-icons .track-icon svg rect,
+  .track-icons .track-icon svg polygon {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Projects grid — speed-lines burst + bubble on hover/focus
+------------------------------------------------------------------ */
+
+.proj-card {
+  isolation: isolate;
+}
+
+.proj-card .proj-image {
+  transition: transform 650ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.proj-card:hover .proj-image,
+.proj-card:focus-visible .proj-image {
+  transform: scale(1.06);
+}
+
+.proj-speed {
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: center;
+}
+
+.proj-card:hover .proj-speed,
+.proj-card:focus-visible .proj-speed {
+  animation: proj-speed-burst 650ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes proj-speed-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+.proj-bubble {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 320ms ease-out,
+    transform 320ms ease-out;
+}
+
+.proj-card:hover .proj-bubble,
+.proj-card:focus-visible .proj-bubble {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.proj-card:focus-visible {
+  outline: 2px solid var(--ki);
+  outline-offset: 4px;
+}
+
+/* Vignette sutil para la viñeta con captura (sin usar acentos externos) */
+.proj-image-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 48%,
+    color-mix(in oklab, var(--bg) 70%, transparent) 100%
+  );
+}
+
+.proj-image-mask::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--fg) 25%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  mask-image: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    black 95%
+  );
+}
+
+[data-theme="dark"] .proj-image-mask::after {
+  mix-blend-mode: screen;
+  opacity: 0.2;
+}
+
+/* Diagrama en las viñetas sin captura: trazo de tinta que se dibuja al hover */
+.proj-card .proj-diagram rect,
+.proj-card .proj-diagram line {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0ms;
+}
+
+.proj-card:hover .proj-diagram rect,
+.proj-card:focus-visible .proj-diagram rect,
+.proj-card:hover .proj-diagram line,
+.proj-card:focus-visible .proj-diagram line {
+  animation: proj-diagram-draw 700ms ease-out forwards;
+}
+
+@keyframes proj-diagram-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card .proj-diagram rect,
+  .proj-card .proj-diagram line {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-card .proj-image,
+  .proj-card:hover .proj-image,
+  .proj-card:focus-visible .proj-image {
+    transition: none;
+    transform: none;
+  }
+  .proj-speed,
+  .proj-card:hover .proj-speed,
+  .proj-card:focus-visible .proj-speed {
+    animation: none;
+    display: none;
+  }
+  .proj-bubble {
+    transition: opacity 150ms ease-out;
+    transform: none;
+  }
+  .proj-card:hover .proj-bubble,
+  .proj-card:focus-visible .proj-bubble {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   View Transitions API — grid card ↔ case study hero
+------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 350ms;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Contact — trazo de energía en el botón "Copiar email"
+------------------------------------------------------------------ */
+
+.copy-trace {
+  color: var(--ki);
+}
+
+.copy-trace-path {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: none;
+}
+
+.copy-button[data-animating="true"] .copy-trace-path {
+  animation: copy-trace-run 600ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes copy-trace-run {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-button[data-animating="true"] .copy-trace-path {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Power mode (Konami) — intensifica el aura global
+------------------------------------------------------------------ */
+
+[data-power="true"] .ki-aura {
+  opacity: 0.55;
+}
+
+[data-power="true"]::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    color-mix(in oklab, var(--ki) 22%, transparent) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 5;
+  animation: power-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes power-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.power-toast {
+  animation: power-toast-in 220ms ease-out;
+}
+
+@keyframes power-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-power="true"]::before {
+    animation: none;
+  }
+  .power-toast {
+    animation: none;
+  }
 }

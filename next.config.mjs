@@ -1,17 +1,8 @@
+import createNextIntlPlugin from "next-intl/plugin"
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "export",
+const nextConfig = {}
 
-  basePath: "/Portafolio",
-  assetPrefix: "/Portafolio/",
-
-  images: {
-    unoptimized: true,
-  },
-
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-}
-
-export default nextConfig
+export default withNextIntl(nextConfig)

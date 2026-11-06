@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Johan Rivera — Backend Developer · C#/.NET · Node.js · Azure",
+    "description": "Backend Developer (C#/.NET, Node.js, Azure). I build solid backends, work with teams and mentor coders.",
+    "ogAlt": "Johan Rivera — Backend Developer · C#/.NET · Node.js · Azure"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "avatarWave": "Anime-style illustration of Johan Rivera waving",
+    "avatarReach": "Anime-style illustration of Johan Rivera reaching out"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "squad": "Team",
+    "grimoire": "Grimoire",
+    "projects": "Projects",
+    "arsenal": "Arsenal",
+    "contact": "Contact"
+  },
+  "cta": {
+    "downloadCV": "Download CV",
+    "sendMessage": "Send message",
+    "viewProject": "View project",
+    "viewProjects": "View projects",
+    "viewDemo": "View demo",
+    "viewRepo": "View repository",
+    "viewCase": "View case study",
+    "backToProjects": "← Back to projects",
+    "scroll": "Scroll"
+  },
+  "sections": {
+    "about": "About",
+    "experience": "Experience",
+    "education": "Education",
+    "squad": "How I work with teams",
+    "grimoire": "Grimoire",
+    "projects": "Projects",
+    "arsenal": "Arsenal",
+    "contact": "Contact"
+  },
+  "grimoire": {
+    "pendingMaterial": "Material pending",
+    "learnLabel": "What they learn",
+    "approachLabel": "My approach",
+    "material": "View material",
+    "prev": "Previous page",
+    "next": "Next page",
+    "pageOf": "Page {current} of {total}",
+    "dragHint": "Drag the corner or use the arrows"
+  },
+  "projects": {
+    "problemLabel": "Problem",
+    "roleLabel": "My role",
+    "architectureLabel": "Architecture",
+    "stackLabel": "Stack",
+    "decisionsLabel": "Technical decisions",
+    "resultLabel": "Outcome",
+    "linksLabel": "Links",
+    "pendingImage": "Screenshot pending",
+    "pendingResult": "Outcome pending",
+    "pendingRole": "Role pending",
+    "pendingArchitecture": "Architecture pending"
+  },
+  "arsenal": {
+    "hint": "Hover or focus a technology to see the projects it powers.",
+    "usedIn": "Used in:",
+    "noMatches": "Not used in a public portfolio project yet."
+  },
+  "contactSection": {
+    "heading": "Let's talk",
+    "copyEmail": "Copy email",
+    "emailCopied": "Copied",
+    "formHeading": "Or drop me a line"
+  },
+  "contactForm": {
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "send": "Send",
+    "sending": "Sending…",
+    "sent": "Sent",
+    "error": "Couldn't send. Try again or copy my email.",
+    "notConfigured": "The form isn't live yet. Email me directly at"
+  },
+  "footer": {
+    "madeIn": "Made in Medellín",
+    "repo": "Source"
+  },
+  "konami": {
+    "badge": "気 power mode on"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "This panel never got drawn.",
+    "cta": "Back to home"
+  },
+  "squad": {
+    "team": "The outcome emerges from the whole team, not a single person.",
+    "practicesHeading": "How I work with the team",
+    "metricsHeading": "The team in numbers",
+    "impactLabel": "Team impact"
+  },
+  "labels": {
+    "featured": "Featured",
+    "active": "Current",
+    "languages": "Languages",
+    "location": "Location",
+    "pendingContent": "Pending content",
+    "noPhoto": "Photo pending",
+    "pillarBuild": "I build",
+    "pillarLead": "I lead",
+    "pillarTeach": "I teach"
+  }
+}
