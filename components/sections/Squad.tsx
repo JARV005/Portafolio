@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import dynamic from "next/dynamic"
-import { InkPanel, Reveal, SectionLabel } from "@/components/motion"
+import { InkPanel, Reveal, SectionLabel, SplitHeading } from "@/components/motion"
 import { Counter } from "@/components/ui/Counter"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import { generateRadialPoints } from "@/lib/speed-lines"
@@ -267,7 +267,7 @@ export function Squad({ leadership }: SquadProps) {
           </InkPanel>
         </Reveal>
 
-        {visibleMetrics.length > 0 ? (
+        {visibleMetrics.length > 0 && (
           <div>
             <h3 className="font-display font-black text-sm uppercase tracking-wide mb-4">
               {tSquad("metricsHeading")}
@@ -283,24 +283,21 @@ export function Squad({ leadership }: SquadProps) {
               ))}
             </div>
           </div>
-        ) : (
-          <p className="font-mono text-xs text-ki/80 text-center">
-            {tSquad("pendingMetrics")}
-          </p>
         )}
 
-        {leadership.quote ? (
-          <Reveal>
-            <InkPanel className="p-6" texture="halftone">
-              <blockquote className="font-display font-black text-xl md:text-2xl leading-snug text-fg">
-                &ldquo;{leadership.quote}&rdquo;
-              </blockquote>
-            </InkPanel>
-          </Reveal>
-        ) : (
-          <p className="font-mono text-xs text-ki/80 text-center">
-            {tSquad("pendingQuote")}
-          </p>
+        {leadership.quote && (
+          <InkPanel className="p-6 md:p-8" texture="halftone">
+            <SplitHeading
+              text={`“${leadership.quote}”`}
+              as="blockquote"
+              by="word"
+              stagger={0.03}
+              className="font-display font-black text-2xl md:text-3xl leading-tight text-fg"
+            />
+            <footer className="mt-5 font-mono text-xs text-fg-dim tracking-[0.25em] uppercase">
+              — Johan
+            </footer>
+          </InkPanel>
         )}
       </div>
     </section>

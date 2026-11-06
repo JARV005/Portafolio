@@ -20,6 +20,6 @@ export const leadership: Leadership = {
     { id: "devops", label: "DevOps" },
     { id: "product", label: "Product" },
   ],
-  // TODO: leadership one-liner (first person)
-  quote: null,
+  quote:
+    "I lead the way I wish I'd been led as a coder: clear standards, honest feedback and room to make mistakes.",
 }

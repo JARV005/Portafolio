@@ -3,8 +3,8 @@ import type { Profile } from "../types"
 export const profile: Profile = {
   name: "Johan Rivera",
   headline: "Desarrollador Backend · C#/.NET · Node.js · Azure",
-  // TODO: línea breve sobre "Entrenar · Liderar · Enseñar" (Johan la va a escribir)
-  trinity: null,
+  trinity:
+    "Entreno para ser mejor desarrollador, lidero para que el equipo llegue más lejos y enseño para que otros no empiecen desde cero.",
   summary: [
     "Desarrollador Backend .NET con experiencia en microservicios, mensajería con RabbitMQ y despliegue sobre Docker y Azure.",
     "Fundador de Nemora, SaaS de análisis documental y cumplimiento con IA sobre Azure.",

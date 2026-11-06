@@ -41,7 +41,6 @@
     "contact": "Contacto"
   },
   "grimoire": {
-    "pendingIntro": "⚠ TODO: frase sobre enseñar",
     "pendingMaterial": "Material pendiente",
     "learnLabel": "Qué aprenden",
     "approachLabel": "Mi enfoque",
@@ -101,7 +100,6 @@
     "team": "El resultado emerge del equipo, no de una sola persona.",
     "practicesHeading": "Cómo trabajo con el equipo",
     "metricsHeading": "El equipo en cifras",
-    "pendingQuote": "⚠ TODO: frase sobre liderazgo",
     "impactLabel": "Impacto del equipo"
   },
   "labels": {
@@ -110,7 +108,6 @@
     "languages": "Idiomas",
     "location": "Ubicación",
     "pendingContent": "Contenido pendiente",
-    "pendingDate": "Fecha pendiente",
     "noPhoto": "Foto pendiente",
     "pillarBuild": "Construyo",
     "pillarLead": "Lidero",

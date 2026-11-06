@@ -41,7 +41,6 @@
     "contact": "Contact"
   },
   "grimoire": {
-    "pendingIntro": "⚠ TODO: teaching one-liner",
     "pendingMaterial": "Material pending",
     "learnLabel": "What they learn",
     "approachLabel": "My approach",
@@ -101,7 +100,6 @@
     "team": "The outcome emerges from the whole team, not a single person.",
     "practicesHeading": "How I work with the team",
     "metricsHeading": "The team in numbers",
-    "pendingQuote": "⚠ TODO: leadership one-liner",
     "impactLabel": "Team impact"
   },
   "labels": {
@@ -110,7 +108,6 @@
     "languages": "Languages",
     "location": "Location",
     "pendingContent": "Pending content",
-    "pendingDate": "Date pending",
     "noPhoto": "Photo pending",
     "pillarBuild": "I build",
     "pillarLead": "I lead",

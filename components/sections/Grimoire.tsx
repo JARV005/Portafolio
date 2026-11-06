@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { useTranslations } from "next-intl"
 import { Youtube } from "lucide-react"
-import { Reveal, SectionLabel } from "@/components/motion"
+import { InkPanel, Reveal, SectionLabel, SplitHeading } from "@/components/motion"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import type { Grimoire as GrimoireData } from "@/content/types"
 
@@ -19,7 +19,6 @@ type GrimoireProps = { data: GrimoireData }
 
 export function Grimoire({ data }: GrimoireProps) {
   const t = useTranslations("sections")
-  const tG = useTranslations("grimoire")
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
   const reduced = useReducedMotion()
@@ -49,13 +48,23 @@ export function Grimoire({ data }: GrimoireProps) {
     <section id="grimoire" ref={sectionRef} className="space-y-10">
       <SectionLabel kanji="書" label={t("grimoire")} index="04" />
 
+      {data.intro && (
+        <InkPanel className="p-6 md:p-8 max-w-3xl mx-auto" texture="halftone">
+          <SplitHeading
+            text={`“${data.intro}”`}
+            as="blockquote"
+            by="word"
+            stagger={0.03}
+            className="font-display font-black text-2xl md:text-3xl leading-tight text-fg"
+          />
+          <footer className="mt-5 font-mono text-xs text-fg-dim tracking-[0.25em] uppercase">
+            — Johan
+          </footer>
+        </InkPanel>
+      )}
+
       <Reveal>
-        <div className="flex flex-col items-center gap-3 text-center">
-          {data.intro ? (
-            <p className="text-fg-dim max-w-2xl leading-relaxed">{data.intro}</p>
-          ) : (
-            <p className="font-mono text-xs text-ki/80">{tG("pendingIntro")}</p>
-          )}
+        <div className="flex justify-center">
           <a
             href={data.channelUrl}
             target="_blank"

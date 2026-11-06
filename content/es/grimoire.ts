@@ -1,8 +1,8 @@
 import type { Grimoire } from "../types"
 
 export const grimoire: Grimoire = {
-  // TODO: frase sobre enseñar (1-2 lineas en primera persona)
-  intro: null,
+  intro:
+    "Enseño lo que a mí me habría ahorrado meses: no solo cómo se escribe el código, sino por qué se escribe así.",
   channelUrl: "https://www.youtube.com/@TheDevGrimoire",
   channelName: "The Dev Grimoire",
   pages: [

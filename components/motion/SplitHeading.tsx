@@ -6,7 +6,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion"
 
 type SplitHeadingProps = {
   text: string
-  as?: Extract<ElementType, "h1" | "h2" | "h3" | "h4" | "p">
+  as?: Extract<ElementType, "h1" | "h2" | "h3" | "h4" | "p" | "blockquote">
   by?: "word" | "letter"
   stagger?: number
   className?: string

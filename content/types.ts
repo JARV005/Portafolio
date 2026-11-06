@@ -32,6 +32,8 @@ export type JourneyStage = {
   summary: string
   highlights: string[]
   tags: string[]
+  type?: "education" | "work" | "venture"
+  ascent?: boolean
 }
 
 export type LeadershipMetric = {

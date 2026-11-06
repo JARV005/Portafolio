@@ -663,6 +663,40 @@ select:focus-visible {
   }
 }
 
+/* Ascent: destello más marcado al llegar a Team Leader */
+.stage.stage-active.stage-ascent .stage-dot {
+  box-shadow:
+    0 0 0 6px color-mix(in oklab, var(--stage-color) 24%, transparent),
+    0 0 40px color-mix(in oklab, var(--stage-color) 75%, transparent),
+    0 0 72px color-mix(in oklab, var(--ki) 30%, transparent);
+}
+
+.stage.stage-active.stage-ascent .stage-dot::before {
+  animation: stage-spark-ascent 1600ms cubic-bezier(0.33, 1, 0.68, 1) 100ms both;
+}
+
+.stage.stage-active.stage-ascent .stage-dot::after {
+  animation: stage-spark-ascent 1600ms cubic-bezier(0.33, 1, 0.68, 1) 420ms both;
+}
+
+@keyframes stage-spark-ascent {
+  0% {
+    transform: translate(0, 0) scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -44px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.stage-active.stage-ascent .stage-dot::before,
+  .stage.stage-active.stage-ascent .stage-dot::after {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .photo-halftone img,
   .photo-overlay {

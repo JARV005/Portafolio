@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { Fragment, useEffect, useRef } from "react"
+import type { ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Link } from "@/i18n/navigation"
 import { SectionLabel } from "@/components/motion"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 import type { JourneyStage } from "@/content/types"
@@ -30,9 +32,34 @@ function stageColor(i: number, total: number): string {
   return `color-mix(in oklab, var(--ki) ${Math.round((1 - t) * 200)}%, var(--ki-blue))`
 }
 
+// Links a case studies dentro del texto de los highlights.
+const HIGHLIGHT_LINKS: Array<{ term: string; href: string }> = [
+  { term: "AutoSpace", href: "/proyectos/autospace" },
+]
+
+function renderHighlight(text: string): ReactNode {
+  const pattern = new RegExp(
+    `(${HIGHLIGHT_LINKS.map((l) => l.term).join("|")})`,
+    "g",
+  )
+  const parts = text.split(pattern)
+  return parts.map((part, i) => {
+    const match = HIGHLIGHT_LINKS.find((l) => l.term === part)
+    if (!match) return <Fragment key={i}>{part}</Fragment>
+    return (
+      <Link
+        key={i}
+        href={match.href}
+        className="underline underline-offset-2 decoration-ki/60 hover:text-ki transition-colors"
+      >
+        {part}
+      </Link>
+    )
+  })
+}
+
 export function Journey({ stages }: JourneyProps) {
   const t = useTranslations("sections")
-  const tLabels = useTranslations("labels")
   const containerRef = useRef<HTMLDivElement>(null)
   const fillRef = useRef<HTMLDivElement>(null)
   const stageRefs = useRef<Array<HTMLLIElement | null>>([])
@@ -98,13 +125,21 @@ export function Journey({ stages }: JourneyProps) {
         <ol className="relative space-y-14 md:space-y-20">
           {stages.map((stage, i) => {
             const isLeft = i % 2 === 0
+            const isEducation = stage.type === "education"
+            const isCompactEducation =
+              isEducation && stage.highlights.length === 0
+            const showHighlights = stage.highlights.length > 0
+            const showTags = stage.tags.length > 0
+
             return (
               <li
                 key={stage.id}
                 ref={(el) => {
                   stageRefs.current[i] = el
                 }}
-                className="stage relative pl-10 md:pl-0 md:grid md:grid-cols-2 md:gap-16"
+                className={`stage relative pl-10 md:pl-0 md:grid md:grid-cols-2 md:gap-16 ${
+                  stage.ascent ? "stage-ascent" : ""
+                }`}
               >
                 <span
                   aria-hidden
@@ -125,21 +160,21 @@ export function Journey({ stages }: JourneyProps) {
                   }`}
                 >
                   <header>
-                    <h3 className="font-display font-black text-lg">{stage.title}</h3>
-                    <p
-                      className={`font-mono text-xs mt-1 ${
-                        stage.period ? "text-fg-dim" : "text-ki/80"
-                      }`}
-                    >
-                      {stage.period ?? `⚠ ${tLabels("pendingDate")}`}
-                    </p>
+                    <h3 className="font-display font-black text-lg">
+                      {stage.title}
+                    </h3>
+                    {stage.period && (
+                      <p className="font-mono text-xs mt-1 text-fg-dim">
+                        {stage.period}
+                      </p>
+                    )}
                   </header>
 
                   <p className="text-sm text-fg-dim mt-3 leading-relaxed">
                     {stage.summary}
                   </p>
 
-                  {stage.highlights.length > 0 ? (
+                  {showHighlights && (
                     <ul
                       className={`mt-4 space-y-2 text-sm text-fg-dim ${
                         isLeft ? "md:ml-auto" : ""
@@ -154,20 +189,20 @@ export function Journey({ stages }: JourneyProps) {
                             aria-hidden
                             className="w-1 h-1 rounded-full bg-ki mt-[0.45rem] shrink-0"
                           />
-                          <span>{h}</span>
+                          <span>{renderHighlight(h)}</span>
                         </li>
                       ))}
                     </ul>
-                  ) : (
-                    <p className="mt-4 font-mono text-[0.65rem] text-ki/80">
-                      ⚠ {tLabels("pendingContent")}
-                    </p>
                   )}
 
-                  {stage.tags.length > 0 && (
+                  {showTags && (
                     <p className="mt-4 font-mono text-[0.65rem] text-fg-dim tracking-wider">
                       {stage.tags.join(" · ")}
                     </p>
+                  )}
+
+                  {isCompactEducation && (
+                    <p className="sr-only">Etapa de formación</p>
                   )}
                 </article>
               </li>

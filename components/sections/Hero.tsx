@@ -184,13 +184,9 @@ export function Hero({ profile, contact, locationLabel }: HeroProps) {
               {profile.headline}
             </p>
 
-            {profile.trinity ? (
+            {profile.trinity && (
               <p className="text-fg-dim leading-relaxed max-w-xl">
                 {profile.trinity}
-              </p>
-            ) : (
-              <p className="font-mono text-xs text-ki/80 max-w-xl">
-                ⚠ TODO: línea breve sobre Entrenar · Liderar · Enseñar
               </p>
             )}
 
